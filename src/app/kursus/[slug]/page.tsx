@@ -171,8 +171,7 @@ export default async function HalamanKursusTunggal({ params }: Props) {
           <div>
             <p className="judul-seksi">Mau dikabari kalau ada materi baru?</p>
             <p style={{ marginTop: 12, fontSize: 17, color: 'var(--tinta-lembut)' }}>
-              Daftar sekali, dan kamu akan dikabari tiap kursus ini bertambah — sekaligus dapat
-              catatan mingguan kami. Materinya tetap bisa dibuka tanpa mendaftar.
+              Daftar sekali, dan kami kabari setiap kali materi kursus ini bertambah. Materinya tetap bisa dibuka tanpa mendaftar.
             </p>
           </div>
           <FormLangganan

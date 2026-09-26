@@ -24,10 +24,10 @@ export default async function HalamanKursus() {
           <div className="kiri">
             <span className="kicker">Kursus</span>
             <h1 className="judul-raksasa" style={{ marginTop: 18, maxWidth: 760 }}>
-              Belajar mengurus uang usaha, pelan-pelan dan berurutan.
+              Belajar mengurus uang usaha, selangkah demi selangkah.
             </h1>
             <p className="deck" style={{ marginTop: 20, maxWidth: 620 }}>
-              Semuanya gratis. Tidak ada akun yang perlu dibuat, tidak ada tagihan di akhir. Mulai
+              Semuanya gratis. Tidak perlu membuat akun, tidak ada biaya apa pun. Mulai
               dari mana saja, berhenti kapan saja, lanjut lagi kalau sempat.
             </p>
           </div>
@@ -36,7 +36,7 @@ export default async function HalamanKursus() {
               Cara kerjanya
             </span>
             <div className="susun">
-              <span className="baris-tipis">Tiap kursus dibagi jadi modul dan pelajaran pendek.</span>
+              <span className="baris-tipis">Setiap kursus dibagi menjadi modul dan pelajaran pendek.</span>
               <span className="baris-tipis">Pelajarannya bisa berupa tulisan, video, atau dua-duanya.</span>
               <span className="baris-tipis" style={{ borderBottom: '1px solid var(--garis)' }}>
                 Kemajuanmu tersimpan di perangkat ini, tanpa perlu login.
@@ -53,7 +53,7 @@ export default async function HalamanKursus() {
                 Kursus pertama sedang disusun.
               </p>
               <p style={{ color: 'var(--tinta-lembut)', maxWidth: 560 }}>
-                Tinggalkan alamat emailmu, dan kamu akan dikabari begitu kursus pertama dibuka.
+                Tinggalkan emailmu, nanti kami kabari begitu kursus pertama dibuka.
               </p>
               <div style={{ maxWidth: 480, marginTop: 8 }}>
                 <FormLangganan sumber="kursus-kosong" tombol="Kabari saya" />

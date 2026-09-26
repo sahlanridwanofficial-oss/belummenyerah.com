@@ -33,10 +33,10 @@ export default async function Beranda() {
         {tersambung && !utama && (
           <div className="halaman">
             <div className="kosong susun susun-16" style={{ marginTop: 40 }}>
-              <span className="label">Belum ada terbitan</span>
+              <span className="label">Belum ada tulisan</span>
               <p className="judul-seksi">Catatan pertama sedang ditulis.</p>
               <p style={{ color: 'var(--tinta-lembut)', maxWidth: 560 }}>
-                Tinggalkan alamat emailmu, dan kamu akan jadi salah satu yang pertama membacanya.
+                Tinggalkan emailmu, dan kamu termasuk yang pertama membacanya.
               </p>
               <div style={{ maxWidth: 480, marginTop: 8 }}>
                 <FormLangganan sumber="beranda-kosong" />
@@ -71,7 +71,7 @@ export default async function Beranda() {
                 {berikutnya.length > 0 && (
                   <div className="kanan">
                     <span className="label" style={{ paddingBottom: 14 }}>
-                      Terbitan sebelumnya
+                      Tulisan sebelumnya
                     </span>
                     <div className="daftar-ringkas">
                       {berikutnya.map((t, i) => (
@@ -115,10 +115,9 @@ export default async function Beranda() {
                 </div>
                 <div className="kanan susun susun-16">
                   <span style={{ fontSize: 17, lineHeight: 1.6, color: 'var(--arang-lembut)' }}>
-                    Satu wawancara panjang, tanpa dipoles. Kami tanya angkanya, bukan hanya
-                    perasaannya.
+                    Satu wawancara panjang, tanpa dipoles. Kami menanyakan angkanya, bukan cuma perasaannya.
                   </span>
-                  <span className="label">Terbit dua mingguan</span>
+                  <span className="label">Terbit dua minggu sekali</span>
                 </div>
               </div>
             </section>
@@ -215,7 +214,7 @@ export default async function Beranda() {
             <section className="halaman">
               <div className="kotak-langganan">
                 <div>
-                  <p className="judul-seksi">Satu catatan tiap Senin pagi.</p>
+                  <p className="judul-seksi">Satu catatan setiap Senin pagi.</p>
                   <p style={{ marginTop: 12, fontSize: 17, color: 'var(--tinta-lembut)' }}>
                     Gratis. Berhenti kapan saja. Tidak ada iklan, tidak ada tautan afiliasi.
                   </p>

@@ -32,7 +32,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </head>
       <body>
         <a className="lompat" href="#isi">
-          Lompat ke isi
+          Langsung ke konten
         </a>
         {children}
       </body>

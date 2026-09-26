@@ -71,7 +71,7 @@ export default async function DaftarPelanggan() {
           <span className="label">Masih kosong</span>
           <p style={{ fontSize: 19, lineHeight: 1.6, maxWidth: 560 }}>
             Belum ada yang mendaftar. Pembaca pertama biasanya datang dari orang yang kamu ajak
-            satu per satu lewat pesan pribadi — bukan dari unggahan.
+            satu per satu lewat pesan pribadi — bukan dari postingan.
           </p>
         </div>
       ) : (

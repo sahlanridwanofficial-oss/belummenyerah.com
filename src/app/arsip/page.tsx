@@ -7,7 +7,7 @@ import { penanda, tanggalPanjang } from '@/lib/format';
 
 export const metadata: Metadata = {
   title: 'Arsip',
-  description: 'Semua terbitan belummenyerah, terbaru dulu.',
+  description: 'Semua tulisan belummenyerah, terbaru dulu.',
 };
 
 export default async function HalamanArsip() {
@@ -20,7 +20,7 @@ export default async function HalamanArsip() {
       <main id="isi" className="halaman utama">
         <span className="kicker">Arsip</span>
         <h1 className="judul-raksasa" style={{ marginTop: 18 }}>
-          Semua terbitan
+          Semua tulisan
         </h1>
         <p className="deck" style={{ marginTop: 20, maxWidth: 620 }}>
           {daftar.length > 0

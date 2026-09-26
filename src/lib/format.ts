@@ -22,7 +22,7 @@ export const JALUR: { kode: Jalur; nama: string; ringkas: string; pertanyaan: st
   {
     kode: 'cerita',
     nama: 'Cerita',
-    ringkas: 'Wawancara dengan yang hampir berhenti.',
+    ringkas: 'Wawancara dengan mereka yang hampir berhenti.',
     pertanyaan: 'Apa cuma aku yang pernah sampai di titik mau berhenti?',
   },
 ];

@@ -11,7 +11,7 @@ export default function Kaki() {
           <GarisBelum />
         </div>
         <span className="keterangan">
-          Media bisnis kecil dan keuangan. Terbit dari Indonesia.
+          Media bisnis kecil dan keuangan. Dibuat di Indonesia.
         </span>
       </div>
 

@@ -6,7 +6,7 @@ import FormLangganan from '@/components/FormLangganan';
 
 export const metadata: Metadata = {
   title: 'Berlangganan',
-  description: 'Satu catatan tiap Senin pagi tentang uang usaha — gratis, berhenti kapan saja.',
+  description: 'Satu catatan setiap Senin pagi tentang uang usaha — gratis, berhenti kapan saja.',
 };
 
 export default function HalamanBerlangganan() {
@@ -38,7 +38,7 @@ export default function HalamanBerlangganan() {
                   maxWidth: 560,
                 }}
               >
-                Satu catatan tiap Senin pagi tentang uang usaha — ditulis untuk dibaca sebelum toko
+                Satu catatan setiap Senin pagi tentang uang usaha — ditulis untuk dibaca sebelum toko
                 buka. Praktis soal angka, jujur soal rasanya.
               </p>
 
@@ -46,7 +46,7 @@ export default function HalamanBerlangganan() {
                 <FormLangganan
                   sumber="halaman-berlangganan"
                   tombol="Kirimi saya catatannya"
-                  catatan="Berhenti kapan saja lewat satu tautan di bawah setiap kiriman."
+                  catatan="Berhenti kapan saja lewat tautan di bagian bawah setiap email."
                 />
               </div>
             </div>

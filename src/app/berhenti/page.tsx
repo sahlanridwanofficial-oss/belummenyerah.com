@@ -37,7 +37,7 @@ export default async function HalamanBerhenti({ searchParams }: Props) {
                 Kamu sudah berhenti berlangganan.
               </h1>
               <p className="deck" style={{ marginTop: 20 }}>
-                Tidak akan ada kiriman lagi dari kami. Terima kasih sudah pernah membaca — pintunya
+                Tidak akan ada email lagi dari kami. Terima kasih sudah pernah membaca — pintunya
                 tetap terbuka kalau suatu hari mau kembali.
               </p>
             </>
@@ -51,7 +51,7 @@ export default async function HalamanBerhenti({ searchParams }: Props) {
               </h1>
               <p className="deck" style={{ marginTop: 20 }}>
                 Mungkin kamu sudah berhenti sebelumnya, atau tautannya tidak lengkap saat disalin.
-                Kalau masih menerima kiriman, balas saja emailnya — akan kami urus langsung.
+                Kalau masih menerima email dari kami, balas saja — nanti kami urus.
               </p>
             </>
           )}
@@ -63,8 +63,7 @@ export default async function HalamanBerhenti({ searchParams }: Props) {
                 Tautannya kurang lengkap.
               </h1>
               <p className="deck" style={{ marginTop: 20 }}>
-                Buka tautan “berhenti berlangganan” yang ada di bagian bawah salah satu kiriman
-                kami, supaya kami tahu langganan mana yang dimaksud.
+                Buka tautan “berhenti berlangganan” yang ada di bagian bawah salah satu email kami, supaya kami tahu langganan mana yang dimaksud.
               </p>
             </>
           )}

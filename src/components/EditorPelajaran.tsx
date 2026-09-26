@@ -153,7 +153,7 @@ export default function EditorPelajaran({
             ? idVideo
               ? `Video terbaca: ${idVideo}`
               : 'Tautannya belum dikenali sebagai tautan YouTube.'
-            : 'Setel video sebagai “Unlisted” di YouTube supaya tidak muncul di kanal publik.'}
+            : 'Atur videonya sebagai “Unlisted” di YouTube supaya tidak muncul di kanal publik.'}
         </span>
       </div>
 

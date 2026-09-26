@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 const SARINGAN = [
   'Masih berguna tahun depan? Kalau tidak, tidak kami terbitkan.',
   'Ada satu angka yang bisa dihitung sendiri oleh pembaca?',
-  'Berani kami kirim ke orang yang usahanya sedang bangkrut minggu ini?',
+  'Beranikah kami mengirimkannya ke orang yang usahanya sedang bangkrut?',
 ];
 
 export default function HalamanTentang() {
@@ -31,19 +31,19 @@ export default function HalamanTentang() {
           <div className="pinggir" aria-hidden="true" />
           <div className="badan prosa">
             <p>
-              Mereka tutup karena tidak pernah ada yang menjelaskan angkanya dengan jujur, dan
+              Mereka tutup karena tidak ada yang pernah menjelaskan angkanya dengan jujur, dan
               karena bulan-bulan sepi itu dilewati sendirian. belummenyerah dibuat untuk dua hal
               itu.
             </p>
             <p>
               Kami menulis untuk pemilik usaha di tahun pertama sampai ketiga, untuk orang yang
-              usahanya sedang turun dan sedang menimbang berhenti, dan untuk perintis yang masih
+              usahanya sedang turun dan mulai menimbang untuk berhenti, dan untuk perintis yang masih
               bekerja di tempat lain. Bukan untuk investor, bukan untuk konsultan.
             </p>
 
             <h2>Yang kami bukan</h2>
             <p>
-              Bukan media motivasi — semangat tanpa angka itu racun. Bukan jalan cepat kaya — tidak
+              Bukan media motivasi — semangat tanpa angka itu racun. Bukan panduan cepat kaya — tidak
               ada yang cepat di sini. Bukan media berita — tulisan kami harus tetap berguna tahun
               depan. Bukan panggung pamer hasil.
             </p>
@@ -92,7 +92,7 @@ export default function HalamanTentang() {
 
         <div className="kotak-langganan" style={{ borderTop: 0, marginTop: 46 }}>
           <div>
-            <p className="judul-seksi">Satu catatan tiap Senin pagi.</p>
+            <p className="judul-seksi">Satu catatan setiap Senin pagi.</p>
             <p style={{ marginTop: 12, fontSize: 17, color: 'var(--tinta-lembut)' }}>
               Gratis. Berhenti kapan saja.
             </p>

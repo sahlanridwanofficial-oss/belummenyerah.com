@@ -116,7 +116,7 @@ export default async function HalamanTulisan({ params }: Props) {
           <div>
             {berikutnya ? (
               <>
-                <span className="label">Terbitan sebelumnya</span>
+                <span className="label">Tulisan sebelumnya</span>
                 <Link
                   href={`/catatan/${berikutnya.slug}`}
                   className="judul-seksi"
@@ -136,7 +136,7 @@ export default async function HalamanTulisan({ params }: Props) {
                   className="judul-seksi"
                   style={{ display: 'block', marginTop: 12, fontSize: 36 }}
                 >
-                  Lihat semua terbitan →
+                  Lihat semua tulisan →
                 </Link>
               </>
             )}
@@ -144,7 +144,7 @@ export default async function HalamanTulisan({ params }: Props) {
 
           <div style={{ borderLeft: '1px solid var(--garis)', paddingLeft: 60 }}>
             <p className="judul-seksi" style={{ fontSize: 28, marginBottom: 14 }}>
-              Kirimi saya catatan tiap Senin.
+              Kirimi saya catatan setiap Senin.
             </p>
             <FormLangganan sumber={`artikel:${tulisan.slug}`} tombol="Kirim" />
           </div>

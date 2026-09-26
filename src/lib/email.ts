@@ -100,14 +100,14 @@ export function emailSelamatDatang(token: string) {
 
   const isi = `
 <h1 style="margin:0 0 18px;font-family:Georgia,'Times New Roman',serif;font-weight:normal;font-size:30px;line-height:1.18;color:#191714;">Terima kasih sudah mendaftar.</h1>
-<p style="margin:0 0 16px;">Mulai Senin depan, kamu akan menerima satu catatan tiap pagi awal minggu — tentang kas, harga, dan utang — hal-hal yang jarang dijelaskan dengan jujur.</p>
-<p style="margin:0 0 16px;">Tiap Kamis ada satu lagi: bisa Satu Halaman, Panduan, atau Wawancara dengan pemilik usaha yang pernah hampir berhenti.</p>
+<p style="margin:0 0 16px;">Mulai Senin depan, kamu akan menerima satu catatan setiap Senin pagi — tentang kas, harga, dan utang — hal-hal yang jarang dijelaskan dengan jujur.</p>
+<p style="margin:0 0 16px;">Setiap Kamis ada satu lagi: bisa Satu Halaman, Panduan, atau Wawancara dengan pemilik usaha yang pernah hampir berhenti.</p>
 <p style="margin:0 0 16px;">Kalau ada pertanyaan soal angka di usahamu, balas saja email ini. Semua dibaca.</p>
 <p style="margin:24px 0 0;"><a href="${situs}/arsip" style="font-family:Helvetica,Arial,sans-serif;font-size:14px;font-weight:bold;color:#9c3b23;text-decoration:none;">Sementara itu, lihat arsipnya &rarr;</a></p>`;
 
   return {
     subjek: 'Selamat datang di belummenyerah',
     html: bungkusEmail(isi, tautanBerhenti),
-    teks: `Terima kasih sudah mendaftar.\n\nMulai Senin depan kamu akan menerima satu catatan tiap pagi awal minggu.\n\nArsip: ${situs}/arsip\nBerhenti: ${tautanBerhenti}`,
+    teks: `Terima kasih sudah mendaftar.\n\nMulai Senin depan kamu akan menerima satu catatan setiap Senin pagi.\n\nArsip: ${situs}/arsip\nBerhenti: ${tautanBerhenti}`,
   };
 }

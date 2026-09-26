@@ -100,7 +100,7 @@ export default function EditorKursus({ awal }: { awal?: Kursus }) {
       </div>
 
       <div className="form-isian">
-        <label htmlFor="deck">Deck — satu kalimat pengantar</label>
+        <label htmlFor="deck">Ringkasan — satu kalimat pengantar</label>
         <input
           id="deck"
           className="isian"

@@ -22,7 +22,7 @@ export async function ambilKatalog(): Promise<Kursus[]> {
 
 export type KursusRingkas = Kursus & { jumlah_pelajaran: number; total_menit: number };
 
-/** Katalog beserta jumlah pelajaran dan total menit tiap kursus. */
+/** Katalog beserta jumlah pelajaran dan total menit setiap kursus. */
 export async function ambilKatalogRingkas(): Promise<KursusRingkas[]> {
   const katalog = await ambilKatalog();
   if (katalog.length === 0) return [];
