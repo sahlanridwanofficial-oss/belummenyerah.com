@@ -46,17 +46,17 @@ export default function FormLangganan({
         setEmail('');
       } else {
         setKeadaan('gagal');
-        setPesan(data.pesan ?? 'Gagal mendaftar. Coba lagi sebentar.');
+        setPesan(data.pesan ?? 'Pendaftarannya gagal. Coba lagi sebentar.');
       }
     } catch {
       setKeadaan('gagal');
-      setPesan('Jaringannya bermasalah. Coba lagi sebentar.');
+      setPesan('Koneksinya bermasalah. Coba lagi sebentar.');
     }
   }
 
   if (keadaan === 'berhasil') {
     return (
-      <div className="tumpuk tumpuk-8" role="status">
+      <div className="susun susun-8" role="status">
         <span className="label">Terkirim</span>
         <p style={{ fontSize: 19, lineHeight: 1.55 }}>{pesan}</p>
       </div>
@@ -68,7 +68,7 @@ export default function FormLangganan({
       <label htmlFor={id} className="label">
         {label}
       </label>
-      <div className="baris-isian">
+      <div className="form-kirim">
         <input
           id={id}
           className="isian"

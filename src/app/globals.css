@@ -419,7 +419,7 @@ button, input, textarea, select { font: inherit; color: inherit; }
 }
 
 .form-langganan { display: flex; flex-direction: column; gap: 10px; }
-.baris-isian { display: flex; gap: 12px; }
+.form-kirim { display: flex; gap: 12px; }
 
 .isian {
   flex: 1 1 auto;
@@ -442,7 +442,7 @@ button, input, textarea, select { font: inherit; color: inherit; }
 .pesan-buruk { font-family: var(--sans); font-size: 14px; color: var(--bara); }
 
 @media (max-width: 560px) {
-  .baris-isian { flex-direction: column; }
+  .form-kirim { flex-direction: column; }
 }
 
 /* ---------- kaki ---------- */
@@ -471,10 +471,10 @@ button, input, textarea, select { font: inherit; color: inherit; }
   text-align: left;
 }
 
-.tumpuk { display: flex; flex-direction: column; }
-.tumpuk-8 { gap: 8px; }
-.tumpuk-16 { gap: 16px; }
-.tumpuk-28 { gap: 28px; }
+.susun { display: flex; flex-direction: column; }
+.susun-8 { gap: 8px; }
+.susun-16 { gap: 16px; }
+.susun-28 { gap: 28px; }
 
 /* ---------- admin ---------- */
 
@@ -523,11 +523,11 @@ button, input, textarea, select { font: inherit; color: inherit; }
 .lencana-terbit { color: var(--bara); }
 .lencana-draf { color: var(--meta); }
 
-.medan { display: flex; flex-direction: column; gap: 7px; }
-.medan > label { font-family: var(--sans); font-size: 11px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: var(--meta); }
+.form-isian { display: flex; flex-direction: column; gap: 7px; }
+.form-isian > label { font-family: var(--sans); font-size: 11px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: var(--meta); }
 
-.medan-baris { display: flex; gap: 20px; flex-wrap: wrap; }
-.medan-baris > .medan { flex: 1 1 180px; min-width: 0; }
+.form-baris { display: flex; gap: 20px; flex-wrap: wrap; }
+.form-baris > .form-isian { flex: 1 1 180px; min-width: 0; }
 
 .editor {
   width: 100%;

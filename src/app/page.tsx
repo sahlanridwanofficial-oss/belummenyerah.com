@@ -32,7 +32,7 @@ export default async function Beranda() {
 
         {tersambung && !utama && (
           <div className="halaman">
-            <div className="kosong tumpuk tumpuk-16" style={{ marginTop: 40 }}>
+            <div className="kosong susun susun-16" style={{ marginTop: 40 }}>
               <span className="label">Belum ada terbitan</span>
               <p className="judul-seksi">Catatan pertama sedang ditulis.</p>
               <p style={{ color: 'var(--tinta-lembut)', maxWidth: 560 }}>
@@ -113,7 +113,7 @@ export default async function Beranda() {
                     {cerita ? 'Baca yang terbaru →' : 'Lihat seri ini →'}
                   </Link>
                 </div>
-                <div className="kanan tumpuk tumpuk-16">
+                <div className="kanan susun susun-16">
                   <span style={{ fontSize: 17, lineHeight: 1.6, color: 'var(--arang-lembut)' }}>
                     Satu wawancara panjang, tanpa dipoles. Kami tanya angkanya, bukan hanya
                     perasaannya.
@@ -142,7 +142,7 @@ export default async function Beranda() {
 
                 {katalog.slice(0, 3).map((k) => (
                   <article key={k.id} className="baris-arsip">
-                    <div className="waktu tumpuk tumpuk-8">
+                    <div className="waktu susun susun-8">
                       <span className="meta">{NAMA_TINGKAT[k.tingkat]}</span>
                       <span className="meta">
                         {k.jumlah_pelajaran} pelajaran

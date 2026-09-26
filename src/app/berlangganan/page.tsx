@@ -55,7 +55,7 @@ export default function HalamanBerlangganan() {
               <span className="label" style={{ paddingBottom: 10 }}>
                 Yang kamu terima
               </span>
-              <div className="tumpuk">
+              <div className="susun">
                 <span
                   style={{
                     fontSize: 16,

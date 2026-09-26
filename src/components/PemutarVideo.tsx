@@ -13,7 +13,7 @@ export default function PemutarVideo({ url, judul }: { url: string | null; judul
       <div className="kosong" style={{ marginBottom: 32 }}>
         <span className="label">Video tidak terbaca</span>
         <p style={{ marginTop: 8, fontSize: 16, color: 'var(--tinta-lembut)' }}>
-          Tautan videonya tidak dikenali sebagai tautan YouTube. Periksa lagi di panel redaksi.
+          Tautan videonya tidak dikenali. Periksa lagi di panel redaksi.
         </p>
       </div>
     );

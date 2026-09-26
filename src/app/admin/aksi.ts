@@ -5,7 +5,7 @@ import { klienServer } from '@/lib/supabase/server';
 import { buatSlug, hitungMenitBaca } from '@/lib/format';
 import type { FormatTulisan, Jalur, StatusTulisan } from '@/lib/types';
 
-export type MuatanTulisan = {
+export type DataTulisan = {
   id?: string;
   judul: string;
   slug: string;
@@ -20,19 +20,19 @@ export type MuatanTulisan = {
 
 export type Hasil = { ok: boolean; pesan: string; id?: string; slug?: string };
 
-export async function simpanTulisan(muatan: MuatanTulisan): Promise<Hasil> {
+export async function simpanTulisan(form: DataTulisan): Promise<Hasil> {
   const supabase = await klienServer();
   const {
     data: { user },
   } = await supabase.auth.getUser();
 
-  if (!user) return { ok: false, pesan: 'Sesimu sudah habis. Masuk lagi, ya.' };
+  if (!user) return { ok: false, pesan: 'Sesi kamu sudah berakhir. Silakan masuk lagi.' };
 
-  const judul = muatan.judul.trim();
+  const judul = form.judul.trim();
   if (!judul) return { ok: false, pesan: 'Judulnya belum diisi.' };
 
-  const slug = (muatan.slug.trim() ? buatSlug(muatan.slug) : buatSlug(judul)) || 'tanpa-judul';
-  const nomor = muatan.nomor.trim() ? Number.parseInt(muatan.nomor, 10) : null;
+  const slug = (form.slug.trim() ? buatSlug(form.slug) : buatSlug(judul)) || 'tanpa-judul';
+  const nomor = form.nomor.trim() ? Number.parseInt(form.nomor, 10) : null;
 
   if (nomor !== null && Number.isNaN(nomor)) {
     return { ok: false, pesan: 'Nomornya harus angka.' };
@@ -41,24 +41,24 @@ export async function simpanTulisan(muatan: MuatanTulisan): Promise<Hasil> {
   const baris = {
     judul,
     slug,
-    deck: muatan.deck.trim(),
-    isi: muatan.isi,
-    jalur: muatan.jalur,
-    format: muatan.format,
+    deck: form.deck.trim(),
+    isi: form.isi,
+    jalur: form.jalur,
+    format: form.format,
     nomor,
-    penulis: muatan.penulis.trim() || 'Redaksi',
-    status: muatan.status,
-    menit_baca: hitungMenitBaca(muatan.isi),
+    penulis: form.penulis.trim() || 'Redaksi',
+    status: form.status,
+    menit_baca: hitungMenitBaca(form.isi),
   };
 
   // Tanggal terbit dikunci sekali, saat pertama kali statusnya jadi 'terbit'.
   let terbitPada: string | null | undefined;
-  if (muatan.status === 'terbit') {
-    if (muatan.id) {
+  if (form.status === 'terbit') {
+    if (form.id) {
       const { data } = await supabase
         .from('tulisan')
         .select('terbit_pada')
-        .eq('id', muatan.id)
+        .eq('id', form.id)
         .maybeSingle();
       const lama = (data as { terbit_pada: string | null } | null)?.terbit_pada;
       terbitPada = lama ?? new Date().toISOString();
@@ -69,8 +69,8 @@ export async function simpanTulisan(muatan: MuatanTulisan): Promise<Hasil> {
 
   const isian = terbitPada === undefined ? baris : { ...baris, terbit_pada: terbitPada };
 
-  const { data, error } = muatan.id
-    ? await supabase.from('tulisan').update(isian).eq('id', muatan.id).select('id, slug').single()
+  const { data, error } = form.id
+    ? await supabase.from('tulisan').update(isian).eq('id', form.id).select('id, slug').single()
     : await supabase.from('tulisan').insert(isian).select('id, slug').single();
 
   if (error) {
@@ -88,7 +88,7 @@ export async function simpanTulisan(muatan: MuatanTulisan): Promise<Hasil> {
   revalidatePath('/');
   revalidatePath('/arsip');
   revalidatePath('/admin');
-  revalidatePath(`/${muatan.jalur}`);
+  revalidatePath(`/${form.jalur}`);
   revalidatePath(`/catatan/${hasil.slug}`);
 
   return { ok: true, pesan: 'Tersimpan.', id: hasil.id, slug: hasil.slug };
@@ -100,7 +100,7 @@ export async function hapusTulisan(id: string): Promise<Hasil> {
     data: { user },
   } = await supabase.auth.getUser();
 
-  if (!user) return { ok: false, pesan: 'Sesimu sudah habis. Masuk lagi, ya.' };
+  if (!user) return { ok: false, pesan: 'Sesi kamu sudah berakhir. Silakan masuk lagi.' };
 
   const { error } = await supabase.from('tulisan').delete().eq('id', id);
   if (error) return { ok: false, pesan: `Gagal menghapus: ${error.message}` };

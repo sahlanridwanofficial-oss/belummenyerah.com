@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { klienServer, supabaseTerpasang } from '@/lib/supabase/server';
-import { klienResend, resendTerpasang, suratSelamatDatang } from '@/lib/email';
+import { klienResend, resendTerpasang, emailSelamatDatang } from '@/lib/email';
 
 export const runtime = 'nodejs';
 
@@ -22,11 +22,11 @@ export async function POST(request: Request) {
     email = (badan.email ?? '').trim().toLowerCase();
     sumber = badan.sumber?.slice(0, 120) ?? null;
   } catch {
-    return NextResponse.json({ pesan: 'Permintaannya tidak terbaca.' }, { status: 400 });
+    return NextResponse.json({ pesan: 'Data yang dikirim tidak terbaca.' }, { status: 400 });
   }
 
   if (!POLA_EMAIL.test(email) || email.length > 254) {
-    return NextResponse.json({ pesan: 'Alamat emailnya sepertinya keliru.' }, { status: 400 });
+    return NextResponse.json({ pesan: 'Sepertinya alamat emailnya salah.' }, { status: 400 });
   }
 
   const supabase = await klienServer();
@@ -35,12 +35,12 @@ export async function POST(request: Request) {
   if (error) {
     console.error('[berlangganan] gagal:', error.message);
     return NextResponse.json(
-      { pesan: 'Gagal mendaftar. Coba lagi sebentar lagi.' },
+      { pesan: 'Pendaftarannya gagal. Coba lagi sebentar.' },
       { status: 500 },
     );
   }
 
-  // Surat selamat datang bersifat pelengkap — kegagalannya tidak membatalkan pendaftaran.
+  // Email selamat datang bersifat pelengkap — kegagalannya tidak membatalkan pendaftaran.
   if (resendTerpasang()) {
     try {
       const { data } = await supabase
@@ -51,18 +51,18 @@ export async function POST(request: Request) {
 
       const token = (data as { token?: string } | null)?.token;
       if (token) {
-        const surat = suratSelamatDatang(token);
+        const pesan = emailSelamatDatang(token);
         await klienResend()?.emails.send({
           from: process.env.EMAIL_PENGIRIM as string,
           to: email,
-          subject: surat.subjek,
-          html: surat.html,
-          text: surat.teks,
+          subject: pesan.subjek,
+          html: pesan.html,
+          text: pesan.teks,
           ...(process.env.EMAIL_BALASAN ? { replyTo: process.env.EMAIL_BALASAN } : {}),
         });
       }
     } catch (e) {
-      console.error('[berlangganan] surat selamat datang gagal:', e);
+      console.error('[berlangganan] email selamat datang gagal:', e);
     }
   }
 

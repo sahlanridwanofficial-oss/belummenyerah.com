@@ -66,7 +66,7 @@ export default function HalamanTentang() {
             <span className="label" style={{ paddingBottom: 12 }}>
               Empat jalur
             </span>
-            <div className="tumpuk">
+            <div className="susun">
               {JALUR.map((j) => (
                 <span
                   key={j.kode}

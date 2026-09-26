@@ -48,7 +48,7 @@ export default async function DaftarTulisan() {
       </div>
 
       {daftar.length === 0 ? (
-        <div className="kosong tumpuk tumpuk-16">
+        <div className="kosong susun susun-16">
           <span className="label">Kosong</span>
           <p style={{ fontSize: 19, lineHeight: 1.6, maxWidth: 560 }}>
             Belum ada apa-apa di sini. Tulisan pertama biasanya yang paling berat — mulai saja dari

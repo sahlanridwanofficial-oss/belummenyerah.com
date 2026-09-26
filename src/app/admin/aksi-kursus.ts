@@ -23,7 +23,7 @@ function segarkan(slug?: string) {
 
 /* ---------- kursus ---------- */
 
-export type MuatanKursus = {
+export type DataKursus = {
   id?: string;
   judul: string;
   slug: string;
@@ -37,37 +37,37 @@ export type MuatanKursus = {
   urutan: string;
 };
 
-export async function simpanKursus(muatan: MuatanKursus): Promise<Hasil> {
+export async function simpanKursus(form: DataKursus): Promise<Hasil> {
   const { supabase, user } = await redaksi();
-  if (!user) return { ok: false, pesan: 'Sesimu sudah habis. Masuk lagi, ya.' };
+  if (!user) return { ok: false, pesan: 'Sesi kamu sudah berakhir. Silakan masuk lagi.' };
 
-  const judul = muatan.judul.trim();
+  const judul = form.judul.trim();
   if (!judul) return { ok: false, pesan: 'Judul kursusnya belum diisi.' };
 
-  const slug = (muatan.slug.trim() ? buatSlug(muatan.slug) : buatSlug(judul)) || 'kursus';
-  const urutan = muatan.urutan.trim() ? Number.parseInt(muatan.urutan, 10) : 0;
+  const slug = (form.slug.trim() ? buatSlug(form.slug) : buatSlug(judul)) || 'kursus';
+  const urutan = form.urutan.trim() ? Number.parseInt(form.urutan, 10) : 0;
   if (Number.isNaN(urutan)) return { ok: false, pesan: 'Urutannya harus angka.' };
 
   const baris = {
     judul,
     slug,
-    deck: muatan.deck.trim(),
-    ringkasan: muatan.ringkasan,
-    untuk_siapa: muatan.untuk_siapa,
-    jalur: muatan.jalur,
-    tingkat: muatan.tingkat,
-    status: muatan.status,
-    penulis: muatan.penulis.trim() || 'Redaksi',
+    deck: form.deck.trim(),
+    ringkasan: form.ringkasan,
+    untuk_siapa: form.untuk_siapa,
+    jalur: form.jalur,
+    tingkat: form.tingkat,
+    status: form.status,
+    penulis: form.penulis.trim() || 'Redaksi',
     urutan,
   };
 
   let terbitPada: string | undefined;
-  if (muatan.status === 'terbit') {
-    if (muatan.id) {
+  if (form.status === 'terbit') {
+    if (form.id) {
       const { data } = await supabase
         .from('kursus')
         .select('terbit_pada')
-        .eq('id', muatan.id)
+        .eq('id', form.id)
         .maybeSingle();
       terbitPada =
         (data as { terbit_pada: string | null } | null)?.terbit_pada ?? new Date().toISOString();
@@ -78,8 +78,8 @@ export async function simpanKursus(muatan: MuatanKursus): Promise<Hasil> {
 
   const isian = terbitPada === undefined ? baris : { ...baris, terbit_pada: terbitPada };
 
-  const { data, error } = muatan.id
-    ? await supabase.from('kursus').update(isian).eq('id', muatan.id).select('id, slug').single()
+  const { data, error } = form.id
+    ? await supabase.from('kursus').update(isian).eq('id', form.id).select('id, slug').single()
     : await supabase.from('kursus').insert(isian).select('id, slug').single();
 
   if (error) {
@@ -99,7 +99,7 @@ export async function simpanKursus(muatan: MuatanKursus): Promise<Hasil> {
 
 export async function hapusKursus(id: string): Promise<Hasil> {
   const { supabase, user } = await redaksi();
-  if (!user) return { ok: false, pesan: 'Sesimu sudah habis. Masuk lagi, ya.' };
+  if (!user) return { ok: false, pesan: 'Sesi kamu sudah berakhir. Silakan masuk lagi.' };
 
   const { error } = await supabase.from('kursus').delete().eq('id', id);
   if (error) return { ok: false, pesan: `Gagal menghapus: ${error.message}` };
@@ -112,7 +112,7 @@ export async function hapusKursus(id: string): Promise<Hasil> {
 
 export async function tambahModul(kursusId: string, judul: string, urutan: number): Promise<Hasil> {
   const { supabase, user } = await redaksi();
-  if (!user) return { ok: false, pesan: 'Sesimu sudah habis. Masuk lagi, ya.' };
+  if (!user) return { ok: false, pesan: 'Sesi kamu sudah berakhir. Silakan masuk lagi.' };
   if (!judul.trim()) return { ok: false, pesan: 'Judul modulnya belum diisi.' };
 
   const { data, error } = await supabase
@@ -134,7 +134,7 @@ export async function simpanModul(
   urutan: number,
 ): Promise<Hasil> {
   const { supabase, user } = await redaksi();
-  if (!user) return { ok: false, pesan: 'Sesimu sudah habis. Masuk lagi, ya.' };
+  if (!user) return { ok: false, pesan: 'Sesi kamu sudah berakhir. Silakan masuk lagi.' };
 
   const { error } = await supabase
     .from('modul')
@@ -149,7 +149,7 @@ export async function simpanModul(
 
 export async function hapusModul(id: string): Promise<Hasil> {
   const { supabase, user } = await redaksi();
-  if (!user) return { ok: false, pesan: 'Sesimu sudah habis. Masuk lagi, ya.' };
+  if (!user) return { ok: false, pesan: 'Sesi kamu sudah berakhir. Silakan masuk lagi.' };
 
   const { error } = await supabase.from('modul').delete().eq('id', id);
   if (error) return { ok: false, pesan: `Gagal menghapus modul: ${error.message}` };
@@ -160,7 +160,7 @@ export async function hapusModul(id: string): Promise<Hasil> {
 
 /* ---------- pelajaran ---------- */
 
-export type MuatanPelajaran = {
+export type DataPelajaran = {
   id: string;
   judul: string;
   slug: string;
@@ -179,7 +179,7 @@ export async function tambahPelajaran(
   urutan: number,
 ): Promise<Hasil> {
   const { supabase, user } = await redaksi();
-  if (!user) return { ok: false, pesan: 'Sesimu sudah habis. Masuk lagi, ya.' };
+  if (!user) return { ok: false, pesan: 'Sesi kamu sudah berakhir. Silakan masuk lagi.' };
   if (!judul.trim()) return { ok: false, pesan: 'Judul pelajarannya belum diisi.' };
 
   const slug = buatSlug(judul) || `pelajaran-${Date.now()}`;
@@ -204,16 +204,16 @@ export async function tambahPelajaran(
   return { ok: true, pesan: 'Pelajaran ditambahkan.', id: (data as { id: string }).id };
 }
 
-export async function simpanPelajaran(muatan: MuatanPelajaran): Promise<Hasil> {
+export async function simpanPelajaran(form: DataPelajaran): Promise<Hasil> {
   const { supabase, user } = await redaksi();
-  if (!user) return { ok: false, pesan: 'Sesimu sudah habis. Masuk lagi, ya.' };
+  if (!user) return { ok: false, pesan: 'Sesi kamu sudah berakhir. Silakan masuk lagi.' };
 
-  const judul = muatan.judul.trim();
+  const judul = form.judul.trim();
   if (!judul) return { ok: false, pesan: 'Judulnya belum diisi.' };
 
-  const slug = (muatan.slug.trim() ? buatSlug(muatan.slug) : buatSlug(judul)) || 'pelajaran';
-  const menit = muatan.menit.trim() ? Number.parseInt(muatan.menit, 10) : 0;
-  const urutan = muatan.urutan.trim() ? Number.parseInt(muatan.urutan, 10) : 0;
+  const slug = (form.slug.trim() ? buatSlug(form.slug) : buatSlug(judul)) || 'pelajaran';
+  const menit = form.menit.trim() ? Number.parseInt(form.menit, 10) : 0;
+  const urutan = form.urutan.trim() ? Number.parseInt(form.urutan, 10) : 0;
 
   if (Number.isNaN(menit) || Number.isNaN(urutan)) {
     return { ok: false, pesan: 'Menit dan urutan harus angka.' };
@@ -224,14 +224,14 @@ export async function simpanPelajaran(muatan: MuatanPelajaran): Promise<Hasil> {
     .update({
       judul,
       slug,
-      ringkas: muatan.ringkas.trim(),
-      isi: muatan.isi,
-      video_url: muatan.video_url.trim() || null,
+      ringkas: form.ringkas.trim(),
+      isi: form.isi,
+      video_url: form.video_url.trim() || null,
       menit,
       urutan,
-      modul_id: muatan.modul_id,
+      modul_id: form.modul_id,
     })
-    .eq('id', muatan.id);
+    .eq('id', form.id);
 
   if (error) {
     return {
@@ -249,7 +249,7 @@ export async function simpanPelajaran(muatan: MuatanPelajaran): Promise<Hasil> {
 
 export async function hapusPelajaran(id: string): Promise<Hasil> {
   const { supabase, user } = await redaksi();
-  if (!user) return { ok: false, pesan: 'Sesimu sudah habis. Masuk lagi, ya.' };
+  if (!user) return { ok: false, pesan: 'Sesi kamu sudah berakhir. Silakan masuk lagi.' };
 
   const { error } = await supabase.from('pelajaran').delete().eq('id', id);
   if (error) return { ok: false, pesan: `Gagal menghapus: ${error.message}` };

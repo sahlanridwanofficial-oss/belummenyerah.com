@@ -4,7 +4,7 @@ import { useMemo, useState, useTransition } from 'react';
 import { useRouter } from 'next/navigation';
 import { buatSlug, JALUR } from '@/lib/format';
 import { NAMA_TINGKAT } from '@/lib/kursus-umum';
-import { hapusKursus, simpanKursus, type MuatanKursus } from '@/app/admin/aksi-kursus';
+import { hapusKursus, simpanKursus, type DataKursus } from '@/app/admin/aksi-kursus';
 import type { Kursus, StatusTulisan, Tingkat } from '@/lib/types';
 
 export default function EditorKursus({ awal }: { awal?: Kursus }) {
@@ -30,7 +30,7 @@ export default function EditorKursus({ awal }: { awal?: Kursus }) {
 
   function simpan(statusBaru?: StatusTulisan) {
     const statusAkhir = statusBaru ?? status;
-    const muatan: MuatanKursus = {
+    const form: DataKursus = {
       id: awal?.id,
       judul,
       slug: slugDipakai,
@@ -45,7 +45,7 @@ export default function EditorKursus({ awal }: { awal?: Kursus }) {
     };
 
     mulaiSimpan(async () => {
-      const hasil = await simpanKursus(muatan);
+      const hasil = await simpanKursus(form);
       setPesan(hasil.pesan);
       setBuruk(!hasil.ok);
 
@@ -75,9 +75,9 @@ export default function EditorKursus({ awal }: { awal?: Kursus }) {
   }
 
   return (
-    <div className="tumpuk tumpuk-28">
-      <div className="medan-baris">
-        <div className="medan" style={{ flex: '3 1 320px' }}>
+    <div className="susun susun-28">
+      <div className="form-baris">
+        <div className="form-isian" style={{ flex: '3 1 320px' }}>
           <label htmlFor="judul">Judul kursus</label>
           <input
             id="judul"
@@ -87,7 +87,7 @@ export default function EditorKursus({ awal }: { awal?: Kursus }) {
             placeholder="Membaca angka usaha kecil dari nol"
           />
         </div>
-        <div className="medan" style={{ flex: '2 1 240px' }}>
+        <div className="form-isian" style={{ flex: '2 1 240px' }}>
           <label htmlFor="slug">Slug</label>
           <input
             id="slug"
@@ -99,7 +99,7 @@ export default function EditorKursus({ awal }: { awal?: Kursus }) {
         </div>
       </div>
 
-      <div className="medan">
+      <div className="form-isian">
         <label htmlFor="deck">Deck — satu kalimat pengantar</label>
         <input
           id="deck"
@@ -110,8 +110,8 @@ export default function EditorKursus({ awal }: { awal?: Kursus }) {
         />
       </div>
 
-      <div className="medan-baris">
-        <div className="medan">
+      <div className="form-baris">
+        <div className="form-isian">
           <label htmlFor="jalur">Jalur</label>
           <select
             id="jalur"
@@ -126,7 +126,7 @@ export default function EditorKursus({ awal }: { awal?: Kursus }) {
             ))}
           </select>
         </div>
-        <div className="medan">
+        <div className="form-isian">
           <label htmlFor="tingkat">Tingkat</label>
           <select
             id="tingkat"
@@ -141,7 +141,7 @@ export default function EditorKursus({ awal }: { awal?: Kursus }) {
             ))}
           </select>
         </div>
-        <div className="medan">
+        <div className="form-isian">
           <label htmlFor="urutan">Urutan di katalog</label>
           <input
             id="urutan"
@@ -151,7 +151,7 @@ export default function EditorKursus({ awal }: { awal?: Kursus }) {
             onChange={(e) => setUrutan(e.target.value)}
           />
         </div>
-        <div className="medan">
+        <div className="form-isian">
           <label htmlFor="penulis">Disusun oleh</label>
           <input
             id="penulis"
@@ -162,7 +162,7 @@ export default function EditorKursus({ awal }: { awal?: Kursus }) {
         </div>
       </div>
 
-      <div className="medan">
+      <div className="form-isian">
         <label htmlFor="ringkasan">Ringkasan — Markdown, tampil di halaman kursus</label>
         <textarea
           id="ringkasan"
@@ -174,7 +174,7 @@ export default function EditorKursus({ awal }: { awal?: Kursus }) {
         />
       </div>
 
-      <div className="medan">
+      <div className="form-isian">
         <label htmlFor="untuk-siapa">Untuk siapa — Markdown, tampil di kolom samping</label>
         <textarea
           id="untuk-siapa"

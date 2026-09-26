@@ -2,7 +2,7 @@
 
 import { Suspense, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { klienPeramban } from '@/lib/supabase/client';
+import { klienBrowser } from '@/lib/supabase/client';
 
 function FormMasuk() {
   const router = useRouter();
@@ -19,7 +19,7 @@ function FormMasuk() {
     setSibuk(true);
     setGalat('');
 
-    const { error } = await klienPeramban().auth.signInWithPassword({ email, password: sandi });
+    const { error } = await klienBrowser().auth.signInWithPassword({ email, password: sandi });
 
     if (error) {
       setGalat(
@@ -36,8 +36,8 @@ function FormMasuk() {
   }
 
   return (
-    <form className="tumpuk tumpuk-16" onSubmit={masuk} style={{ maxWidth: 420 }}>
-      <div className="medan">
+    <form className="susun susun-16" onSubmit={masuk} style={{ maxWidth: 420 }}>
+      <div className="form-isian">
         <label htmlFor="email">Email</label>
         <input
           id="email"
@@ -50,7 +50,7 @@ function FormMasuk() {
         />
       </div>
 
-      <div className="medan">
+      <div className="form-isian">
         <label htmlFor="sandi">Kata sandi</label>
         <input
           id="sandi"
@@ -87,7 +87,7 @@ export default function HalamanLogin() {
         <FormMasuk />
       </Suspense>
       <p className="pesan-kecil" style={{ marginTop: 24, maxWidth: 420 }}>
-        Akun dibuat sekali lewat dasbor Supabase (Authentication → Users → Add user), lalu dipakai
+        Akun dibuat sekali lewat dashboard Supabase (Authentication → Users → Add user), lalu dipakai
         seterusnya dari sini.
       </p>
     </div>

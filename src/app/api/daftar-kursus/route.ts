@@ -21,15 +21,15 @@ export async function POST(request: Request) {
     email = (badan.email ?? '').trim().toLowerCase();
     slug = (badan.slug ?? '').trim();
   } catch {
-    return NextResponse.json({ pesan: 'Permintaannya tidak terbaca.' }, { status: 400 });
+    return NextResponse.json({ pesan: 'Data yang dikirim tidak terbaca.' }, { status: 400 });
   }
 
   if (!POLA_EMAIL.test(email) || email.length > 254) {
-    return NextResponse.json({ pesan: 'Alamat emailnya sepertinya keliru.' }, { status: 400 });
+    return NextResponse.json({ pesan: 'Sepertinya alamat emailnya salah.' }, { status: 400 });
   }
 
   if (!slug) {
-    return NextResponse.json({ pesan: 'Kursusnya tidak disebutkan.' }, { status: 400 });
+    return NextResponse.json({ pesan: 'Kursusnya belum ditentukan.' }, { status: 400 });
   }
 
   const supabase = await klienServer();
@@ -42,7 +42,7 @@ export async function POST(request: Request) {
       {
         pesan: tidakAda
           ? 'Kursus ini belum terbuka untuk pendaftaran.'
-          : 'Gagal mendaftar. Coba lagi sebentar lagi.',
+          : 'Pendaftarannya gagal. Coba lagi sebentar.',
       },
       { status: tidakAda ? 404 : 500 },
     );

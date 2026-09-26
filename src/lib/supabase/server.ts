@@ -1,7 +1,7 @@
 import { createServerClient, type CookieOptions } from '@supabase/ssr';
 import { cookies } from 'next/headers';
 
-type KueBaru = { name: string; value: string; options?: CookieOptions };
+type CookieBaru = { name: string; value: string; options?: CookieOptions };
 
 export function supabaseTerpasang(): boolean {
   return Boolean(
@@ -25,7 +25,7 @@ export async function klienServer() {
         getAll() {
           return jar.getAll();
         },
-        setAll(daftar: KueBaru[]) {
+        setAll(daftar: CookieBaru[]) {
           try {
             daftar.forEach(({ name, value, options }) => jar.set({ name, value, ...options }));
           } catch {

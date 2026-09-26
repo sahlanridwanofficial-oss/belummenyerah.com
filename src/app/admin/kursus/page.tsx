@@ -47,7 +47,7 @@ export default async function DaftarKursusRedaksi() {
       </div>
 
       {daftar.length === 0 ? (
-        <div className="kosong tumpuk tumpuk-16">
+        <div className="kosong susun susun-16">
           <span className="label">Kosong</span>
           <p style={{ fontSize: 19, lineHeight: 1.6, maxWidth: 560 }}>
             Kursus pertama paling gampang disusun dari tulisan yang sudah ada: ambil empat sampai

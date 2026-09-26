@@ -4,7 +4,7 @@ import { useMemo, useState, useTransition } from 'react';
 import { useRouter } from 'next/navigation';
 import { marked } from 'marked';
 import { buatSlug, hitungMenitBaca, JALUR, NAMA_FORMAT } from '@/lib/format';
-import { hapusTulisan, simpanTulisan, type MuatanTulisan } from '@/app/admin/aksi';
+import { hapusTulisan, simpanTulisan, type DataTulisan } from '@/app/admin/aksi';
 import type { FormatTulisan, StatusTulisan, Tulisan } from '@/lib/types';
 
 const CONTOH = `Tulis di sini pakai Markdown.
@@ -50,7 +50,7 @@ export default function EditorTulisan({ awal }: { awal?: Tulisan }) {
 
   function simpan(statusBaru?: StatusTulisan) {
     const statusAkhir = statusBaru ?? status;
-    const muatan: MuatanTulisan = {
+    const form: DataTulisan = {
       id: awal?.id,
       judul,
       slug: slugDipakai,
@@ -64,7 +64,7 @@ export default function EditorTulisan({ awal }: { awal?: Tulisan }) {
     };
 
     mulaiSimpan(async () => {
-      const hasil = await simpanTulisan(muatan);
+      const hasil = await simpanTulisan(form);
       lapor(hasil.pesan, !hasil.ok);
 
       if (hasil.ok) {
@@ -109,9 +109,9 @@ export default function EditorTulisan({ awal }: { awal?: Tulisan }) {
   }
 
   return (
-    <div className="tumpuk tumpuk-28">
-      <div className="medan-baris">
-        <div className="medan" style={{ flex: '3 1 320px' }}>
+    <div className="susun susun-28">
+      <div className="form-baris">
+        <div className="form-isian" style={{ flex: '3 1 320px' }}>
           <label htmlFor="judul">Judul</label>
           <input
             id="judul"
@@ -121,7 +121,7 @@ export default function EditorTulisan({ awal }: { awal?: Tulisan }) {
             placeholder="Warung yang omzetnya naik tapi kasnya kering"
           />
         </div>
-        <div className="medan" style={{ flex: '2 1 240px' }}>
+        <div className="form-isian" style={{ flex: '2 1 240px' }}>
           <label htmlFor="slug">Slug</label>
           <input
             id="slug"
@@ -133,7 +133,7 @@ export default function EditorTulisan({ awal }: { awal?: Tulisan }) {
         </div>
       </div>
 
-      <div className="medan">
+      <div className="form-isian">
         <label htmlFor="deck">Deck — satu kalimat pengantar</label>
         <input
           id="deck"
@@ -144,8 +144,8 @@ export default function EditorTulisan({ awal }: { awal?: Tulisan }) {
         />
       </div>
 
-      <div className="medan-baris">
-        <div className="medan">
+      <div className="form-baris">
+        <div className="form-isian">
           <label htmlFor="jalur">Jalur</label>
           <select
             id="jalur"
@@ -160,7 +160,7 @@ export default function EditorTulisan({ awal }: { awal?: Tulisan }) {
             ))}
           </select>
         </div>
-        <div className="medan">
+        <div className="form-isian">
           <label htmlFor="format">Format</label>
           <select
             id="format"
@@ -175,7 +175,7 @@ export default function EditorTulisan({ awal }: { awal?: Tulisan }) {
             ))}
           </select>
         </div>
-        <div className="medan">
+        <div className="form-isian">
           <label htmlFor="nomor">Nomor seri</label>
           <input
             id="nomor"
@@ -186,7 +186,7 @@ export default function EditorTulisan({ awal }: { awal?: Tulisan }) {
             placeholder="17"
           />
         </div>
-        <div className="medan">
+        <div className="form-isian">
           <label htmlFor="penulis">Penulis</label>
           <input
             id="penulis"

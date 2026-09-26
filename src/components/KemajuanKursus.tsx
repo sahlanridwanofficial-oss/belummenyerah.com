@@ -29,7 +29,7 @@ export default function KemajuanKursus({
   const persen = Math.round((Math.min(selesai, total) / total) * 100);
 
   return (
-    <div className="tumpuk tumpuk-8" style={{ marginTop: 22 }}>
+    <div className="susun susun-8" style={{ marginTop: 22 }}>
       <span className="label">
         {selesai} dari {total} pelajaran selesai
       </span>

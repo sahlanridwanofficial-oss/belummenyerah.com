@@ -51,7 +51,7 @@ export default async function HalamanTulisan({ params }: Props) {
               textTransform: 'uppercase',
             }}
           >
-            Draf — hanya terlihat olehmu
+            Draf — hanya kamu yang bisa melihatnya
           </div>
         )}
 
@@ -91,7 +91,7 @@ export default async function HalamanTulisan({ params }: Props) {
 
           <aside className="samping">
             {jalur && (
-              <div className="tumpuk tumpuk-8">
+              <div className="susun susun-8">
                 <span className="label">Jalur</span>
                 <Link
                   href={`/${jalur.kode}`}

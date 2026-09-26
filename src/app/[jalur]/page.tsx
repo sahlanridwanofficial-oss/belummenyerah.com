@@ -55,7 +55,7 @@ export default async function HalamanJalur({ params }: Props) {
 
         <div style={{ marginTop: 56 }}>
           {daftar.length === 0 ? (
-            <div className="kosong tumpuk tumpuk-16">
+            <div className="kosong susun susun-16">
               <span className="label">Masih kosong</span>
               <p className="judul-seksi" style={{ fontSize: 30 }}>
                 Belum ada tulisan di jalur ini.

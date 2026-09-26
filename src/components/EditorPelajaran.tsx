@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { marked } from 'marked';
 import { buatSlug } from '@/lib/format';
 import { idYouTube } from '@/lib/kursus-umum';
-import { hapusPelajaran, simpanPelajaran, type MuatanPelajaran } from '@/app/admin/aksi-kursus';
+import { hapusPelajaran, simpanPelajaran, type DataPelajaran } from '@/app/admin/aksi-kursus';
 import type { Modul, Pelajaran } from '@/lib/types';
 
 export default function EditorPelajaran({
@@ -38,7 +38,7 @@ export default function EditorPelajaran({
   const idVideo = idYouTube(videoUrl || null);
 
   function simpan() {
-    const muatan: MuatanPelajaran = {
+    const form: DataPelajaran = {
       id: awal.id,
       judul,
       slug: slugDipakai,
@@ -51,7 +51,7 @@ export default function EditorPelajaran({
     };
 
     mulaiSimpan(async () => {
-      const hasil = await simpanPelajaran(muatan);
+      const hasil = await simpanPelajaran(form);
       setPesan(hasil.pesan);
       setBuruk(!hasil.ok);
       if (hasil.ok) router.refresh();
@@ -69,9 +69,9 @@ export default function EditorPelajaran({
   }
 
   return (
-    <div className="tumpuk tumpuk-28">
-      <div className="medan-baris">
-        <div className="medan" style={{ flex: '3 1 320px' }}>
+    <div className="susun susun-28">
+      <div className="form-baris">
+        <div className="form-isian" style={{ flex: '3 1 320px' }}>
           <label htmlFor="judul">Judul pelajaran</label>
           <input
             id="judul"
@@ -80,7 +80,7 @@ export default function EditorPelajaran({
             onChange={(e) => setJudul(e.target.value)}
           />
         </div>
-        <div className="medan" style={{ flex: '2 1 220px' }}>
+        <div className="form-isian" style={{ flex: '2 1 220px' }}>
           <label htmlFor="slug">Slug</label>
           <input
             id="slug"
@@ -91,7 +91,7 @@ export default function EditorPelajaran({
         </div>
       </div>
 
-      <div className="medan">
+      <div className="form-isian">
         <label htmlFor="ringkas">Ringkasan — satu kalimat di bawah judul</label>
         <input
           id="ringkas"
@@ -101,8 +101,8 @@ export default function EditorPelajaran({
         />
       </div>
 
-      <div className="medan-baris">
-        <div className="medan" style={{ flex: '2 1 240px' }}>
+      <div className="form-baris">
+        <div className="form-isian" style={{ flex: '2 1 240px' }}>
           <label htmlFor="modul">Modul</label>
           <select
             id="modul"
@@ -117,7 +117,7 @@ export default function EditorPelajaran({
             ))}
           </select>
         </div>
-        <div className="medan">
+        <div className="form-isian">
           <label htmlFor="urutan">Urutan</label>
           <input
             id="urutan"
@@ -127,7 +127,7 @@ export default function EditorPelajaran({
             onChange={(e) => setUrutan(e.target.value)}
           />
         </div>
-        <div className="medan">
+        <div className="form-isian">
           <label htmlFor="menit">Perkiraan menit</label>
           <input
             id="menit"
@@ -139,7 +139,7 @@ export default function EditorPelajaran({
         </div>
       </div>
 
-      <div className="medan">
+      <div className="form-isian">
         <label htmlFor="video">Tautan video YouTube — kosongkan kalau pelajarannya tulisan saja</label>
         <input
           id="video"

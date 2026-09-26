@@ -1,7 +1,7 @@
 import { createServerClient, type CookieOptions } from '@supabase/ssr';
 import { NextResponse, type NextRequest } from 'next/server';
 
-type KueBaru = { name: string; value: string; options?: CookieOptions };
+type CookieBaru = { name: string; value: string; options?: CookieOptions };
 
 /**
  * Menyegarkan cookie sesi Supabase di setiap permintaan, dan menutup
@@ -21,7 +21,7 @@ export async function middleware(request: NextRequest) {
       getAll() {
         return request.cookies.getAll();
       },
-      setAll(daftar: KueBaru[]) {
+      setAll(daftar: CookieBaru[]) {
         daftar.forEach(({ name, value }) => request.cookies.set(name, value));
         response = NextResponse.next({ request });
         daftar.forEach(({ name, value, options }) =>

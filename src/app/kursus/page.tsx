@@ -35,7 +35,7 @@ export default async function HalamanKursus() {
             <span className="label" style={{ paddingBottom: 12 }}>
               Cara kerjanya
             </span>
-            <div className="tumpuk">
+            <div className="susun">
               <span className="baris-tipis">Tiap kursus dibagi jadi modul dan pelajaran pendek.</span>
               <span className="baris-tipis">Pelajarannya bisa berupa tulisan, video, atau dua-duanya.</span>
               <span className="baris-tipis" style={{ borderBottom: '1px solid var(--garis)' }}>
@@ -47,7 +47,7 @@ export default async function HalamanKursus() {
 
         <div style={{ marginTop: 56 }}>
           {katalog.length === 0 ? (
-            <div className="kosong tumpuk tumpuk-16">
+            <div className="kosong susun susun-16">
               <span className="label">Belum ada kursus</span>
               <p className="judul-seksi" style={{ fontSize: 30 }}>
                 Kursus pertama sedang disusun.
@@ -62,7 +62,7 @@ export default async function HalamanKursus() {
           ) : (
             katalog.map((k) => (
               <article key={k.id} className="baris-arsip">
-                <div className="waktu tumpuk tumpuk-8">
+                <div className="waktu susun susun-8">
                   <span className="meta">{NAMA_TINGKAT[k.tingkat]}</span>
                   <span className="meta">
                     {k.jumlah_pelajaran} pelajaran

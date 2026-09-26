@@ -67,7 +67,7 @@ export default async function DaftarPelanggan() {
       )}
 
       {pelanggan.length === 0 ? (
-        <div className="kosong tumpuk tumpuk-16">
+        <div className="kosong susun susun-16">
           <span className="label">Masih kosong</span>
           <p style={{ fontSize: 19, lineHeight: 1.6, maxWidth: 560 }}>
             Belum ada yang mendaftar. Pembaca pertama biasanya datang dari orang yang kamu ajak

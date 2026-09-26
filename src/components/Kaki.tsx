@@ -33,10 +33,9 @@ export default function Kaki() {
       </div>
 
       <div className="kolom">
-        <span className="label">Kolofon</span>
+        <span className="label">Dibuat dengan</span>
         <span className="keterangan">
-          Disusun dengan Instrument Serif, Newsreader, dan Instrument Sans. Tanpa pelacak pihak
-          ketiga.
+          Instrument Serif, Newsreader, dan Instrument Sans. Tanpa pelacak pihak ketiga.
         </span>
       </div>
     </footer>

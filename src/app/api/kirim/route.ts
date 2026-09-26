@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { klienServer, supabaseTerpasang } from '@/lib/supabase/server';
-import { klienResend, resendTerpasang, suratTulisan } from '@/lib/email';
+import { klienResend, resendTerpasang, emailTulisan } from '@/lib/email';
 import type { Tulisan } from '@/lib/types';
 
 export const runtime = 'nodejs';
@@ -37,7 +37,7 @@ export async function POST(request: Request) {
     const badan = (await request.json()) as { tulisan_id?: string };
     tulisanId = badan.tulisan_id ?? '';
   } catch {
-    return NextResponse.json({ pesan: 'Permintaannya tidak terbaca.' }, { status: 400 });
+    return NextResponse.json({ pesan: 'Data yang dikirim tidak terbaca.' }, { status: 400 });
   }
 
   const { data: tulisan } = await supabase
@@ -80,8 +80,8 @@ export async function POST(request: Request) {
 
   for (let i = 0; i < daftar.length; i += SEKALI_KIRIM) {
     const potongan = daftar.slice(i, i + SEKALI_KIRIM);
-    const surat = potongan.map((p) => {
-      const isi = suratTulisan(tulisan, p.token);
+    const kiriman = potongan.map((p) => {
+      const isi = emailTulisan(tulisan, p.token);
       return {
         from: dari,
         to: [p.email],
@@ -93,7 +93,7 @@ export async function POST(request: Request) {
     });
 
     try {
-      const { error } = await resend!.batch.send(surat);
+      const { error } = await resend!.batch.send(kiriman);
       if (error) {
         gagal += potongan.length;
         console.error('[kirim] batch gagal:', error);

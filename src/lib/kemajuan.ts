@@ -1,7 +1,7 @@
 'use client';
 
 /**
- * Kemajuan belajar disimpan di peramban peserta, bukan di server.
+ * Kemajuan belajar disimpan di browser peserta, bukan di server.
  * Tanpa akun, tanpa gesekan — konsekuensinya kemajuan tidak ikut pindah
  * perangkat. Kalau nanti pembaca punya akun, pindahkan ke tabel.
  */
@@ -33,7 +33,7 @@ export function simpanKemajuan(kursusSlug: string, pelajaranSlug: string, selesa
     window.localStorage.setItem(kunci(kursusSlug), JSON.stringify([...sekarang]));
     window.dispatchEvent(new CustomEvent('kemajuan-berubah', { detail: { kursusSlug } }));
   } catch {
-    // Penyimpanan peramban bisa ditolak (mode privat, kuota penuh).
+    // Penyimpanan browser bisa ditolak (mode privat, kuota penuh).
     // Halaman tetap berjalan, hanya kemajuannya yang tidak tersimpan.
   }
 }

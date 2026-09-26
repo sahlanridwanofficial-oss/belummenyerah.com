@@ -38,7 +38,7 @@ export default async function HalamanKursusTunggal({ params }: Props) {
 
       <main id="isi" className="halaman utama">
         {kursus.status === 'draf' && (
-          <div className="tanda-draf">Draf — hanya terlihat olehmu</div>
+          <div className="tanda-draf">Draf — hanya kamu yang bisa melihatnya</div>
         )}
 
         <div className="dua-kolom">
@@ -133,7 +133,7 @@ export default async function HalamanKursusTunggal({ params }: Props) {
               <div key={m.id} className="modul">
                 <div className="modul-kepala">
                   <span className="modul-angka">{String(i + 1).padStart(2, '0')}</span>
-                  <div className="tumpuk tumpuk-8">
+                  <div className="susun susun-8">
                     <span className="modul-judul">{m.judul}</span>
                     {m.ringkas && (
                       <span style={{ fontSize: 16, lineHeight: 1.55, color: 'var(--meta)' }}>

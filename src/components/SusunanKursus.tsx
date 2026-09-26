@@ -41,7 +41,7 @@ export default function SusunanKursus({
   }
 
   return (
-    <div className="tumpuk tumpuk-28">
+    <div className="susun susun-28">
       {modul.length === 0 && (
         <div className="kosong">
           <span className="label">Belum ada modul</span>
@@ -57,10 +57,10 @@ export default function SusunanKursus({
       ))}
 
       <div
-        className="medan-baris"
+        className="form-baris"
         style={{ borderTop: '1px solid var(--tinta)', paddingTop: 22, alignItems: 'flex-end' }}
       >
-        <div className="medan" style={{ flex: '1 1 320px' }}>
+        <div className="form-isian" style={{ flex: '1 1 320px' }}>
           <label htmlFor="modul-baru">Modul baru</label>
           <input
             id="modul-baru"
@@ -142,8 +142,8 @@ function BarisModul({
 
   return (
     <div style={{ border: '1px solid var(--garis)', padding: '22px 24px' }}>
-      <div className="medan-baris" style={{ alignItems: 'flex-end' }}>
-        <div className="medan" style={{ flex: '0 0 70px' }}>
+      <div className="form-baris" style={{ alignItems: 'flex-end' }}>
+        <div className="form-isian" style={{ flex: '0 0 70px' }}>
           <label htmlFor={`urutan-${modul.id}`}>Urutan</label>
           <input
             id={`urutan-${modul.id}`}
@@ -153,7 +153,7 @@ function BarisModul({
             onChange={(e) => setUrutan(e.target.value)}
           />
         </div>
-        <div className="medan" style={{ flex: '2 1 260px' }}>
+        <div className="form-isian" style={{ flex: '2 1 260px' }}>
           <label htmlFor={`judul-${modul.id}`}>Modul {nomor}</label>
           <input
             id={`judul-${modul.id}`}
@@ -162,7 +162,7 @@ function BarisModul({
             onChange={(e) => setJudul(e.target.value)}
           />
         </div>
-        <div className="medan" style={{ flex: '3 1 300px' }}>
+        <div className="form-isian" style={{ flex: '3 1 300px' }}>
           <label htmlFor={`ringkas-${modul.id}`}>Keterangan singkat</label>
           <input
             id={`ringkas-${modul.id}`}
@@ -219,8 +219,8 @@ function BarisModul({
           </div>
         ))}
 
-        <div className="medan-baris" style={{ marginTop: 16, alignItems: 'flex-end' }}>
-          <div className="medan" style={{ flex: '1 1 280px' }}>
+        <div className="form-baris" style={{ marginTop: 16, alignItems: 'flex-end' }}>
+          <div className="form-isian" style={{ flex: '1 1 280px' }}>
             <label htmlFor={`pelajaran-baru-${modul.id}`}>Pelajaran baru</label>
             <input
               id={`pelajaran-baru-${modul.id}`}
