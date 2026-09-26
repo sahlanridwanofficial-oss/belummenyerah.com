@@ -28,6 +28,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           </Link>
           <nav className="nav" aria-label="Menu redaksi">
             <Link href="/admin">Tulisan</Link>
+            <Link href="/admin/kursus">Kursus</Link>
             <Link href="/admin/pelanggan">Pelanggan</Link>
             <Link href="/" target="_blank" rel="noreferrer">
               Lihat situs ↗

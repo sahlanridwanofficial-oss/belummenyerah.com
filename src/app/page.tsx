@@ -5,12 +5,15 @@ import GarisBelum from '@/components/GarisBelum';
 import FormLangganan from '@/components/FormLangganan';
 import BelumTersambung from '@/components/BelumTersambung';
 import { ambilTerbit } from '@/lib/tulisan';
+import { ambilKatalogRingkas, NAMA_TINGKAT } from '@/lib/kursus';
 import { supabaseTerpasang } from '@/lib/supabase/server';
 import { JALUR, penanda, tanggalPanjang } from '@/lib/format';
 
 export default async function Beranda() {
   const tersambung = supabaseTerpasang();
-  const semua = tersambung ? await ambilTerbit(40) : [];
+  const [semua, katalog] = tersambung
+    ? await Promise.all([ambilTerbit(40), ambilKatalogRingkas()])
+    : [[], []];
 
   const utama = semua[0];
   const berikutnya = semua.slice(1, 5);
@@ -119,6 +122,55 @@ export default async function Beranda() {
                 </div>
               </div>
             </section>
+
+            {katalog.length > 0 && (
+              <section className="halaman" style={{ paddingTop: 62 }}>
+                <div
+                  style={{
+                    display: 'flex',
+                    alignItems: 'baseline',
+                    justifyContent: 'space-between',
+                    gap: 20,
+                    paddingBottom: 22,
+                  }}
+                >
+                  <span className="label">Kursus gratis</span>
+                  <Link href="/kursus" className="label" style={{ color: 'var(--bara)' }}>
+                    Lihat semua →
+                  </Link>
+                </div>
+
+                {katalog.slice(0, 3).map((k) => (
+                  <article key={k.id} className="baris-arsip">
+                    <div className="waktu tumpuk tumpuk-8">
+                      <span className="meta">{NAMA_TINGKAT[k.tingkat]}</span>
+                      <span className="meta">
+                        {k.jumlah_pelajaran} pelajaran
+                        {k.total_menit > 0 ? ` · ${k.total_menit} menit` : ''}
+                      </span>
+                    </div>
+                    <div className="isi">
+                      <Link href={`/kursus/${k.slug}`} className="judul">
+                        {k.judul}
+                      </Link>
+                      {k.deck && (
+                        <p
+                          style={{
+                            marginTop: 10,
+                            fontSize: 17,
+                            lineHeight: 1.55,
+                            color: 'var(--tinta-lembut)',
+                            maxWidth: 620,
+                          }}
+                        >
+                          {k.deck}
+                        </p>
+                      )}
+                    </div>
+                  </article>
+                ))}
+              </section>
+            )}
 
             <section className="halaman" style={{ paddingTop: 62 }}>
               <span className="label" style={{ paddingBottom: 22 }}>

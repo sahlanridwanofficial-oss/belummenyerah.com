@@ -9,11 +9,16 @@ export default function FormLangganan({
   label = 'Alamat email',
   tombol = 'Berlangganan',
   catatan = 'Gratis. Berhenti kapan saja.',
+  kursusSlug,
+  pesanBerhasil,
 }: {
   sumber: string;
   label?: string;
   tombol?: string;
   catatan?: string;
+  /** Kalau diisi, pendaftaran diarahkan ke kursus ini, bukan ke newsletter. */
+  kursusSlug?: string;
+  pesanBerhasil?: string;
 }) {
   const id = useId();
   const [email, setEmail] = useState('');
@@ -28,16 +33,16 @@ export default function FormLangganan({
     setPesan('');
 
     try {
-      const jawab = await fetch('/api/berlangganan', {
+      const jawab = await fetch(kursusSlug ? '/api/daftar-kursus' : '/api/berlangganan', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, sumber }),
+        body: JSON.stringify(kursusSlug ? { email, slug: kursusSlug } : { email, sumber }),
       });
       const data = (await jawab.json()) as { pesan?: string };
 
       if (jawab.ok) {
         setKeadaan('berhasil');
-        setPesan(data.pesan ?? 'Sudah masuk. Sampai jumpa Senin pagi.');
+        setPesan(pesanBerhasil ?? data.pesan ?? 'Sudah masuk. Sampai jumpa Senin pagi.');
         setEmail('');
       } else {
         setKeadaan('gagal');

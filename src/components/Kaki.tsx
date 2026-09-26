@@ -26,6 +26,7 @@ export default function Kaki() {
 
       <div className="kolom">
         <span className="label">Tentang</span>
+        <Link href="/kursus">Kursus</Link>
         <Link href="/tentang">Siapa kami</Link>
         <Link href="/arsip">Arsip lengkap</Link>
         <Link href="/berlangganan">Berlangganan</Link>

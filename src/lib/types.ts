@@ -37,3 +37,50 @@ export type Kiriman = {
   jumlah_gagal: number;
   dikirim_pada: string;
 };
+
+export type Tingkat = 'pemula' | 'menengah' | 'lanjut';
+
+export type Kursus = {
+  id: string;
+  slug: string;
+  judul: string;
+  deck: string;
+  ringkasan: string;
+  untuk_siapa: string;
+  jalur: Jalur;
+  tingkat: Tingkat;
+  status: StatusTulisan;
+  penulis: string;
+  urutan: number;
+  terbit_pada: string | null;
+  dibuat_pada: string;
+  diubah_pada: string;
+};
+
+export type Modul = {
+  id: string;
+  kursus_id: string;
+  judul: string;
+  ringkas: string;
+  urutan: number;
+  dibuat_pada: string;
+};
+
+export type Pelajaran = {
+  id: string;
+  kursus_id: string;
+  modul_id: string;
+  slug: string;
+  judul: string;
+  ringkas: string;
+  isi: string;
+  video_url: string | null;
+  menit: number;
+  urutan: number;
+  dibuat_pada: string;
+  diubah_pada: string;
+};
+
+export type ModulLengkap = Modul & { pelajaran: Pelajaran[] };
+
+export type KursusLengkap = Kursus & { modul: ModulLengkap[] };

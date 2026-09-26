@@ -90,6 +90,36 @@ Kalau nanti ada penulis tamu, pasang sanitiser lebih dulu di `src/lib/markdown.t
 
 ---
 
+## Kursus
+
+Selain artikel, situs ini menampung kursus gratis. Susunannya **kursus → modul →
+pelajaran**, dan tiap pelajaran boleh berupa tulisan, video, atau dua-duanya.
+
+| Alamat | Isi |
+| --- | --- |
+| `/kursus` | Katalog kursus |
+| `/kursus/[slug]` | Halaman kursus: ringkasan, daftar isi, pendaftaran |
+| `/kursus/[slug]/[pelajaran]` | Halaman pelajaran dengan daftar isi di samping |
+| `/admin/kursus` | Daftar kursus |
+| `/admin/kursus/[id]` | Keterangan kursus plus penyusun modul dan pelajaran |
+| `/admin/kursus/[id]/pelajaran/[pid]` | Editor satu pelajaran |
+
+**Video** disematkan dari YouTube lewat `youtube-nocookie`, jadi tidak ada cookie
+pelacak sebelum peserta menekan putar. Setel videonya sebagai *Unlisted* supaya
+tidak muncul di kanal publik. Kolom tautannya menerima bentuk apa pun —
+`watch?v=`, `youtu.be/`, `/embed/`, `/shorts/` — dan mengambil idnya sendiri.
+
+**Kemajuan belajar** disimpan di `localStorage` peramban peserta, bukan di server.
+Konsekuensinya: peserta bisa langsung belajar tanpa membuat akun, tapi kemajuannya
+tidak ikut pindah perangkat. Kalau nanti pembaca perlu akun, pindahkan isi
+`src/lib/kemajuan.ts` ke sebuah tabel.
+
+**Pendaftaran kursus** memakai ulang tabel `pelanggan`, supaya peserta kursus dan
+pembaca newsletter tidak terpecah jadi dua daftar. Materinya tetap terbuka tanpa
+mendaftar — pendaftaran hanya untuk dikabari kalau ada materi baru.
+
+---
+
 ## Sistem desain
 
 Ada di `src/app/globals.css`, dan versi lengkapnya di kanvas konsep.
