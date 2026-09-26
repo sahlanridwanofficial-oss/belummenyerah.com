@@ -28,7 +28,6 @@ export default function HalamanTentang() {
         </h1>
 
         <div className="artikel" style={{ paddingTop: 44 }}>
-          <div className="pinggir" aria-hidden="true" />
           <div className="badan prosa">
             <p>
               Mereka tutup karena tidak ada yang pernah menjelaskan angkanya dengan jujur, dan

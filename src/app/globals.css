@@ -36,6 +36,9 @@ html { -webkit-text-size-adjust: 100%; }
 
 body {
   margin: 0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
   background: var(--kertas);
   color: var(--tinta);
   font-family: var(--serif-badan);
@@ -59,6 +62,8 @@ button, input, textarea, select { font: inherit; color: inherit; }
   outline: 2px solid var(--bara);
   outline-offset: 2px;
 }
+
+main { flex-grow: 1; }
 
 /* ---------- kerangka ---------- */
 
@@ -327,16 +332,28 @@ button, input, textarea, select { font: inherit; color: inherit; }
 
 /* ---------- halaman artikel ---------- */
 
-.artikel { display: flex; gap: 0; padding-top: 56px; }
-.artikel .pinggir { width: 200px; flex-shrink: 0; padding-right: 40px; }
+.artikel { display: flex; gap: 72px; padding-top: 48px; align-items: flex-start; }
 .artikel .badan { width: var(--lebar-baca); flex-shrink: 0; min-width: 0; }
-.artikel .samping { flex: 1 1 auto; padding-left: 56px; min-width: 0; }
+.artikel .samping {
+  flex: 1 1 auto;
+  min-width: 0;
+  padding-left: 60px;
+  border-left: 1px solid var(--garis);
+  position: sticky;
+  top: 40px;
+}
 
 @media (max-width: 1180px) {
-  .artikel { flex-direction: column; }
-  .artikel .pinggir, .artikel .samping { width: auto; padding: 0; }
+  .artikel { flex-direction: column; gap: 36px; }
   .artikel .badan { width: 100%; max-width: var(--lebar-baca); }
-  .artikel .samping { margin-top: 36px; }
+  .artikel .samping {
+    width: auto;
+    padding-left: 0;
+    border-left: 0;
+    border-top: 1px solid var(--garis);
+    padding-top: 28px;
+    position: static;
+  }
 }
 
 .prosa { font-size: 19px; line-height: 1.65; }
@@ -448,19 +465,23 @@ button, input, textarea, select { font: inherit; color: inherit; }
 /* ---------- kaki ---------- */
 
 .kaki {
-  margin-top: 46px;
-  padding-block: 46px 60px;
-  display: flex;
-  gap: 72px;
-  align-items: flex-start;
-  flex-wrap: wrap;
+  margin-top: 64px;
+  padding-block: 40px 60px;
+  border-top: 1px solid var(--garis);
+  display: grid;
+  grid-template-columns: 1.4fr 1fr 1fr 1.4fr;
+  gap: 48px;
+  align-items: start;
 }
-.kaki .kolom { display: flex; flex-direction: column; gap: 9px; flex: 1 1 180px; min-width: 0; }
+.kaki .kolom { display: flex; flex-direction: column; gap: 9px; min-width: 0; }
 .kaki .kolom a, .kaki .kolom span.baris { font-size: 16px; }
 .kaki .keterangan { font-size: 15px; line-height: 1.6; color: var(--meta); max-width: 320px; }
 
-@media (max-width: 900px) {
-  .kaki { gap: 36px; }
+@media (max-width: 1000px) {
+  .kaki { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 36px; }
+}
+@media (max-width: 560px) {
+  .kaki { grid-template-columns: minmax(0, 1fr); gap: 32px; }
 }
 
 /* ---------- kosong / pesan ---------- */

@@ -5,7 +5,7 @@ import { TOPIK } from '@/lib/format';
 export default function Kaki() {
   return (
     <footer className="halaman kaki">
-      <div className="kolom" style={{ flex: '1 1 260px' }}>
+      <div className="kolom">
         <span className="wordmark">belummenyerah</span>
         <div style={{ width: 240, marginBlock: 6 }}>
           <GarisBelum />

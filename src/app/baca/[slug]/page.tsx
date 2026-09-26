@@ -56,7 +56,6 @@ export default async function HalamanTulisan({ params }: Props) {
         )}
 
         <article className="artikel">
-          <div className="pinggir" aria-hidden="true" />
 
           <div className="badan">
             <span className="kicker">{penanda(tulisan.format, tulisan.topik, tulisan.nomor)}</span>
