@@ -4,7 +4,7 @@ import Masthead from '@/components/Masthead';
 import Kaki from '@/components/Kaki';
 import FormLangganan from '@/components/FormLangganan';
 import { ambilKatalogRingkas, NAMA_TINGKAT } from '@/lib/kursus';
-import { NAMA_JALUR } from '@/lib/format';
+import { NAMA_TOPIK } from '@/lib/format';
 
 export const metadata: Metadata = {
   title: 'Kursus',
@@ -17,7 +17,7 @@ export default async function HalamanKursus() {
 
   return (
     <>
-      <Masthead />
+      <Masthead aktif="belajar" />
 
       <main id="isi" className="halaman utama">
         <div className="dua-kolom">
@@ -70,7 +70,7 @@ export default async function HalamanKursus() {
                   </span>
                 </div>
                 <div className="isi">
-                  <Link href={`/kursus/${k.slug}`} className="judul">
+                  <Link href={`/belajar/${k.slug}`} className="judul">
                     {k.judul}
                   </Link>
                   {k.deck && (
@@ -87,7 +87,7 @@ export default async function HalamanKursus() {
                     </p>
                   )}
                   <span className="meta" style={{ display: 'block', marginTop: 12 }}>
-                    Jalur {NAMA_JALUR[k.jalur]}
+                    Topik {NAMA_TOPIK[k.topik]}
                   </span>
                 </div>
               </article>

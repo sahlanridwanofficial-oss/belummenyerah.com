@@ -3,7 +3,7 @@
 import { revalidatePath } from 'next/cache';
 import { klienServer } from '@/lib/supabase/server';
 import { buatSlug } from '@/lib/format';
-import type { Jalur, StatusTulisan, Tingkat } from '@/lib/types';
+import type { Topik, StatusTulisan, Tingkat } from '@/lib/types';
 
 export type Hasil = { ok: boolean; pesan: string; id?: string };
 
@@ -16,9 +16,9 @@ async function redaksi() {
 }
 
 function segarkan(slug?: string) {
-  revalidatePath('/kursus');
+  revalidatePath('/belajar');
   revalidatePath('/admin/kursus');
-  if (slug) revalidatePath(`/kursus/${slug}`, 'layout');
+  if (slug) revalidatePath(`/belajar/${slug}`, 'layout');
 }
 
 /* ---------- kursus ---------- */
@@ -30,7 +30,7 @@ export type DataKursus = {
   deck: string;
   ringkasan: string;
   untuk_siapa: string;
-  jalur: Jalur;
+  topik: Topik;
   tingkat: Tingkat;
   status: StatusTulisan;
   penulis: string;
@@ -54,7 +54,7 @@ export async function simpanKursus(form: DataKursus): Promise<Hasil> {
     deck: form.deck.trim(),
     ringkasan: form.ringkasan,
     untuk_siapa: form.untuk_siapa,
-    jalur: form.jalur,
+    topik: form.topik,
     tingkat: form.tingkat,
     status: form.status,
     penulis: form.penulis.trim() || 'Redaksi',

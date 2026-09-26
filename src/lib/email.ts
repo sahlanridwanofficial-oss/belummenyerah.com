@@ -60,11 +60,11 @@ Kamu menerima email ini karena berlangganan di ${situs.replace(/^https?:\/\//, '
 export function emailTulisan(tulisan: Tulisan, token: string) {
   const situs = alamatSitus();
   const tautanBerhenti = `${situs}/berhenti?token=${token}`;
-  const tautanBaca = `${situs}/catatan/${tulisan.slug}`;
+  const tautanBaca = `${situs}/baca/${tulisan.slug}`;
 
   const kepala = `
 <p style="margin:0 0 14px;font-family:Helvetica,Arial,sans-serif;font-size:11px;letter-spacing:0.16em;text-transform:uppercase;color:#9c3b23;">${escapeHtml(
-    penanda(tulisan.format, tulisan.jalur, tulisan.nomor),
+    penanda(tulisan.format, tulisan.topik, tulisan.nomor),
   )}</p>
 <h1 style="margin:0 0 16px;font-family:Georgia,'Times New Roman',serif;font-weight:normal;font-size:32px;line-height:1.15;color:#191714;">${escapeHtml(
     tulisan.judul,

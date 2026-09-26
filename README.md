@@ -12,13 +12,24 @@ Next.js (App Router) + Supabase + Resend, dipasang di Vercel.
 
 | Alamat | Isi |
 | --- | --- |
-| `/` | Beranda: terbitan terbaru, seri Hampir Nyerah, empat jalur |
-| `/bertahan`, `/bangun`, `/uang-pribadi`, `/cerita` | Arsip per jalur |
-| `/catatan/[slug]` | Halaman tulisan |
-| `/arsip` | Semua terbitan |
-| `/berlangganan` | Halaman pendaftaran |
+| `/` | Beranda: tulisan terbaru, seri Cerita, tiga topik, kursus |
+| `/baca` | Semua tulisan, dengan saringan topik |
+| `/baca/[slug]` | Halaman tulisan |
+| `/topik/bertahan`, `/topik/bangun`, `/topik/uang-pribadi` | Tulisan per topik |
+| `/cerita` | Seri wawancara "Hampir Nyerah" |
+| `/belajar` | Katalog kursus |
+| `/belajar/[slug]` | Halaman kursus |
+| `/belajar/[slug]/[pelajaran]` | Halaman pelajaran |
 | `/tentang` | Posisi, nada, dan tiga saringan sebelum terbit |
+| `/berlangganan` | Halaman pendaftaran |
 | `/berhenti?token=…` | Berhenti berlangganan |
+
+Menu utamanya **Baca · Belajar · Tentang · Berlangganan** — dibagi menurut niat
+pembaca, bukan menurut topik. Topik jadi saringan di dalam halaman Baca.
+
+**Topik** ada tiga: Bertahan, Bangun, Uang Pribadi. **Cerita bukan topik**
+melainkan seri; halaman `/cerita` mengumpulkan semua tulisan berformat
+`wawancara`, dan tiap wawancara tetap punya topik sesuai isinya.
 
 **Panel redaksi** (perlu login, tertutup oleh middleware)
 

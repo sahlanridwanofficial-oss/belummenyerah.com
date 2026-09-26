@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { klienServer, supabaseTerpasang } from '@/lib/supabase/server';
 import BelumTersambung from '@/components/BelumTersambung';
-import { NAMA_JALUR, tanggalPendek } from '@/lib/format';
+import { NAMA_TOPIK, tanggalPendek } from '@/lib/format';
 import { NAMA_TINGKAT } from '@/lib/kursus';
 import type { Kursus } from '@/lib/types';
 
@@ -59,7 +59,7 @@ export default async function DaftarKursusRedaksi() {
           <thead>
             <tr>
               <th style={{ width: '44%' }}>Judul</th>
-              <th>Jalur</th>
+              <th>Topik</th>
               <th>Tingkat</th>
               <th>Pelajaran</th>
               <th>Status</th>
@@ -80,7 +80,7 @@ export default async function DaftarKursusRedaksi() {
                     /kursus/{k.slug}
                   </span>
                 </td>
-                <td style={{ fontSize: 16 }}>{NAMA_JALUR[k.jalur]}</td>
+                <td style={{ fontSize: 16 }}>{NAMA_TOPIK[k.topik]}</td>
                 <td style={{ fontSize: 16 }}>{NAMA_TINGKAT[k.tingkat]}</td>
                 <td style={{ fontSize: 16 }}>
                   {pelajaran.filter((p) => p.kursus_id === k.id).length}

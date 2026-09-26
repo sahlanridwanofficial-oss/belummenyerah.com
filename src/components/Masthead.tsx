@@ -1,8 +1,14 @@
 import Link from 'next/link';
-import { JALUR } from '@/lib/format';
-import type { Jalur } from '@/lib/types';
 
-export default function Masthead({ aktif }: { aktif?: Jalur | 'kursus' }) {
+/** Bagian situs yang sedang dibuka, untuk menandai menu aktif. */
+export type Bagian = 'baca' | 'belajar' | 'tentang';
+
+/**
+ * Menu dibagi menurut niat pembaca, bukan menurut topik:
+ * "Baca" untuk yang mencari jawaban cepat, "Belajar" untuk yang mau
+ * materi berurutan. Topik jadi saringan di dalam halaman Baca.
+ */
+export default function Masthead({ aktif }: { aktif?: Bagian }) {
   return (
     <header className="masthead">
       <div className="halaman masthead-isi">
@@ -10,18 +16,15 @@ export default function Masthead({ aktif }: { aktif?: Jalur | 'kursus' }) {
           belummenyerah
         </Link>
         <nav className="nav" aria-label="Menu utama">
-          <Link href="/kursus" aria-current={aktif === 'kursus' ? 'page' : undefined}>
-            Kursus
+          <Link href="/baca" aria-current={aktif === 'baca' ? 'page' : undefined}>
+            Baca
           </Link>
-          {JALUR.map((j) => (
-            <Link
-              key={j.kode}
-              href={`/${j.kode}`}
-              aria-current={aktif === j.kode ? 'page' : undefined}
-            >
-              {j.nama}
-            </Link>
-          ))}
+          <Link href="/belajar" aria-current={aktif === 'belajar' ? 'page' : undefined}>
+            Belajar
+          </Link>
+          <Link href="/tentang" aria-current={aktif === 'tentang' ? 'page' : undefined}>
+            Tentang
+          </Link>
           <Link href="/berlangganan" className="tombol tombol-kecil">
             Berlangganan
           </Link>

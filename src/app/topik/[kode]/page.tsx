@@ -5,42 +5,41 @@ import Masthead from '@/components/Masthead';
 import Kaki from '@/components/Kaki';
 import FormLangganan from '@/components/FormLangganan';
 import { ambilTerbit } from '@/lib/tulisan';
-import { JALUR, penanda, tanggalPanjang } from '@/lib/format';
-import type { Jalur } from '@/lib/types';
+import { penanda, tanggalPanjang, TOPIK, SERI_CERITA } from '@/lib/format';
 
-type Props = { params: Promise<{ jalur: string }> };
+type Props = { params: Promise<{ kode: string }> };
 
 export function generateStaticParams() {
-  return JALUR.map((j) => ({ jalur: j.kode }));
+  return TOPIK.map((t) => ({ kode: t.kode }));
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { jalur: kode } = await params;
-  const jalur = JALUR.find((j) => j.kode === kode);
-  if (!jalur) return { title: 'Tidak ditemukan' };
-  return { title: jalur.nama, description: jalur.ringkas };
+  const { kode } = await params;
+  const topik = TOPIK.find((t) => t.kode === kode);
+  if (!topik) return { title: 'Tidak ditemukan' };
+  return { title: topik.nama, description: topik.ringkas };
 }
 
-export default async function HalamanJalur({ params }: Props) {
-  const { jalur: kode } = await params;
-  const jalur = JALUR.find((j) => j.kode === kode);
-  if (!jalur) notFound();
+export default async function HalamanTopik({ params }: Props) {
+  const { kode } = await params;
+  const topik = TOPIK.find((t) => t.kode === kode);
+  if (!topik) notFound();
 
-  const daftar = await ambilTerbit(60, jalur.kode as Jalur);
+  const daftar = await ambilTerbit(60, topik.kode);
 
   return (
     <>
-      <Masthead aktif={jalur.kode} />
+      <Masthead aktif="baca" />
 
       <main id="isi" className="halaman utama">
         <div className="dua-kolom">
           <div className="kiri">
-            <span className="kicker">Jalur</span>
+            <span className="kicker">Topik</span>
             <h1 className="judul-raksasa" style={{ marginTop: 18 }}>
-              {jalur.nama}
+              {topik.nama}
             </h1>
             <p className="deck" style={{ marginTop: 20, maxWidth: 620 }}>
-              {jalur.ringkas}
+              {topik.ringkas}
             </p>
           </div>
           <div className="kanan">
@@ -48,20 +47,41 @@ export default async function HalamanJalur({ params }: Props) {
               Pertanyaan yang dijawab di sini
             </span>
             <p style={{ fontSize: 19, lineHeight: 1.55, fontStyle: 'italic' }}>
-              “{jalur.pertanyaan}”
+              “{topik.pertanyaan}”
             </p>
           </div>
         </div>
 
-        <div style={{ marginTop: 56 }}>
+        <nav className="saringan" aria-label="Saringan topik">
+          <Link href="/baca" className="saringan-tautan">
+            Semua
+          </Link>
+          {TOPIK.map((t) => (
+            <Link
+              key={t.kode}
+              href={`/topik/${t.kode}`}
+              className={
+                t.kode === topik.kode ? 'saringan-tautan saringan-aktif' : 'saringan-tautan'
+              }
+              aria-current={t.kode === topik.kode ? 'page' : undefined}
+            >
+              {t.nama}
+            </Link>
+          ))}
+          <Link href="/cerita" className="saringan-tautan">
+            {SERI_CERITA.nama}
+          </Link>
+        </nav>
+
+        <div style={{ marginTop: 44 }}>
           {daftar.length === 0 ? (
             <div className="kosong susun susun-16">
               <span className="label">Masih kosong</span>
               <p className="judul-seksi" style={{ fontSize: 30 }}>
-                Belum ada tulisan di jalur ini.
+                Belum ada tulisan di topik ini.
               </p>
               <div style={{ maxWidth: 460, marginTop: 8 }}>
-                <FormLangganan sumber={`jalur:${jalur.kode}`} tombol="Kabari saya" />
+                <FormLangganan sumber={`topik:${topik.kode}`} tombol="Kabari saya" />
               </div>
             </div>
           ) : (
@@ -71,7 +91,7 @@ export default async function HalamanJalur({ params }: Props) {
                   <span className="meta">{tanggalPanjang(t.terbit_pada)}</span>
                 </div>
                 <div className="isi">
-                  <Link href={`/catatan/${t.slug}`} className="judul">
+                  <Link href={`/baca/${t.slug}`} className="judul">
                     {t.judul}
                   </Link>
                   {t.deck && (
@@ -88,7 +108,7 @@ export default async function HalamanJalur({ params }: Props) {
                     </p>
                   )}
                   <span className="meta" style={{ display: 'block', marginTop: 12 }}>
-                    {penanda(t.format, t.jalur, t.nomor)} · {t.menit_baca} menit
+                    {penanda(t.format, t.topik, t.nomor)} · {t.menit_baca} menit
                   </span>
                 </div>
               </article>

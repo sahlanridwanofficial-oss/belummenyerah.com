@@ -7,7 +7,7 @@ import GarisBelum from '@/components/GarisBelum';
 import FormLangganan from '@/components/FormLangganan';
 import { ambilSatu, ambilTetangga } from '@/lib/tulisan';
 import { keHtml, keTeks } from '@/lib/markdown';
-import { JALUR, penanda, tanggalPanjang } from '@/lib/format';
+import { TOPIK, penanda, tanggalPanjang } from '@/lib/format';
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -29,13 +29,13 @@ export default async function HalamanTulisan({ params }: Props) {
   const tulisan = await ambilSatu(slug);
   if (!tulisan) notFound();
 
-  const jalur = JALUR.find((j) => j.kode === tulisan.jalur);
+  const topik = TOPIK.find((j) => j.kode === tulisan.topik);
   const berikutnya = await ambilTetangga(tulisan);
   const html = keHtml(tulisan.isi);
 
   return (
     <>
-      <Masthead aktif={tulisan.jalur} />
+      <Masthead aktif="baca" />
 
       <main id="isi" className="halaman">
         {tulisan.status === 'draf' && (
@@ -59,7 +59,7 @@ export default async function HalamanTulisan({ params }: Props) {
           <div className="pinggir" aria-hidden="true" />
 
           <div className="badan">
-            <span className="kicker">{penanda(tulisan.format, tulisan.jalur, tulisan.nomor)}</span>
+            <span className="kicker">{penanda(tulisan.format, tulisan.topik, tulisan.nomor)}</span>
             <h1 className="judul-artikel" style={{ marginTop: 18 }}>
               {tulisan.judul}
             </h1>
@@ -90,18 +90,18 @@ export default async function HalamanTulisan({ params }: Props) {
           </div>
 
           <aside className="samping">
-            {jalur && (
+            {topik && (
               <div className="susun susun-8">
-                <span className="label">Jalur</span>
+                <span className="label">Topik</span>
                 <Link
-                  href={`/${jalur.kode}`}
-                  className="nama-jalur"
+                  href={`/${topik.kode}`}
+                  className="nama-topik"
                   style={{ fontSize: 26, paddingTop: 4 }}
                 >
-                  {jalur.nama}
+                  {topik.nama}
                 </Link>
                 <span style={{ fontSize: 15, lineHeight: 1.55, color: 'var(--meta)' }}>
-                  {jalur.ringkas}
+                  {topik.ringkas}
                 </span>
               </div>
             )}
@@ -118,21 +118,21 @@ export default async function HalamanTulisan({ params }: Props) {
               <>
                 <span className="label">Tulisan sebelumnya</span>
                 <Link
-                  href={`/catatan/${berikutnya.slug}`}
+                  href={`/baca/${berikutnya.slug}`}
                   className="judul-seksi"
                   style={{ display: 'block', marginTop: 12, fontSize: 36 }}
                 >
                   {berikutnya.judul}
                 </Link>
                 <span className="meta" style={{ display: 'block', marginTop: 14 }}>
-                  {penanda(berikutnya.format, berikutnya.jalur, berikutnya.nomor)}
+                  {penanda(berikutnya.format, berikutnya.topik, berikutnya.nomor)}
                 </span>
               </>
             ) : (
               <>
                 <span className="label">Arsip</span>
                 <Link
-                  href="/arsip"
+                  href="/baca"
                   className="judul-seksi"
                   style={{ display: 'block', marginTop: 12, fontSize: 36 }}
                 >

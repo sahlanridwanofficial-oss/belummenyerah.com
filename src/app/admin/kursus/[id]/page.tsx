@@ -57,7 +57,7 @@ export default async function SuntingKursus({ params }: Props) {
           </Link>
           {kursus.status === 'terbit' && (
             <Link
-              href={`/kursus/${kursus.slug}`}
+              href={`/belajar/${kursus.slug}`}
               target="_blank"
               rel="noreferrer"
               className="tombol tombol-garis tombol-kecil"

@@ -267,23 +267,23 @@ button, input, textarea, select { font: inherit; color: inherit; }
   .blok-arang .dua-kolom > .kanan { border-top-color: var(--arang-garis); }
 }
 
-.kisi-jalur {
+.kisi-topik {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 40px;
   border-top: 1px solid var(--tinta);
   padding-top: 22px;
 }
-.kisi-jalur > div { padding-right: 32px; border-right: 1px solid var(--garis); }
-.kisi-jalur > div:last-child { padding-right: 0; border-right: 0; }
+.kisi-topik > div { padding-right: 32px; border-right: 1px solid var(--garis); }
+.kisi-topik > div:last-child { padding-right: 0; border-right: 0; }
 
 @media (max-width: 1000px) {
-  .kisi-jalur { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 32px; }
-  .kisi-jalur > div:nth-child(2n) { padding-right: 0; border-right: 0; }
+  .kisi-topik { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 32px; }
+  .kisi-topik > div:nth-child(2n) { padding-right: 0; border-right: 0; }
 }
 @media (max-width: 620px) {
-  .kisi-jalur { grid-template-columns: minmax(0, 1fr); }
-  .kisi-jalur > div { padding-right: 0; border-right: 0; }
+  .kisi-topik { grid-template-columns: minmax(0, 1fr); }
+  .kisi-topik > div { padding-right: 0; border-right: 0; }
 }
 
 .nama-jalur {
@@ -714,3 +714,35 @@ button, input, textarea, select { font: inherit; color: inherit; }
   .pelajaran-navigasi { flex-direction: column; }
   .nav-kanan { text-align: left; align-items: flex-start; }
 }
+
+/* ---------- saringan topik ---------- */
+
+.saringan {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 40px;
+  padding-top: 22px;
+  border-top: 1px solid var(--garis);
+}
+
+.saringan-tautan {
+  font-family: var(--sans);
+  font-size: 14px;
+  font-weight: 500;
+  padding: 9px 16px;
+  border: 1px solid var(--garis);
+  color: var(--tinta-lembut);
+}
+.saringan-tautan:hover { border-color: var(--tinta); color: var(--tinta); }
+
+.saringan-aktif {
+  background: var(--tinta);
+  border-color: var(--tinta);
+  color: var(--kertas);
+}
+.saringan-aktif:hover { color: var(--kertas); }
+
+.kisi-tiga { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+@media (max-width: 1000px) { .kisi-tiga { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 620px) { .kisi-tiga { grid-template-columns: minmax(0, 1fr); } }

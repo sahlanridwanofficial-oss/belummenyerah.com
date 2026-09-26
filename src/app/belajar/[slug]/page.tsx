@@ -8,7 +8,7 @@ import FormLangganan from '@/components/FormLangganan';
 import KemajuanKursus from '@/components/KemajuanKursus';
 import { ambilKursus, hitungMenit, ratakan, NAMA_TINGKAT } from '@/lib/kursus';
 import { keHtml } from '@/lib/markdown';
-import { NAMA_JALUR } from '@/lib/format';
+import { NAMA_TOPIK } from '@/lib/format';
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -34,7 +34,7 @@ export default async function HalamanKursusTunggal({ params }: Props) {
 
   return (
     <>
-      <Masthead />
+      <Masthead aktif="belajar" />
 
       <main id="isi" className="halaman utama">
         {kursus.status === 'draf' && (
@@ -44,7 +44,7 @@ export default async function HalamanKursusTunggal({ params }: Props) {
         <div className="dua-kolom">
           <div className="kiri">
             <span className="kicker">
-              Kursus · {NAMA_JALUR[kursus.jalur]} · {NAMA_TINGKAT[kursus.tingkat]}
+              Kursus · {NAMA_TOPIK[kursus.topik]} · {NAMA_TINGKAT[kursus.tingkat]}
             </span>
             <h1 className="judul-raksasa" style={{ marginTop: 18 }}>
               {kursus.judul}
@@ -73,7 +73,7 @@ export default async function HalamanKursusTunggal({ params }: Props) {
 
             {pertama && (
               <div style={{ marginTop: 30 }}>
-                <Link href={`/kursus/${kursus.slug}/${pertama.slug}`} className="tombol">
+                <Link href={`/belajar/${kursus.slug}/${pertama.slug}`} className="tombol">
                   Mulai dari pelajaran pertama
                 </Link>
               </div>
@@ -151,7 +151,7 @@ export default async function HalamanKursusTunggal({ params }: Props) {
                   m.pelajaran.map((p) => (
                     <Link
                       key={p.id}
-                      href={`/kursus/${kursus.slug}/${p.slug}`}
+                      href={`/belajar/${kursus.slug}/${p.slug}`}
                       className="baris-pelajaran"
                     >
                       <span className="nama">{p.judul}</span>

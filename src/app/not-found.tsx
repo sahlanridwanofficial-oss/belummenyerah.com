@@ -17,7 +17,7 @@ export default function TidakDitemukan() {
             tempatnya.
           </p>
           <Link
-            href="/arsip"
+            href="/baca"
             className="tombol tombol-garis"
             style={{ marginTop: 32, display: 'inline-block' }}
           >

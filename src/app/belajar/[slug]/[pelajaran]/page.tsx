@@ -38,11 +38,11 @@ export default async function HalamanPelajaran({ params }: Props) {
 
   return (
     <>
-      <Masthead />
+      <Masthead aktif="belajar" />
 
       <main id="isi" className="halaman pelajaran-tata">
         <aside className="pelajaran-samping">
-          <Link href={`/kursus/${kursus.slug}`} className="label" style={{ paddingBottom: 10 }}>
+          <Link href={`/belajar/${kursus.slug}`} className="label" style={{ paddingBottom: 10 }}>
             ← {kursus.judul}
           </Link>
 
@@ -54,7 +54,7 @@ export default async function HalamanPelajaran({ params }: Props) {
               {m.pelajaran.map((p) => (
                 <Link
                   key={p.id}
-                  href={`/kursus/${kursus.slug}/${p.slug}`}
+                  href={`/belajar/${kursus.slug}/${p.slug}`}
                   className="samping-tautan"
                   aria-current={p.slug === ini.slug ? 'page' : undefined}
                 >
@@ -107,7 +107,7 @@ export default async function HalamanPelajaran({ params }: Props) {
             <TandaiSelesai kursusSlug={kursus.slug} pelajaranSlug={ini.slug} />
             <div className="pelajaran-navigasi">
               {sebelumnya ? (
-                <Link href={`/kursus/${kursus.slug}/${sebelumnya.slug}`} className="nav-kotak">
+                <Link href={`/belajar/${kursus.slug}/${sebelumnya.slug}`} className="nav-kotak">
                   <span className="label">Sebelumnya</span>
                   <span className="nav-judul">{sebelumnya.judul}</span>
                 </Link>
@@ -116,14 +116,14 @@ export default async function HalamanPelajaran({ params }: Props) {
               )}
               {berikutnya ? (
                 <Link
-                  href={`/kursus/${kursus.slug}/${berikutnya.slug}`}
+                  href={`/belajar/${kursus.slug}/${berikutnya.slug}`}
                   className="nav-kotak nav-kanan"
                 >
                   <span className="label">Berikutnya</span>
                   <span className="nav-judul">{berikutnya.judul}</span>
                 </Link>
               ) : (
-                <Link href={`/kursus/${kursus.slug}`} className="nav-kotak nav-kanan">
+                <Link href={`/belajar/${kursus.slug}`} className="nav-kotak nav-kanan">
                   <span className="label">Selesai</span>
                   <span className="nav-judul">Kembali ke halaman kursus</span>
                 </Link>

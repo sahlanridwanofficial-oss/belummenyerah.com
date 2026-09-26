@@ -7,7 +7,7 @@ import BelumTersambung from '@/components/BelumTersambung';
 import { ambilTerbit } from '@/lib/tulisan';
 import { ambilKatalogRingkas, NAMA_TINGKAT } from '@/lib/kursus';
 import { supabaseTerpasang } from '@/lib/supabase/server';
-import { JALUR, penanda, tanggalPanjang } from '@/lib/format';
+import { TOPIK, penanda, tanggalPanjang } from '@/lib/format';
 
 export default async function Beranda() {
   const tersambung = supabaseTerpasang();
@@ -17,7 +17,7 @@ export default async function Beranda() {
 
   const utama = semua[0];
   const berikutnya = semua.slice(1, 5);
-  const cerita = semua.find((t) => t.jalur === 'cerita' && t.id !== utama?.id);
+  const cerita = semua.find((t) => t.format === 'wawancara' && t.id !== utama?.id);
 
   return (
     <>
@@ -50,9 +50,9 @@ export default async function Beranda() {
             <section className="halaman utama">
               <div className="dua-kolom">
                 <div className="kiri">
-                  <span className="kicker">{penanda(utama.format, utama.jalur, utama.nomor)}</span>
+                  <span className="kicker">{penanda(utama.format, utama.topik, utama.nomor)}</span>
                   <h1 className="judul-raksasa" style={{ marginTop: 20 }}>
-                    <Link href={`/catatan/${utama.slug}`}>{utama.judul}</Link>
+                    <Link href={`/baca/${utama.slug}`}>{utama.judul}</Link>
                   </h1>
                   {utama.deck && (
                     <p className="deck" style={{ marginTop: 22, maxWidth: 640 }}>
@@ -75,7 +75,7 @@ export default async function Beranda() {
                     </span>
                     <div className="daftar-ringkas">
                       {berikutnya.map((t, i) => (
-                        <Link key={t.id} href={`/catatan/${t.slug}`}>
+                        <Link key={t.id} href={`/baca/${t.slug}`}>
                           <span className="angka">{String(i + 1).padStart(2, '0')}</span>
                           <span>{t.judul}</span>
                         </Link>
@@ -99,7 +99,7 @@ export default async function Beranda() {
                     membuat mereka bertahan.
                   </p>
                   <Link
-                    href={cerita ? `/catatan/${cerita.slug}` : '/cerita'}
+                    href={cerita ? `/baca/${cerita.slug}` : '/cerita'}
                     style={{
                       display: 'inline-block',
                       marginTop: 28,
@@ -134,7 +134,7 @@ export default async function Beranda() {
                   }}
                 >
                   <span className="label">Kursus gratis</span>
-                  <Link href="/kursus" className="label" style={{ color: 'var(--bara)' }}>
+                  <Link href="/belajar" className="label" style={{ color: 'var(--bara)' }}>
                     Lihat semua →
                   </Link>
                 </div>
@@ -149,7 +149,7 @@ export default async function Beranda() {
                       </span>
                     </div>
                     <div className="isi">
-                      <Link href={`/kursus/${k.slug}`} className="judul">
+                      <Link href={`/belajar/${k.slug}`} className="judul">
                         {k.judul}
                       </Link>
                       {k.deck && (
@@ -173,14 +173,14 @@ export default async function Beranda() {
 
             <section className="halaman" style={{ paddingTop: 62 }}>
               <span className="label" style={{ paddingBottom: 22 }}>
-                Empat jalur
+                Tiga topik
               </span>
-              <div className="kisi-jalur">
-                {JALUR.map((j) => {
-                  const isi = semua.filter((t) => t.jalur === j.kode).slice(0, 2);
+              <div className="kisi-topik kisi-tiga">
+                {TOPIK.map((j) => {
+                  const isi = semua.filter((t) => t.topik === j.kode).slice(0, 2);
                   return (
                     <div key={j.kode}>
-                      <Link href={`/${j.kode}`} className="nama-jalur">
+                      <Link href={`/topik/${j.kode}`} className="nama-topik">
                         {j.nama}
                       </Link>
                       <span
@@ -196,13 +196,13 @@ export default async function Beranda() {
                       </span>
                       {isi.length > 0 ? (
                         isi.map((t) => (
-                          <Link key={t.id} href={`/catatan/${t.slug}`} className="tautan-tulisan">
+                          <Link key={t.id} href={`/baca/${t.slug}`} className="tautan-tulisan">
                             {t.judul}
                           </Link>
                         ))
                       ) : (
                         <span className="tautan-tulisan" style={{ color: 'var(--abu)' }}>
-                          Belum ada tulisan di jalur ini.
+                          Belum ada tulisan di topik ini.
                         </span>
                       )}
                     </div>

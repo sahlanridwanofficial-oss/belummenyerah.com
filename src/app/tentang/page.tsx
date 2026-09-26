@@ -3,7 +3,7 @@ import Masthead from '@/components/Masthead';
 import Kaki from '@/components/Kaki';
 import GarisBelum from '@/components/GarisBelum';
 import FormLangganan from '@/components/FormLangganan';
-import { JALUR } from '@/lib/format';
+import { TOPIK } from '@/lib/format';
 
 export const metadata: Metadata = {
   title: 'Tentang',
@@ -19,7 +19,7 @@ const SARINGAN = [
 export default function HalamanTentang() {
   return (
     <>
-      <Masthead />
+      <Masthead aktif="tentang" />
 
       <main id="isi" className="halaman utama">
         <span className="kicker">Tentang</span>
@@ -55,6 +55,13 @@ export default function HalamanTentang() {
               ))}
             </ol>
 
+            <h2>Cerita</h2>
+            <p>
+              Di luar tiga topik itu ada satu seri: <strong>Hampir Nyerah</strong> — wawancara
+              panjang dengan pemilik usaha yang pernah berada di titik mau berhenti. Cerita bukan
+              topik, melainkan bentuk tulisan, jadi tiap wawancara tetap masuk topik sesuai isinya.
+            </p>
+
             <h2>Janji editorial</h2>
             <p>
               Tidak ada artikel berbayar yang disamarkan. Kalau ada sponsor, ditulis di atas — bukan
@@ -64,10 +71,10 @@ export default function HalamanTentang() {
 
           <aside className="samping">
             <span className="label" style={{ paddingBottom: 12 }}>
-              Empat jalur
+              Tiga topik
             </span>
             <div className="susun">
-              {JALUR.map((j) => (
+              {TOPIK.map((j) => (
                 <span
                   key={j.kode}
                   style={{

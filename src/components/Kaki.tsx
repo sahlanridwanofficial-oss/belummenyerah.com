@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import GarisBelum from './GarisBelum';
-import { JALUR } from '@/lib/format';
+import { TOPIK } from '@/lib/format';
 
 export default function Kaki() {
   return (
@@ -16,20 +16,20 @@ export default function Kaki() {
       </div>
 
       <div className="kolom">
-        <span className="label">Jalur</span>
-        {JALUR.map((j) => (
-          <Link key={j.kode} href={`/${j.kode}`}>
-            {j.nama}
-          </Link>
-        ))}
+        <span className="label">Jelajahi</span>
+        <Link href="/baca">Baca</Link>
+        <Link href="/belajar">Belajar</Link>
+        <Link href="/cerita">Cerita</Link>
+        <Link href="/tentang">Tentang</Link>
       </div>
 
       <div className="kolom">
-        <span className="label">Tentang</span>
-        <Link href="/kursus">Kursus</Link>
-        <Link href="/tentang">Siapa kami</Link>
-        <Link href="/arsip">Arsip lengkap</Link>
-        <Link href="/berlangganan">Berlangganan</Link>
+        <span className="label">Topik</span>
+        {TOPIK.map((t) => (
+          <Link key={t.kode} href={`/topik/${t.kode}`}>
+            {t.nama}
+          </Link>
+        ))}
       </div>
 
       <div className="kolom">

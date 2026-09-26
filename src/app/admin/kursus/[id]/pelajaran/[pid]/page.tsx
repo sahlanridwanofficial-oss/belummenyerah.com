@@ -47,7 +47,7 @@ export default async function SuntingPelajaran({ params }: Props) {
           </Link>
           {kursus.status === 'terbit' && (
             <Link
-              href={`/kursus/${kursus.slug}/${pelajaran.slug}`}
+              href={`/belajar/${kursus.slug}/${pelajaran.slug}`}
               target="_blank"
               rel="noreferrer"
               className="tombol tombol-garis tombol-kecil"

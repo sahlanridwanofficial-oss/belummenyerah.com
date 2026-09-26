@@ -3,7 +3,7 @@
 import { revalidatePath } from 'next/cache';
 import { klienServer } from '@/lib/supabase/server';
 import { buatSlug, hitungMenitBaca } from '@/lib/format';
-import type { FormatTulisan, Jalur, StatusTulisan } from '@/lib/types';
+import type { FormatTulisan, Topik, StatusTulisan } from '@/lib/types';
 
 export type DataTulisan = {
   id?: string;
@@ -11,7 +11,7 @@ export type DataTulisan = {
   slug: string;
   deck: string;
   isi: string;
-  jalur: Jalur;
+  topik: Topik;
   format: FormatTulisan;
   nomor: string;
   penulis: string;
@@ -43,7 +43,7 @@ export async function simpanTulisan(form: DataTulisan): Promise<Hasil> {
     slug,
     deck: form.deck.trim(),
     isi: form.isi,
-    jalur: form.jalur,
+    topik: form.topik,
     format: form.format,
     nomor,
     penulis: form.penulis.trim() || 'Redaksi',
@@ -86,10 +86,10 @@ export async function simpanTulisan(form: DataTulisan): Promise<Hasil> {
   const hasil = data as { id: string; slug: string };
 
   revalidatePath('/');
-  revalidatePath('/arsip');
+  revalidatePath('/baca');
   revalidatePath('/admin');
-  revalidatePath(`/${form.jalur}`);
-  revalidatePath(`/catatan/${hasil.slug}`);
+  revalidatePath(`/topik/${form.topik}`);
+  revalidatePath(`/baca/${hasil.slug}`);
 
   return { ok: true, pesan: 'Tersimpan.', id: hasil.id, slug: hasil.slug };
 }
@@ -106,7 +106,7 @@ export async function hapusTulisan(id: string): Promise<Hasil> {
   if (error) return { ok: false, pesan: `Gagal menghapus: ${error.message}` };
 
   revalidatePath('/');
-  revalidatePath('/arsip');
+  revalidatePath('/baca');
   revalidatePath('/admin');
 
   return { ok: true, pesan: 'Terhapus.' };
