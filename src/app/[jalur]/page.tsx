@@ -61,7 +61,7 @@ export default async function HalamanJalur({ params }: Props) {
                 Belum ada tulisan di jalur ini.
               </p>
               <div style={{ maxWidth: 460, marginTop: 8 }}>
-                <FormLangganan sumber={`jalur:${jalur.kode}`} tombol="Beri tahu saya" />
+                <FormLangganan sumber={`jalur:${jalur.kode}`} tombol="Kabari saya" />
               </div>
             </div>
           ) : (

@@ -63,6 +63,15 @@ Vercel → Settings → Environment Variables untuk produksi.
 Tanpa Supabase, situs tetap berdiri dan menampilkan keterangan "belum tersambung".
 Tanpa Resend, pendaftaran tetap jalan — hanya pengiriman emailnya yang mati.
 
+
+> **Penting soal `NEXT_PUBLIC_*`**
+> Next.js menanam variabel berawalan `NEXT_PUBLIC_` ke dalam kode saat *build*,
+> bukan saat aplikasi berjalan. Jadi kalau nilainya ditambah atau diubah di
+> Vercel, situsnya **harus di-deploy ulang** — kalau tidak, halaman akan tetap
+> menampilkan "Belum tersambung" meski variabelnya sudah terisi.
+> `RESEND_API_KEY` dan `EMAIL_PENGIRIM` tidak berawalan `NEXT_PUBLIC_`, jadi
+> keduanya dibaca saat berjalan dan tidak butuh build ulang.
+
 ### 4. Jalankan
 
 ```bash
