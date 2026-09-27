@@ -42,15 +42,15 @@ export default function FormLangganan({
 
       if (jawab.ok) {
         setKeadaan('berhasil');
-        setPesan(pesanBerhasil ?? data.pesan ?? 'Sudah masuk. Sampai jumpa Senin pagi.');
+        setPesan(pesanBerhasil ?? data.pesan ?? 'Emailmu sudah terdaftar. Sampai jumpa Senin pagi.');
         setEmail('');
       } else {
         setKeadaan('gagal');
-        setPesan(data.pesan ?? 'Pendaftarannya gagal. Coba lagi sebentar.');
+        setPesan(data.pesan ?? 'Pendaftaran gagal. Coba lagi sebentar.');
       }
     } catch {
       setKeadaan('gagal');
-      setPesan('Koneksinya bermasalah. Coba lagi sebentar.');
+      setPesan('Koneksi bermasalah. Periksa jaringanmu, lalu coba lagi.');
     }
   }
 

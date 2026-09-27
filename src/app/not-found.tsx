@@ -13,7 +13,7 @@ export default function TidakDitemukan() {
             Halaman ini tidak ada.
           </h1>
           <p className="deck" style={{ marginTop: 20 }}>
-            Mungkin tautannya salah ketik, atau tulisannya belum terbit. Semua tulisan masih ada di halaman blog.
+            Tautannya mungkin salah, atau tulisannya sudah dipindahkan. Semua tulisan yang terbit ada di halaman Blog.
           </p>
           <Link
             href="/blog"

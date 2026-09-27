@@ -11,8 +11,8 @@ export const metadata: Metadata = {
 
 const SARINGAN = [
   'Masih berguna tahun depan? Kalau tidak, tidak kami terbitkan.',
-  'Ada satu angka yang bisa dihitung sendiri oleh pembaca?',
-  'Beranikah kami mengirimkannya ke orang yang usahanya sedang bangkrut?',
+  'Ada satu angka yang bisa langsung dihitung sendiri oleh pembaca?',
+  'Berani kami kirimkan ke orang yang usahanya sedang bangkrut?',
 ];
 
 export default function HalamanTentang() {
@@ -66,7 +66,7 @@ export default function HalamanTentang() {
           <div>
             <p className="judul-seksi">Satu catatan setiap Senin pagi.</p>
             <p style={{ marginTop: 12, fontSize: 17, color: 'var(--tinta-lembut)' }}>
-              Gratis. Berhenti kapan saja.
+              Gratis, tanpa iklan. Berhenti kapan saja.
             </p>
           </div>
           <FormLangganan sumber="tentang" />

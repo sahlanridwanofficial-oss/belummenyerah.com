@@ -10,6 +10,7 @@
   --abu: #7a7264;
   --garis: #e4e0d6;
   --bara: #9c3b23;
+  --gagal: #a1241c;
   --bara-tua: #7a2c18;
   --arang: #1a1815;
   --arang-garis: #3a352e;
@@ -210,15 +211,38 @@ main { flex-grow: 1; }
 .tombol-kecil { font-size: 13px; padding: 10px 16px; }
 
 @media (max-width: 900px) {
-  .nav { gap: 18px; overflow-x: auto; }
-  .nav a { font-size: 13px; white-space: nowrap; }
-  .nav .tombol { display: none; }
+  .masthead-isi { flex-wrap: wrap; gap: 14px 20px; padding-block: 16px; }
+  .nav { gap: 20px; flex-wrap: wrap; }
+  .nav a { font-size: 14px; white-space: nowrap; }
   .wordmark { font-size: 22px; }
+}
+
+@media (max-width: 560px) {
+  .masthead-isi { justify-content: flex-start; }
+  .nav { width: 100%; gap: 18px; justify-content: space-between; }
+  .nav .tombol { width: 100%; order: 1; }
 }
 
 /* ---------- beranda ---------- */
 
 .utama { padding-block: 64px 0; }
+
+.seksi { padding-top: 62px; }
+
+.kepala-seksi {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 20px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--tinta);
+  margin-bottom: 4px;
+}
+.kepala-seksi .tautan-lihat { color: var(--bara); white-space: nowrap; }
+
+@media (max-width: 900px) {
+  .seksi { padding-top: 44px; }
+}
 
 .dua-kolom {
   display: flex;
@@ -411,7 +435,13 @@ main { flex-grow: 1; }
 
 .pesan-kecil { font-family: var(--sans); font-size: 12px; color: var(--meta); }
 .pesan-baik { font-family: var(--sans); font-size: 14px; color: var(--bara); }
-.pesan-buruk { font-family: var(--sans); font-size: 14px; color: var(--bara); }
+.pesan-buruk {
+  font-family: var(--sans);
+  font-size: 14px;
+  color: var(--gagal);
+  border-left: 2px solid var(--gagal);
+  padding-left: 10px;
+}
 
 @media (max-width: 560px) {
   .form-kirim { flex-direction: column; }
@@ -443,8 +473,50 @@ main { flex-grow: 1; }
 
 .kosong {
   border: 1px solid var(--garis);
-  padding: 40px;
+  background: var(--kertas-tua);
+  padding: 36px 40px;
   text-align: left;
+}
+
+@media (max-width: 560px) {
+  .kosong { padding: 26px 22px; }
+}
+
+/* kartu nilai — dipakai di beranda saat arsip masih kosong */
+.kartu-kisi {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1px;
+  background: var(--garis);
+  border: 1px solid var(--garis);
+}
+.kartu {
+  background: var(--kertas);
+  padding: 30px 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.kartu .angka-kartu {
+  font-family: var(--serif-judul);
+  font-size: 30px;
+  line-height: 1;
+  color: var(--bara);
+}
+.kartu .judul-kartu {
+  font-family: var(--serif-judul);
+  font-size: 25px;
+  line-height: 1.18;
+}
+.kartu .isi-kartu {
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--tinta-lembut);
+}
+
+@media (max-width: 900px) {
+  .kartu-kisi { grid-template-columns: minmax(0, 1fr); }
+  .kartu { padding: 24px 22px; }
 }
 
 .susun { display: flex; flex-direction: column; }

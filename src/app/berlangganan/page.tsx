@@ -38,22 +38,22 @@ export default function HalamanBerlangganan() {
                   maxWidth: 560,
                 }}
               >
-                Satu catatan setiap Senin pagi tentang uang usaha — ditulis untuk dibaca sebelum toko
-                buka. Praktis soal angka, jujur soal rasanya.
+                Satu catatan setiap Senin pagi tentang uang usaha, ditulis supaya bisa dibaca
+                sebelum toko buka. Praktis soal angka, jujur soal rasanya.
               </p>
 
               <div style={{ marginTop: 34, maxWidth: 520 }}>
                 <FormLangganan
                   sumber="halaman-berlangganan"
-                  tombol="Kirimi saya catatannya"
-                  catatan="Berhenti kapan saja lewat tautan di bagian bawah setiap email."
+                  tombol="Kirim ke email saya"
+                  catatan="Gratis. Berhenti kapan saja lewat tautan di bawah setiap email."
                 />
               </div>
             </div>
 
             <div className="kanan">
               <span className="label" style={{ paddingBottom: 10 }}>
-                Yang kamu terima
+                Isi langganan
               </span>
               <div className="susun">
                 <span
@@ -64,7 +64,7 @@ export default function HalamanBerlangganan() {
                     borderTop: '1px solid var(--arang-garis)',
                   }}
                 >
-                  Senin — satu catatan panjang
+                  Senin — satu tulisan utama
                 </span>
                 <span
                   style={{
@@ -74,7 +74,7 @@ export default function HalamanBerlangganan() {
                     borderTop: '1px solid var(--arang-garis)',
                   }}
                 >
-                  Kamis — Satu Halaman, Panduan, atau Wawancara
+                  Kamis — panduan singkat atau cerita pemilik usaha
                 </span>
                 <span
                   style={{
@@ -85,7 +85,7 @@ export default function HalamanBerlangganan() {
                     borderBottom: '1px solid var(--arang-garis)',
                   }}
                 >
-                  Tidak ada iklan, tidak ada tautan afiliasi
+                  Tanpa iklan dan tanpa tautan afiliasi
                 </span>
               </div>
             </div>

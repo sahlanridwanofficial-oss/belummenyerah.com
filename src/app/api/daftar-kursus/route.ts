@@ -8,7 +8,7 @@ const POLA_EMAIL = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
 export async function POST(request: Request) {
   if (!supabaseTerpasang()) {
     return NextResponse.json(
-      { pesan: 'Pendaftaran belum aktif. Database-nya belum tersambung.' },
+      { pesan: 'Pendaftaran belum aktif karena database belum tersambung.' },
       { status: 503 },
     );
   }
@@ -21,11 +21,11 @@ export async function POST(request: Request) {
     email = (badan.email ?? '').trim().toLowerCase();
     slug = (badan.slug ?? '').trim();
   } catch {
-    return NextResponse.json({ pesan: 'Data yang dikirim tidak terbaca.' }, { status: 400 });
+    return NextResponse.json({ pesan: 'Data yang dikirim tidak bisa dibaca.' }, { status: 400 });
   }
 
   if (!POLA_EMAIL.test(email) || email.length > 254) {
-    return NextResponse.json({ pesan: 'Sepertinya alamat emailnya salah.' }, { status: 400 });
+    return NextResponse.json({ pesan: 'Alamat emailnya sepertinya belum benar.' }, { status: 400 });
   }
 
   if (!slug) {
@@ -42,7 +42,7 @@ export async function POST(request: Request) {
       {
         pesan: tidakAda
           ? 'Kursus ini belum terbuka untuk pendaftaran.'
-          : 'Pendaftarannya gagal. Coba lagi sebentar.',
+          : 'Pendaftaran gagal. Coba lagi sebentar.',
       },
       { status: tidakAda ? 404 : 500 },
     );
