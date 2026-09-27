@@ -1,6 +1,5 @@
 import Link from 'next/link';
 import GarisBelum from './GarisBelum';
-import { TOPIK } from '@/lib/format';
 
 export default function Kaki() {
   return (
@@ -17,19 +16,15 @@ export default function Kaki() {
 
       <div className="kolom">
         <span className="label">Jelajahi</span>
-        <Link href="/baca">Baca</Link>
+        <Link href="/blog">Blog</Link>
         <Link href="/belajar">Belajar</Link>
-        <Link href="/cerita">Cerita</Link>
         <Link href="/tentang">Tentang</Link>
       </div>
 
       <div className="kolom">
-        <span className="label">Topik</span>
-        {TOPIK.map((t) => (
-          <Link key={t.kode} href={`/topik/${t.kode}`}>
-            {t.nama}
-          </Link>
-        ))}
+        <span className="label">Berlangganan</span>
+        <Link href="/berlangganan">Daftar email</Link>
+        <span className="keterangan">Satu catatan setiap Senin pagi.</span>
       </div>
 
       <div className="kolom">

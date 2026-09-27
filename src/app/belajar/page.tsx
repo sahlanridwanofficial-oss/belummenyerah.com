@@ -4,7 +4,6 @@ import Masthead from '@/components/Masthead';
 import Kaki from '@/components/Kaki';
 import FormLangganan from '@/components/FormLangganan';
 import { ambilKatalogRingkas, NAMA_TINGKAT } from '@/lib/kursus';
-import { NAMA_TOPIK } from '@/lib/format';
 
 export const metadata: Metadata = {
   title: 'Kursus',
@@ -86,9 +85,6 @@ export default async function HalamanKursus() {
                       {k.deck}
                     </p>
                   )}
-                  <span className="meta" style={{ display: 'block', marginTop: 12 }}>
-                    Topik {NAMA_TOPIK[k.topik]}
-                  </span>
                 </div>
               </article>
             ))

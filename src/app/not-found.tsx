@@ -13,15 +13,14 @@ export default function TidakDitemukan() {
             Halaman ini tidak ada.
           </h1>
           <p className="deck" style={{ marginTop: 20 }}>
-            Mungkin tautannya salah ketik, atau tulisannya belum terbit. Arsipnya masih lengkap di
-            tempatnya.
+            Mungkin tautannya salah ketik, atau tulisannya belum terbit. Semua tulisan masih ada di halaman blog.
           </p>
           <Link
-            href="/baca"
+            href="/blog"
             className="tombol tombol-garis"
             style={{ marginTop: 32, display: 'inline-block' }}
           >
-            Lihat arsip
+            Lihat semua tulisan
           </Link>
         </div>
       </main>

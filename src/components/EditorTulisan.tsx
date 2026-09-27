@@ -3,7 +3,7 @@
 import { useMemo, useState, useTransition } from 'react';
 import { useRouter } from 'next/navigation';
 import { marked } from 'marked';
-import { buatSlug, hitungMenitBaca, TOPIK, NAMA_FORMAT } from '@/lib/format';
+import { buatSlug, hitungMenitBaca, NAMA_FORMAT } from '@/lib/format';
 import { hapusTulisan, simpanTulisan, type DataTulisan } from '@/app/admin/aksi';
 import type { FormatTulisan, StatusTulisan, Tulisan } from '@/lib/types';
 
@@ -27,7 +27,6 @@ export default function EditorTulisan({ awal }: { awal?: Tulisan }) {
   const [slug, setSlug] = useState(awal?.slug ?? '');
   const [deck, setDeck] = useState(awal?.deck ?? '');
   const [isi, setIsi] = useState(awal?.isi ?? '');
-  const [topik, setTopik] = useState(awal?.topik ?? 'bertahan');
   const [format, setFormat] = useState<FormatTulisan>(awal?.format ?? 'catatan');
   const [nomor, setNomor] = useState(awal?.nomor ? String(awal.nomor) : '');
   const [penulis, setPenulis] = useState(awal?.penulis ?? 'Redaksi');
@@ -56,7 +55,6 @@ export default function EditorTulisan({ awal }: { awal?: Tulisan }) {
       slug: slugDipakai,
       deck,
       isi,
-      topik,
       format,
       nomor,
       penulis,
@@ -145,21 +143,6 @@ export default function EditorTulisan({ awal }: { awal?: Tulisan }) {
       </div>
 
       <div className="form-baris">
-        <div className="form-isian">
-          <label htmlFor="topik">Topik</label>
-          <select
-            id="topik"
-            className="isian"
-            value={topik}
-            onChange={(e) => setTopik(e.target.value as typeof topik)}
-          >
-            {TOPIK.map((j) => (
-              <option key={j.kode} value={j.kode}>
-                {j.nama}
-              </option>
-            ))}
-          </select>
-        </div>
         <div className="form-isian">
           <label htmlFor="format">Format</label>
           <select

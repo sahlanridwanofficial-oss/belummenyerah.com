@@ -1,24 +1,23 @@
 import { klienServer, supabaseTerpasang } from './supabase/server';
-import type { Topik, Tulisan } from './types';
+import type { Tulisan } from './types';
 
 const RINGKAS =
-  'id, slug, judul, deck, topik, format, nomor, penulis, status, menit_baca, terbit_pada, dibuat_pada, diubah_pada';
+  'id, slug, judul, deck, format, nomor, penulis, status, menit_baca, terbit_pada, dibuat_pada, diubah_pada';
 
 export type TulisanRingkas = Omit<Tulisan, 'isi'>;
 
 /** Tulisan terbit, terbaru dulu. */
-export async function ambilTerbit(batas = 20, topik?: Topik): Promise<TulisanRingkas[]> {
+export async function ambilTerbit(batas = 20): Promise<TulisanRingkas[]> {
   if (!supabaseTerpasang()) return [];
 
   const supabase = await klienServer();
-  let kueri = supabase
+  const kueri = supabase
     .from('tulisan')
     .select(RINGKAS)
     .eq('status', 'terbit')
     .order('terbit_pada', { ascending: false, nullsFirst: false })
     .limit(batas);
 
-  if (topik) kueri = kueri.eq('topik', topik);
 
   const { data, error } = await kueri;
   if (error) {
@@ -57,22 +56,3 @@ export async function ambilTetangga(sekarang: TulisanRingkas): Promise<TulisanRi
   return ((data ?? [])[0] as unknown as TulisanRingkas) ?? null;
 }
 
-/** Seri Cerita: semua wawancara, terbaru dulu. */
-export async function ambilWawancara(batas = 50): Promise<TulisanRingkas[]> {
-  if (!supabaseTerpasang()) return [];
-
-  const supabase = await klienServer();
-  const { data, error } = await supabase
-    .from('tulisan')
-    .select(RINGKAS)
-    .eq('status', 'terbit')
-    .eq('format', 'wawancara')
-    .order('terbit_pada', { ascending: false, nullsFirst: false })
-    .limit(batas);
-
-  if (error) {
-    console.error('[tulisan] gagal mengambil seri cerita:', error.message);
-    return [];
-  }
-  return (data ?? []) as unknown as TulisanRingkas[];
-}

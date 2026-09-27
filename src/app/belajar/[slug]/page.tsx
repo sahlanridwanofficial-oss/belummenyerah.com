@@ -8,7 +8,6 @@ import FormLangganan from '@/components/FormLangganan';
 import KemajuanKursus from '@/components/KemajuanKursus';
 import { ambilKursus, hitungMenit, ratakan, NAMA_TINGKAT } from '@/lib/kursus';
 import { keHtml } from '@/lib/markdown';
-import { NAMA_TOPIK } from '@/lib/format';
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -44,7 +43,7 @@ export default async function HalamanKursusTunggal({ params }: Props) {
         <div className="dua-kolom">
           <div className="kiri">
             <span className="kicker">
-              Kursus · {NAMA_TOPIK[kursus.topik]} · {NAMA_TINGKAT[kursus.tingkat]}
+              Kursus · {NAMA_TINGKAT[kursus.tingkat]}
             </span>
             <h1 className="judul-raksasa" style={{ marginTop: 18 }}>
               {kursus.judul}

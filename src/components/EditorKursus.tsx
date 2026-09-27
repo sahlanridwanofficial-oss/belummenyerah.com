@@ -2,7 +2,7 @@
 
 import { useMemo, useState, useTransition } from 'react';
 import { useRouter } from 'next/navigation';
-import { buatSlug, TOPIK } from '@/lib/format';
+import { buatSlug } from '@/lib/format';
 import { NAMA_TINGKAT } from '@/lib/kursus-umum';
 import { hapusKursus, simpanKursus, type DataKursus } from '@/app/admin/aksi-kursus';
 import type { Kursus, StatusTulisan, Tingkat } from '@/lib/types';
@@ -16,7 +16,6 @@ export default function EditorKursus({ awal }: { awal?: Kursus }) {
   const [deck, setDeck] = useState(awal?.deck ?? '');
   const [ringkasan, setRingkasan] = useState(awal?.ringkasan ?? '');
   const [untukSiapa, setUntukSiapa] = useState(awal?.untuk_siapa ?? '');
-  const [topik, setTopik] = useState(awal?.topik ?? 'bertahan');
   const [tingkat, setTingkat] = useState<Tingkat>(awal?.tingkat ?? 'pemula');
   const [status, setStatus] = useState<StatusTulisan>(awal?.status ?? 'draf');
   const [penulis, setPenulis] = useState(awal?.penulis ?? 'Redaksi');
@@ -37,7 +36,6 @@ export default function EditorKursus({ awal }: { awal?: Kursus }) {
       deck,
       ringkasan,
       untuk_siapa: untukSiapa,
-      topik,
       tingkat,
       status: statusAkhir,
       penulis,
@@ -111,21 +109,6 @@ export default function EditorKursus({ awal }: { awal?: Kursus }) {
       </div>
 
       <div className="form-baris">
-        <div className="form-isian">
-          <label htmlFor="topik">Topik</label>
-          <select
-            id="topik"
-            className="isian"
-            value={topik}
-            onChange={(e) => setTopik(e.target.value as typeof topik)}
-          >
-            {TOPIK.map((j) => (
-              <option key={j.kode} value={j.kode}>
-                {j.nama}
-              </option>
-            ))}
-          </select>
-        </div>
         <div className="form-isian">
           <label htmlFor="tingkat">Tingkat</label>
           <select

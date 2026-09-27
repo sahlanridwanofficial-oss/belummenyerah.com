@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { klienServer, supabaseTerpasang } from '@/lib/supabase/server';
 import BelumTersambung from '@/components/BelumTersambung';
-import { NAMA_FORMAT, NAMA_TOPIK, tanggalPendek } from '@/lib/format';
+import { NAMA_FORMAT, tanggalPendek } from '@/lib/format';
 import type { Tulisan } from '@/lib/types';
 
 export default async function DaftarTulisan() {
@@ -16,7 +16,7 @@ export default async function DaftarTulisan() {
   const supabase = await klienServer();
   const { data } = await supabase
     .from('tulisan')
-    .select('id, slug, judul, topik, format, nomor, status, menit_baca, terbit_pada, diubah_pada')
+    .select('id, slug, judul, format, nomor, status, menit_baca, terbit_pada, diubah_pada')
     .order('diubah_pada', { ascending: false })
     .limit(200);
 
@@ -60,7 +60,6 @@ export default async function DaftarTulisan() {
           <thead>
             <tr>
               <th style={{ width: '46%' }}>Judul</th>
-              <th>Topik</th>
               <th>Format</th>
               <th>Status</th>
               <th>Terbit</th>
@@ -78,10 +77,9 @@ export default async function DaftarTulisan() {
                     className="pesan-kecil"
                     style={{ display: 'block', marginTop: 4, fontFamily: 'var(--sans)' }}
                   >
-                    /catatan/{t.slug}
+                    /blog/{t.slug}
                   </span>
                 </td>
-                <td style={{ fontSize: 16 }}>{NAMA_TOPIK[t.topik]}</td>
                 <td style={{ fontSize: 16 }}>
                   {NAMA_FORMAT[t.format]}
                   {t.nomor ? ` №${String(t.nomor).padStart(3, '0')}` : ''}

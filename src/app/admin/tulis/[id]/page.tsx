@@ -41,7 +41,7 @@ export default async function SuntingTulisan({ params }: Props) {
         </div>
         {tulisan.status === 'terbit' && (
           <Link
-            href={`/baca/${tulisan.slug}`}
+            href={`/blog/${tulisan.slug}`}
             target="_blank"
             rel="noreferrer"
             className="tombol tombol-garis tombol-kecil"

@@ -1,13 +1,7 @@
 import Link from 'next/link';
 
-/** Bagian situs yang sedang dibuka, untuk menandai menu aktif. */
-export type Bagian = 'baca' | 'belajar' | 'tentang';
+export type Bagian = 'blog' | 'belajar' | 'tentang';
 
-/**
- * Menu dibagi menurut niat pembaca, bukan menurut topik:
- * "Baca" untuk yang mencari jawaban cepat, "Belajar" untuk yang mau
- * materi berurutan. Topik jadi saringan di dalam halaman Baca.
- */
 export default function Masthead({ aktif }: { aktif?: Bagian }) {
   return (
     <header className="masthead">
@@ -16,8 +10,8 @@ export default function Masthead({ aktif }: { aktif?: Bagian }) {
           belummenyerah
         </Link>
         <nav className="nav" aria-label="Menu utama">
-          <Link href="/baca" aria-current={aktif === 'baca' ? 'page' : undefined}>
-            Baca
+          <Link href="/blog" aria-current={aktif === 'blog' ? 'page' : undefined}>
+            Blog
           </Link>
           <Link href="/belajar" aria-current={aktif === 'belajar' ? 'page' : undefined}>
             Belajar

@@ -1,42 +1,6 @@
-import type { FormatTulisan, Topik } from './types';
+import type { FormatTulisan } from './types';
 
-export const TOPIK: { kode: Topik; nama: string; ringkas: string; pertanyaan: string }[] = [
-  {
-    kode: 'bertahan',
-    nama: 'Bertahan',
-    ringkas: 'Kas, utang, dan bulan-bulan sepi.',
-    pertanyaan: 'Uangku habis sebelum akhir bulan. Mana yang harus kupotong lebih dulu?',
-  },
-  {
-    kode: 'bangun',
-    nama: 'Bangun',
-    ringkas: 'Harga, margin, dan cara kerja.',
-    pertanyaan: 'Aku sibuk terus tapi untungnya tipis. Harganya yang salah atau caranya?',
-  },
-  {
-    kode: 'uang-pribadi',
-    nama: 'Uang Pribadi',
-    ringkas: 'Dompet pemilik, bukan dompet usaha.',
-    pertanyaan: 'Berapa yang boleh kuambil untuk diriku sendiri bulan ini?',
-  },
-];
 
-export const NAMA_TOPIK: Record<Topik, string> = {
-  bertahan: 'Bertahan',
-  bangun: 'Bangun',
-  'uang-pribadi': 'Uang Pribadi',
-};
-
-/**
- * Cerita bukan topik, melainkan seri: wawancara panjang dengan pemilik
- * usaha yang pernah hampir berhenti. Tiap wawancara tetap punya topik
- * sesuai isinya, dan dikumpulkan di /cerita lewat formatnya.
- */
-export const SERI_CERITA = {
-  nama: 'Cerita',
-  judul: 'Hampir Nyerah',
-  ringkas: 'Wawancara dengan mereka yang pernah hampir berhenti.',
-} as const;
 
 export const NAMA_FORMAT: Record<FormatTulisan, string> = {
   catatan: 'Catatan',
@@ -82,9 +46,8 @@ export function buatSlug(judul: string): string {
     .slice(0, 80);
 }
 
-export function penanda(format: FormatTulisan, topik: Topik, nomor: number | null): string {
-  const bagian = [NAMA_TOPIK[topik]];
-  if (nomor) bagian.push(`${NAMA_FORMAT[format]} №${String(nomor).padStart(3, '0')}`);
-  else bagian.push(NAMA_FORMAT[format]);
-  return bagian.join(' · ');
+export function penanda(format: FormatTulisan, nomor: number | null): string {
+  return nomor
+    ? `${NAMA_FORMAT[format]} №${String(nomor).padStart(3, '0')}`
+    : NAMA_FORMAT[format];
 }

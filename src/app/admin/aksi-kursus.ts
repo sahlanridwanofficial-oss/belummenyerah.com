@@ -3,7 +3,7 @@
 import { revalidatePath } from 'next/cache';
 import { klienServer } from '@/lib/supabase/server';
 import { buatSlug } from '@/lib/format';
-import type { Topik, StatusTulisan, Tingkat } from '@/lib/types';
+import type { StatusTulisan, Tingkat } from '@/lib/types';
 
 export type Hasil = { ok: boolean; pesan: string; id?: string };
 
@@ -30,7 +30,6 @@ export type DataKursus = {
   deck: string;
   ringkasan: string;
   untuk_siapa: string;
-  topik: Topik;
   tingkat: Tingkat;
   status: StatusTulisan;
   penulis: string;
@@ -54,7 +53,6 @@ export async function simpanKursus(form: DataKursus): Promise<Hasil> {
     deck: form.deck.trim(),
     ringkasan: form.ringkasan,
     untuk_siapa: form.untuk_siapa,
-    topik: form.topik,
     tingkat: form.tingkat,
     status: form.status,
     penulis: form.penulis.trim() || 'Redaksi',

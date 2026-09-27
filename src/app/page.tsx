@@ -7,17 +7,16 @@ import BelumTersambung from '@/components/BelumTersambung';
 import { ambilTerbit } from '@/lib/tulisan';
 import { ambilKatalogRingkas, NAMA_TINGKAT } from '@/lib/kursus';
 import { supabaseTerpasang } from '@/lib/supabase/server';
-import { TOPIK, SERI_CERITA, penanda, tanggalPanjang } from '@/lib/format';
+import { penanda, tanggalPanjang } from '@/lib/format';
 
 export default async function Beranda() {
   const tersambung = supabaseTerpasang();
   const [semua, katalog] = tersambung
-    ? await Promise.all([ambilTerbit(40), ambilKatalogRingkas()])
+    ? await Promise.all([ambilTerbit(12), ambilKatalogRingkas()])
     : [[], []];
 
   const utama = semua[0];
-  const berikutnya = semua.slice(1, 5);
-  const cerita = semua.find((t) => t.format === 'wawancara' && t.id !== utama?.id);
+  const sisanya = semua.slice(1);
 
   return (
     <>
@@ -37,11 +36,9 @@ export default async function Beranda() {
                 <div className="kiri">
                   {utama ? (
                     <>
-                      <span className="kicker">
-                        {penanda(utama.format, utama.topik, utama.nomor)}
-                      </span>
+                      <span className="kicker">{penanda(utama.format, utama.nomor)}</span>
                       <h1 className="judul-raksasa" style={{ marginTop: 20 }}>
-                        <Link href={`/baca/${utama.slug}`}>{utama.judul}</Link>
+                        <Link href={`/blog/${utama.slug}`}>{utama.judul}</Link>
                       </h1>
                       {utama.deck && (
                         <p className="deck" style={{ marginTop: 22, maxWidth: 640 }}>
@@ -78,39 +75,21 @@ export default async function Beranda() {
                 </div>
 
                 <div className="kanan">
-                  {berikutnya.length > 0 ? (
-                    <>
-                      <span className="label" style={{ paddingBottom: 14 }}>
-                        Tulisan sebelumnya
-                      </span>
-                      <div className="daftar-ringkas">
-                        {berikutnya.map((t, i) => (
-                          <Link key={t.id} href={`/baca/${t.slug}`}>
-                            <span className="angka">{String(i + 1).padStart(2, '0')}</span>
-                            <span>{t.judul}</span>
-                          </Link>
-                        ))}
-                      </div>
-                    </>
-                  ) : (
-                    <>
-                      <span className="label" style={{ paddingBottom: 14 }}>
-                        Yang kamu terima
-                      </span>
-                      <div className="susun">
-                        <span className="baris-tipis">Senin — satu catatan panjang</span>
-                        <span className="baris-tipis">
-                          Kamis — Satu Halaman, Panduan, atau Wawancara
-                        </span>
-                        <span
-                          className="baris-tipis"
-                          style={{ borderBottom: '1px solid var(--garis)' }}
-                        >
-                          Tidak ada iklan, tidak ada tautan afiliasi
-                        </span>
-                      </div>
-                    </>
-                  )}
+                  <span className="label" style={{ paddingBottom: 14 }}>
+                    Yang kamu terima
+                  </span>
+                  <div className="susun">
+                    <span className="baris-tipis">Senin — satu catatan panjang</span>
+                    <span className="baris-tipis">
+                      Kamis — Satu Halaman, Panduan, atau Wawancara
+                    </span>
+                    <span
+                      className="baris-tipis"
+                      style={{ borderBottom: '1px solid var(--garis)' }}
+                    >
+                      Tidak ada iklan, tidak ada tautan afiliasi
+                    </span>
+                  </div>
                 </div>
               </div>
 
@@ -119,38 +98,53 @@ export default async function Beranda() {
               </div>
             </section>
 
-            <section className="blok-arang">
-              <div className="halaman dua-kolom">
-                <div className="kiri">
-                  <span className="kicker">Seri · {SERI_CERITA.judul}</span>
-                  <p className="judul-seksi" style={{ marginTop: 22, maxWidth: 700 }}>
-                    Pemilik usaha menceritakan bulan ketika mereka hampir berhenti — dan angka yang
-                    membuat mereka bertahan.
-                  </p>
-                  <Link
-                    href={cerita ? `/baca/${cerita.slug}` : '/cerita'}
-                    style={{
-                      display: 'inline-block',
-                      marginTop: 28,
-                      fontFamily: 'var(--sans)',
-                      fontSize: 14,
-                      fontWeight: 600,
-                      letterSpacing: '0.06em',
-                      color: 'var(--bara-terang)',
-                    }}
-                  >
-                    {cerita ? 'Baca yang terbaru →' : 'Lihat seri ini →'}
+            {sisanya.length > 0 && (
+              <section className="halaman" style={{ paddingTop: 56 }}>
+                <div
+                  style={{
+                    display: 'flex',
+                    alignItems: 'baseline',
+                    justifyContent: 'space-between',
+                    gap: 20,
+                    paddingBottom: 22,
+                  }}
+                >
+                  <span className="label">Tulisan sebelumnya</span>
+                  <Link href="/blog" className="label" style={{ color: 'var(--bara)' }}>
+                    Lihat semua →
                   </Link>
                 </div>
-                <div className="kanan susun susun-16">
-                  <span style={{ fontSize: 17, lineHeight: 1.6, color: 'var(--arang-lembut)' }}>
-                    Satu wawancara panjang, tanpa dipoles. Kami menanyakan angkanya, bukan cuma
-                    perasaannya.
-                  </span>
-                  <span className="label">Terbit dua minggu sekali</span>
-                </div>
-              </div>
-            </section>
+
+                {sisanya.map((t) => (
+                  <article key={t.id} className="baris-arsip">
+                    <div className="waktu">
+                      <span className="meta">{tanggalPanjang(t.terbit_pada)}</span>
+                    </div>
+                    <div className="isi">
+                      <Link href={`/blog/${t.slug}`} className="judul">
+                        {t.judul}
+                      </Link>
+                      {t.deck && (
+                        <p
+                          style={{
+                            marginTop: 10,
+                            fontSize: 17,
+                            lineHeight: 1.55,
+                            color: 'var(--tinta-lembut)',
+                            maxWidth: 620,
+                          }}
+                        >
+                          {t.deck}
+                        </p>
+                      )}
+                      <span className="meta" style={{ display: 'block', marginTop: 12 }}>
+                        {penanda(t.format, t.nomor)} · {t.menit_baca} menit
+                      </span>
+                    </div>
+                  </article>
+                ))}
+              </section>
+            )}
 
             {katalog.length > 0 && (
               <section className="halaman" style={{ paddingTop: 62 }}>
@@ -200,49 +194,6 @@ export default async function Beranda() {
                 ))}
               </section>
             )}
-
-            <section className="halaman" style={{ paddingTop: 62 }}>
-              <span className="label" style={{ paddingBottom: 22 }}>
-                Tiga topik
-              </span>
-              <div className="kisi-topik kisi-tiga">
-                {TOPIK.map((topik) => {
-                  const isi = semua.filter((t) => t.topik === topik.kode).slice(0, 2);
-                  return (
-                    <div key={topik.kode}>
-                      <Link href={`/topik/${topik.kode}`} className="nama-topik">
-                        {topik.nama}
-                      </Link>
-                      <span
-                        style={{
-                          display: 'block',
-                          fontSize: 15,
-                          lineHeight: 1.5,
-                          color: 'var(--meta)',
-                          padding: '8px 0 16px',
-                        }}
-                      >
-                        {topik.ringkas}
-                      </span>
-                      {isi.length > 0 ? (
-                        isi.map((t) => (
-                          <Link key={t.id} href={`/baca/${t.slug}`} className="tautan-tulisan">
-                            {t.judul}
-                          </Link>
-                        ))
-                      ) : (
-                        <span
-                          className="tautan-tulisan"
-                          style={{ color: 'var(--abu)', fontStyle: 'italic' }}
-                        >
-                          “{topik.pertanyaan}”
-                        </span>
-                      )}
-                    </div>
-                  );
-                })}
-              </div>
-            </section>
 
             {utama && (
               <section className="halaman">

@@ -1,4 +1,3 @@
-export type Topik = 'bertahan' | 'bangun' | 'uang-pribadi';
 export type FormatTulisan = 'catatan' | 'satu-halaman' | 'panduan' | 'wawancara';
 export type StatusTulisan = 'draf' | 'terbit';
 
@@ -8,7 +7,6 @@ export type Tulisan = {
   judul: string;
   deck: string;
   isi: string;
-  topik: Topik;
   format: FormatTulisan;
   nomor: number | null;
   penulis: string;
@@ -47,7 +45,6 @@ export type Kursus = {
   deck: string;
   ringkasan: string;
   untuk_siapa: string;
-  topik: Topik;
   tingkat: Tingkat;
   status: StatusTulisan;
   penulis: string;
