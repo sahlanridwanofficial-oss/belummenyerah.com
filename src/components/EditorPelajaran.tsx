@@ -92,7 +92,7 @@ export default function EditorPelajaran({
       </div>
 
       <div className="form-isian">
-        <label htmlFor="ringkas">Ringkasan — satu kalimat di bawah judul</label>
+        <label htmlFor="ringkas">Ringkasan: satu kalimat di bawah judul</label>
         <input
           id="ringkas"
           className="isian"
@@ -140,7 +140,7 @@ export default function EditorPelajaran({
       </div>
 
       <div className="form-isian">
-        <label htmlFor="video">Tautan video YouTube — kosongkan kalau pelajarannya tulisan saja</label>
+        <label htmlFor="video">Tautan video YouTube. Kosongkan kalau pelajarannya tulisan saja</label>
         <input
           id="video"
           className="isian"
@@ -186,7 +186,7 @@ export default function EditorPelajaran({
               Pratinjau
             </button>
           </div>
-          <span className="pesan-kecil">Materi tulisan — Markdown</span>
+          <span className="pesan-kecil">Materi tulisan: Markdown</span>
         </div>
 
         {tab === 'tulis' ? (

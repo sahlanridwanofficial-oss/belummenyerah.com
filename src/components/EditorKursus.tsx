@@ -98,7 +98,7 @@ export default function EditorKursus({ awal }: { awal?: Kursus }) {
       </div>
 
       <div className="form-isian">
-        <label htmlFor="deck">Ringkasan — satu kalimat pengantar</label>
+        <label htmlFor="deck">Ringkasan: satu kalimat pengantar</label>
         <input
           id="deck"
           className="isian"
@@ -146,7 +146,7 @@ export default function EditorKursus({ awal }: { awal?: Kursus }) {
       </div>
 
       <div className="form-isian">
-        <label htmlFor="ringkasan">Ringkasan — Markdown, tampil di halaman kursus</label>
+        <label htmlFor="ringkasan">Ringkasan: Markdown, tampil di halaman kursus</label>
         <textarea
           id="ringkasan"
           className="editor"
@@ -158,7 +158,7 @@ export default function EditorKursus({ awal }: { awal?: Kursus }) {
       </div>
 
       <div className="form-isian">
-        <label htmlFor="untuk-siapa">Untuk siapa — Markdown, tampil di kolom samping</label>
+        <label htmlFor="untuk-siapa">Untuk siapa: Markdown, tampil di kolom samping</label>
         <textarea
           id="untuk-siapa"
           className="editor"

@@ -132,7 +132,7 @@ export default function EditorTulisan({ awal }: { awal?: Tulisan }) {
       </div>
 
       <div className="form-isian">
-        <label htmlFor="deck">Ringkasan — satu kalimat pengantar</label>
+        <label htmlFor="deck">Ringkasan: satu kalimat pengantar</label>
         <input
           id="deck"
           className="isian"

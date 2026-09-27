@@ -39,7 +39,7 @@ export default async function HalamanTulisan({ params }: Props) {
       <main id="isi" className="halaman">
         {tulisan.status === 'draf' && (
           <div className="tanda-draf" style={{ marginTop: 24 }}>
-            Draf — hanya kamu yang bisa melihatnya
+            Draf. Hanya kamu yang bisa melihatnya
           </div>
         )}
 

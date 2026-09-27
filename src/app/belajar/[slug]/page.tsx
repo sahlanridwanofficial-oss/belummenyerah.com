@@ -37,7 +37,7 @@ export default async function HalamanKursusTunggal({ params }: Props) {
 
       <main id="isi" className="halaman utama">
         {kursus.status === 'draf' && (
-          <div className="tanda-draf">Draf — hanya kamu yang bisa melihatnya</div>
+          <div className="tanda-draf">Draf. Hanya kamu yang bisa melihatnya</div>
         )}
 
         <div className="dua-kolom">

@@ -78,7 +78,7 @@ export default async function Beranda() {
                         Uang usaha, dijelaskan dengan bahasa manusia.
                       </h1>
                       <p className="deck" style={{ marginTop: 22, maxWidth: 620 }}>
-                        Untuk kamu yang sedang melewati bulan terberat — praktis soal angka,
+                        Untuk kamu yang sedang melewati bulan terberat. Praktis soal angka,
                         jujur soal rasanya.
                       </p>
                       <div style={{ marginTop: 30, maxWidth: 520 }}>
@@ -97,9 +97,9 @@ export default async function Beranda() {
                     Isi langganan
                   </span>
                   <div className="susun">
-                    <span className="baris-tipis">Senin — satu tulisan utama</span>
+                    <span className="baris-tipis">Senin: satu tulisan utama</span>
                     <span className="baris-tipis">
-                      Kamis — panduan singkat atau cerita pemilik usaha
+                      Kamis: panduan singkat atau cerita pemilik usaha
                     </span>
                     <span
                       className="baris-tipis"

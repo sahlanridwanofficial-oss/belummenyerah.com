@@ -25,7 +25,7 @@ export default async function HalamanBlog() {
         </h1>
         <p className="deck" style={{ marginTop: 20, maxWidth: 620 }}>
           {daftar.length > 0
-            ? `${daftar.length} tulisan tentang kas, harga, dan utang — hal-hal yang jarang dijelaskan dengan terbuka.`
+            ? `${daftar.length} tulisan tentang kas, harga, dan utang. Hal-hal yang jarang dijelaskan dengan terbuka.`
             : 'Belum ada tulisan yang terbit. Catatan pertama sedang disiapkan.'}
         </p>
 

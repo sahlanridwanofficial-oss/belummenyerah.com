@@ -17,7 +17,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if (!kursus || !isi) return { title: 'Pelajaran tidak ditemukan' };
 
   return {
-    title: `${isi.judul} — ${kursus.judul}`,
+    title: `${isi.judul} · ${kursus.judul}`,
     description: isi.ringkas || keTeks(isi.isi, 160),
   };
 }

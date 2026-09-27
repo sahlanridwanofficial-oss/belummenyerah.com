@@ -8,7 +8,7 @@ import { ambilKatalogRingkas, NAMA_TINGKAT } from '@/lib/kursus';
 export const metadata: Metadata = {
   title: 'Kursus',
   description:
-    'Kursus gratis tentang uang usaha — kas, harga, margin, dan cara memisahkan dompet pribadi dari dompet usaha.',
+    'Kursus gratis tentang uang usaha: kas, harga, margin, dan cara memisahkan dompet pribadi dari dompet usaha.',
 };
 
 export default async function HalamanKursus() {
