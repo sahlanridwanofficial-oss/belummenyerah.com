@@ -144,7 +144,7 @@ mendaftar — pendaftaran hanya untuk dikabari kalau ada materi baru.
 
 Ada di `src/app/globals.css`, dan versi lengkapnya di kanvas konsep.
 
-- **Warna** — Kertas `#F7F4EE`, Tinta `#191714`, Bara `#9C3B23`, Arang `#1A1815`.
+- **Warna** — Kertas `#FCFBF8`, Tinta `#191714`, Bara `#9C3B23`, Arang `#1A1815`.
   Aturan 90 / 8 / 2: sembilan puluh persen kertas, delapan persen tinta, dua persen bara.
 - **Huruf** — Instrument Serif (judul), Newsreader (badan teks), Instrument Sans (label dan
   navigasi). Ketiganya dari Google Fonts.

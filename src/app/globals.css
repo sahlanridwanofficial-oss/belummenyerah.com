@@ -2,13 +2,13 @@
    Kertas, tinta, satu bara. Tanpa gradien, tanpa bayangan, tanpa sudut melengkung. */
 
 :root {
-  --kertas: #f7f4ee;
-  --kertas-tua: #efebe1;
+  --kertas: #fcfbf8;
+  --kertas-tua: #f4f2ec;
   --tinta: #191714;
   --tinta-lembut: #57514a;
   --meta: #6b6359;
-  --abu: #8c8477;
-  --garis: #ddd6c9;
+  --abu: #7a7264;
+  --garis: #e4e0d6;
   --bara: #9c3b23;
   --bara-tua: #7a2c18;
   --arang: #1a1815;
