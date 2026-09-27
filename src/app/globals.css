@@ -22,7 +22,7 @@
   --tepi: 96px;
 
   --serif-judul: 'Instrument Serif', Georgia, 'Times New Roman', serif;
-  --serif-badan: 'Newsreader', Georgia, 'Times New Roman', serif;
+  --serif-badan: 'Newsreader Variable', 'Newsreader', Georgia, 'Times New Roman', serif;
   --sans: 'Instrument Sans', system-ui, -apple-system, sans-serif;
 }
 
@@ -311,7 +311,15 @@ main { flex-grow: 1; }
 
 .tulisan { max-width: var(--lebar-baca); }
 
-
+.prosa { font-size: 19px; line-height: 1.65; }
+.prosa > * + * { margin-top: 18px; }
+.prosa h2 {
+  font-family: var(--serif-badan);
+  font-weight: 600;
+  font-size: 26px;
+  line-height: 1.3;
+  margin-top: 36px;
+}
 .prosa h3 {
   font-family: var(--serif-badan);
   font-weight: 600;
