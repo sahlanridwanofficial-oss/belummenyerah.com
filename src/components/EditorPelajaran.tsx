@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { marked } from 'marked';
 import { buatSlug } from '@/lib/format';
 import { idYouTube } from '@/lib/kursus-umum';
+import { useBelumTersimpan } from '@/lib/belum-tersimpan';
 import { hapusPelajaran, simpanPelajaran, type DataPelajaran } from '@/app/admin/aksi-kursus';
 import type { Modul, Pelajaran } from '@/lib/types';
 
@@ -33,6 +34,15 @@ export default function EditorPelajaran({
   const [pesan, setPesan] = useState('');
   const [buruk, setBuruk] = useState(false);
 
+  const sekarang = JSON.stringify([judul, slug, ringkas, isi, videoUrl, menit, urutan, modulId]);
+  const { belumTersimpan, tandaiTersimpan } = useBelumTersimpan(
+    sekarang,
+    JSON.stringify([
+      awal.judul, awal.slug, awal.ringkas, awal.isi, awal.video_url ?? '',
+      String(awal.menit), String(awal.urutan), awal.modul_id,
+    ]),
+  );
+
   const slugDipakai = slug.trim() ? buatSlug(slug) : buatSlug(judul);
   const pratinjau = useMemo(() => marked.parse(isi || '', { async: false }) as string, [isi]);
   const idVideo = idYouTube(videoUrl || null);
@@ -54,14 +64,22 @@ export default function EditorPelajaran({
       const hasil = await simpanPelajaran(form);
       setPesan(hasil.pesan);
       setBuruk(!hasil.ok);
-      if (hasil.ok) router.refresh();
+      if (hasil.ok) {
+        tandaiTersimpan(
+          JSON.stringify([judul, slugDipakai, ringkas, isi, videoUrl, menit, urutan, modulId]),
+        );
+        router.refresh();
+      }
     });
   }
 
   async function hapus() {
     if (!window.confirm(`Hapus pelajaran “${awal.judul}”? Ini tidak bisa dibatalkan.`)) return;
     const hasil = await hapusPelajaran(awal.id);
-    if (hasil.ok) router.replace(`/admin/kursus/${kursusId}`);
+    if (hasil.ok) {
+      tandaiTersimpan(sekarang);
+      router.replace(`/admin/kursus/${kursusId}`);
+    }
     else {
       setPesan(hasil.pesan);
       setBuruk(true);
@@ -215,6 +233,9 @@ export default function EditorPelajaran({
         <button type="button" className="tombol" onClick={simpan} disabled={menyimpan}>
           {menyimpan ? 'Menyimpan…' : 'Simpan pelajaran'}
         </button>
+        {belumTersimpan && !menyimpan && (
+          <span className="tanda-belum-simpan">Ada perubahan yang belum disimpan</span>
+        )}
         <button
           type="button"
           className="tombol tombol-garis"

@@ -10,6 +10,7 @@ import {
   tambahModul,
   tambahPelajaran,
 } from '@/app/admin/aksi-kursus';
+import { useBelumTersimpan } from '@/lib/belum-tersimpan';
 import type { ModulLengkap } from '@/lib/types';
 
 export default function SusunanKursus({
@@ -67,6 +68,12 @@ export default function SusunanKursus({
             className="isian"
             value={judulModulBaru}
             onChange={(e) => setJudulModulBaru(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') {
+                e.preventDefault();
+                buatModul();
+              }
+            }}
             placeholder="Melihat uangmu apa adanya"
           />
         </div>
@@ -101,10 +108,17 @@ function BarisModul({
   const [urutan, setUrutan] = useState(String(modul.urutan));
   const [judulPelajaranBaru, setJudulPelajaranBaru] = useState('');
 
+  const sekarang = JSON.stringify([judul, ringkas, urutan]);
+  const { belumTersimpan, tandaiTersimpan } = useBelumTersimpan(
+    sekarang,
+    JSON.stringify([modul.judul, modul.ringkas, String(modul.urutan)]),
+  );
+
   function simpan() {
     mulai(async () => {
       const angka = Number.parseInt(urutan, 10);
       const hasil = await simpanModul(modul.id, judul, ringkas, Number.isNaN(angka) ? 0 : angka);
+      if (hasil.ok) tandaiTersimpan(sekarang);
       onKabar(hasil.pesan, !hasil.ok);
     });
   }
@@ -114,6 +128,7 @@ function BarisModul({
       return;
     mulai(async () => {
       const hasil = await hapusModul(modul.id);
+      if (hasil.ok) tandaiTersimpan(sekarang);
       onKabar(hasil.pesan, !hasil.ok);
     });
   }
@@ -171,7 +186,12 @@ function BarisModul({
             onChange={(e) => setRingkas(e.target.value)}
           />
         </div>
-        <button type="button" className="tombol tombol-garis" onClick={simpan} disabled={sibuk}>
+        <button
+          type="button"
+          className={belumTersimpan ? 'tombol' : 'tombol tombol-garis'}
+          onClick={simpan}
+          disabled={sibuk}
+        >
           Simpan
         </button>
         <button
@@ -227,6 +247,12 @@ function BarisModul({
               className="isian"
               value={judulPelajaranBaru}
               onChange={(e) => setJudulPelajaranBaru(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') {
+                  e.preventDefault();
+                  buatPelajaran();
+                }
+              }}
               placeholder="Memisahkan dompet pribadi dan dompet usaha"
             />
           </div>

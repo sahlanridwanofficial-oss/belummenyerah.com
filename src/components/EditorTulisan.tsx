@@ -1,9 +1,10 @@
 'use client';
 
-import { useEffect, useMemo, useRef, useState, useTransition } from 'react';
+import { useMemo, useState, useTransition } from 'react';
 import { useRouter } from 'next/navigation';
 import { marked } from 'marked';
 import { buatSlug, hitungMenitBaca, NAMA_FORMAT } from '@/lib/format';
+import { useBelumTersimpan } from '@/lib/belum-tersimpan';
 import { hapusTulisan, simpanTulisan, type DataTulisan } from '@/app/admin/aksi';
 import type { FormatTulisan, StatusTulisan, Tulisan } from '@/lib/types';
 
@@ -37,24 +38,14 @@ export default function EditorTulisan({ awal }: { awal?: Tulisan }) {
   const [buruk, setBuruk] = useState(false);
   const [mengirim, setMengirim] = useState(false);
 
-  const tersimpan = useRef(
+  const sekarang = JSON.stringify([judul, slug, deck, isi, format, nomor, penulis]);
+  const { belumTersimpan, tandaiTersimpan } = useBelumTersimpan(
+    sekarang,
     JSON.stringify([
       awal?.judul ?? '', awal?.slug ?? '', awal?.deck ?? '', awal?.isi ?? '',
       awal?.format ?? 'catatan', awal?.nomor ? String(awal.nomor) : '', awal?.penulis ?? 'Redaksi',
     ]),
   );
-  const sekarang = JSON.stringify([judul, slug, deck, isi, format, nomor, penulis]);
-  const belumTersimpan = sekarang !== tersimpan.current;
-
-  useEffect(() => {
-    if (!belumTersimpan) return;
-    function tanya(e: BeforeUnloadEvent) {
-      e.preventDefault();
-      e.returnValue = '';
-    }
-    window.addEventListener('beforeunload', tanya);
-    return () => window.removeEventListener('beforeunload', tanya);
-  }, [belumTersimpan]);
 
   const slugOtomatis = useMemo(() => buatSlug(judul), [judul]);
   const slugDipakai = slug.trim() ? buatSlug(slug) : slugOtomatis;
@@ -85,7 +76,7 @@ export default function EditorTulisan({ awal }: { awal?: Tulisan }) {
       lapor(hasil.pesan, !hasil.ok);
 
       if (hasil.ok) {
-        tersimpan.current = JSON.stringify([judul, slugDipakai, deck, isi, format, nomor, penulis]);
+        tandaiTersimpan(JSON.stringify([judul, slugDipakai, deck, isi, format, nomor, penulis]));
         setStatus(statusAkhir);
         if (!awal?.id && hasil.id) router.replace(`/admin/tulis/${hasil.id}`);
         else router.refresh();
@@ -99,7 +90,7 @@ export default function EditorTulisan({ awal }: { awal?: Tulisan }) {
 
     const hasil = await hapusTulisan(awal.id);
     if (hasil.ok) {
-      tersimpan.current = sekarang;
+      tandaiTersimpan(sekarang);
       router.replace('/admin');
     }
     else lapor(hasil.pesan, true);
