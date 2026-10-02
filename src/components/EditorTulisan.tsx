@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo, useState, useTransition } from 'react';
+import { useEffect, useMemo, useRef, useState, useTransition } from 'react';
 import { useRouter } from 'next/navigation';
 import { marked } from 'marked';
 import { buatSlug, hitungMenitBaca, NAMA_FORMAT } from '@/lib/format';
@@ -37,6 +37,25 @@ export default function EditorTulisan({ awal }: { awal?: Tulisan }) {
   const [buruk, setBuruk] = useState(false);
   const [mengirim, setMengirim] = useState(false);
 
+  const tersimpan = useRef(
+    JSON.stringify([
+      awal?.judul ?? '', awal?.slug ?? '', awal?.deck ?? '', awal?.isi ?? '',
+      awal?.format ?? 'catatan', awal?.nomor ? String(awal.nomor) : '', awal?.penulis ?? 'Redaksi',
+    ]),
+  );
+  const sekarang = JSON.stringify([judul, slug, deck, isi, format, nomor, penulis]);
+  const belumTersimpan = sekarang !== tersimpan.current;
+
+  useEffect(() => {
+    if (!belumTersimpan) return;
+    function tanya(e: BeforeUnloadEvent) {
+      e.preventDefault();
+      e.returnValue = '';
+    }
+    window.addEventListener('beforeunload', tanya);
+    return () => window.removeEventListener('beforeunload', tanya);
+  }, [belumTersimpan]);
+
   const slugOtomatis = useMemo(() => buatSlug(judul), [judul]);
   const slugDipakai = slug.trim() ? buatSlug(slug) : slugOtomatis;
   const menit = hitungMenitBaca(isi);
@@ -66,6 +85,7 @@ export default function EditorTulisan({ awal }: { awal?: Tulisan }) {
       lapor(hasil.pesan, !hasil.ok);
 
       if (hasil.ok) {
+        tersimpan.current = JSON.stringify([judul, slugDipakai, deck, isi, format, nomor, penulis]);
         setStatus(statusAkhir);
         if (!awal?.id && hasil.id) router.replace(`/admin/tulis/${hasil.id}`);
         else router.refresh();
@@ -78,7 +98,10 @@ export default function EditorTulisan({ awal }: { awal?: Tulisan }) {
     if (!window.confirm(`Hapus “${awal.judul}” selamanya? Ini tidak bisa dibatalkan.`)) return;
 
     const hasil = await hapusTulisan(awal.id);
-    if (hasil.ok) router.replace('/admin');
+    if (hasil.ok) {
+      tersimpan.current = sekarang;
+      router.replace('/admin');
+    }
     else lapor(hasil.pesan, true);
   }
 
@@ -210,7 +233,7 @@ export default function EditorTulisan({ awal }: { awal?: Tulisan }) {
             </button>
           </div>
           <span className="pesan-kecil">
-            {menit} menit baca · /catatan/{slugDipakai || '…'}
+            {menit} menit baca · /blog/{slugDipakai || '…'}
           </span>
         </div>
 
@@ -240,6 +263,10 @@ export default function EditorTulisan({ awal }: { awal?: Tulisan }) {
         <button type="button" className="tombol tombol-garis" onClick={() => simpan('draf')} disabled={menyimpan}>
           {menyimpan ? 'Menyimpan…' : 'Simpan draf'}
         </button>
+
+        {belumTersimpan && !menyimpan && (
+          <span className="tanda-belum-simpan">Ada perubahan yang belum disimpan</span>
+        )}
 
         <button type="button" className="tombol" onClick={() => simpan('terbit')} disabled={menyimpan}>
           {status === 'terbit' ? 'Simpan & tetap terbit' : 'Terbitkan'}

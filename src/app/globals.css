@@ -219,8 +219,9 @@ main { flex-grow: 1; }
 
 @media (max-width: 560px) {
   .masthead-isi { justify-content: flex-start; }
-  .nav { width: 100%; gap: 18px; justify-content: space-between; }
+  .nav { width: 100%; gap: 14px 18px; }
   .nav .tombol { width: 100%; order: 1; }
+  .admin-bar .nav { gap: 14px 20px; }
 }
 
 /* ---------- beranda ---------- */
@@ -563,8 +564,17 @@ main { flex-grow: 1; }
 .admin-bar a:hover { color: var(--bara-terang); }
 .admin-bar .nav a { color: var(--arang-lembut); }
 .admin-bar .nav a[aria-current='page'] { color: var(--kertas-terang); }
+.admin-bar .tautan-keluar { color: var(--arang-lembut); }
+
+/* Tabel redaksi punya banyak kolom. Di layar sempit tabelnya digeser
+   mendatar di dalam pembungkusnya, bukan memaksa seluruh halaman melebar. */
+.bungkus-tabel { width: 100%; overflow-x: auto; }
 
 .admin-tabel { width: 100%; border-collapse: collapse; }
+
+@media (max-width: 760px) {
+  .admin-tabel { min-width: 640px; }
+}
 .admin-tabel th {
   font-family: var(--sans);
   font-size: 11px;
@@ -596,6 +606,26 @@ main { flex-grow: 1; }
 }
 .lencana-terbit { color: var(--bara); }
 .lencana-draf { color: var(--meta); }
+
+/* Tombol keluar tampil seperti tautan lain di bar redaksi. */
+.tautan-keluar {
+  font-family: var(--sans);
+  font-size: 14px;
+  font-weight: 500;
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  color: inherit;
+}
+.tautan-keluar:hover { color: var(--bara-terang); }
+.tautan-keluar:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.tanda-belum-simpan {
+  font-family: var(--sans);
+  font-size: 13px;
+  color: var(--bara);
+}
 
 .form-isian { display: flex; flex-direction: column; gap: 7px; }
 .form-isian > label { font-family: var(--sans); font-size: 11px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: var(--meta); }

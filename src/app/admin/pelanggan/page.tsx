@@ -39,6 +39,7 @@ export default async function DaftarPelanggan() {
           <span className="label" style={{ marginBottom: 12 }}>
             Kiriman terakhir
           </span>
+          <div className="bungkus-tabel">
           <table className="admin-tabel">
             <thead>
               <tr>
@@ -63,6 +64,7 @@ export default async function DaftarPelanggan() {
               ))}
             </tbody>
           </table>
+          </div>
         </div>
       )}
 
@@ -75,7 +77,8 @@ export default async function DaftarPelanggan() {
           </p>
         </div>
       ) : (
-        <table className="admin-tabel">
+        <div className="bungkus-tabel">
+          <table className="admin-tabel">
           <thead>
             <tr>
               <th style={{ width: '42%' }}>Email</th>
@@ -105,6 +108,7 @@ export default async function DaftarPelanggan() {
             ))}
           </tbody>
         </table>
+          </div>
       )}
     </div>
   );

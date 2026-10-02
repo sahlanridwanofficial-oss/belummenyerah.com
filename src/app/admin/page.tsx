@@ -56,7 +56,8 @@ export default async function DaftarTulisan() {
           </p>
         </div>
       ) : (
-        <table className="admin-tabel">
+        <div className="bungkus-tabel">
+          <table className="admin-tabel">
           <thead>
             <tr>
               <th style={{ width: '46%' }}>Judul</th>
@@ -101,6 +102,7 @@ export default async function DaftarTulisan() {
             ))}
           </tbody>
         </table>
+          </div>
       )}
     </div>
   );
