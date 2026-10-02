@@ -36,9 +36,9 @@ export default async function HalamanTulisan({ params }: Props) {
     <>
       <Masthead aktif="blog" />
 
-      <main id="isi" className="halaman">
+      <main id="isi" className="halaman halaman-tulisan">
         {tulisan.status === 'draf' && (
-          <div className="tanda-draf" style={{ marginTop: 24 }}>
+          <div className="tanda-draf">
             Draf. Hanya kamu yang bisa melihatnya
           </div>
         )}
@@ -61,10 +61,11 @@ export default async function HalamanTulisan({ params }: Props) {
             >
               {tulisan.penulis}
             </span>
-            <span className="titik" />
-            <span className="meta">{tanggalPanjang(tulisan.terbit_pada)}</span>
-            <span className="titik" />
-            <span className="meta">{tulisan.menit_baca} menit baca</span>
+            <span className="gugus">
+              <span className="meta">{tanggalPanjang(tulisan.terbit_pada)}</span>
+              <span className="titik" />
+              <span className="meta">{tulisan.menit_baca} menit baca</span>
+            </span>
           </div>
 
           <div
@@ -108,11 +109,11 @@ export default async function HalamanTulisan({ params }: Props) {
             )}
           </div>
 
-          <div style={{ borderLeft: '1px solid var(--garis)', paddingLeft: 60 }}>
+          <div className="sisi-kanan">
             <p className="judul-seksi" style={{ fontSize: 28, marginBottom: 14 }}>
-              Kirimi saya catatan setiap Senin.
+              Dapatkan catatan berikutnya lewat email.
             </p>
-            <FormLangganan sumber={`tulisan:${tulisan.slug}`} tombol="Kirim" />
+            <FormLangganan sumber={`tulisan:${tulisan.slug}`} tombol="Daftar" />
           </div>
         </div>
       </main>

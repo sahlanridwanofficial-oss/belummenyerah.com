@@ -333,6 +333,12 @@ main { flex-grow: 1; }
 
 /* ---------- halaman tulisan ---------- */
 
+.halaman-tulisan { padding-block: 56px 0; }
+
+@media (max-width: 900px) {
+  .halaman-tulisan { padding-block: 36px 0; }
+}
+
 .tulisan { max-width: var(--lebar-baca); }
 
 .prosa { font-size: 19px; line-height: 1.65; }
@@ -395,6 +401,15 @@ main { flex-grow: 1; }
   border-top: 1px solid var(--garis);
   border-bottom: 1px solid var(--garis);
 }
+.baris-byline .gugus {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+@media (max-width: 560px) {
+  .baris-byline { gap: 8px 14px; }
+}
 .titik { width: 4px; height: 4px; background: #c6bdad; flex-shrink: 0; }
 
 /* ---------- langganan ---------- */
@@ -410,8 +425,19 @@ main { flex-grow: 1; }
 }
 .kotak-langganan > * { flex: 1 1 0; min-width: 0; }
 
+.kotak-langganan > .sisi-kanan {
+  border-left: 1px solid var(--garis);
+  padding-left: 60px;
+}
+
 @media (max-width: 900px) {
   .kotak-langganan { flex-direction: column; align-items: stretch; gap: 28px; margin-top: 44px; }
+  .kotak-langganan > .sisi-kanan {
+    border-left: 0;
+    padding-left: 0;
+    border-top: 1px solid var(--garis);
+    padding-top: 28px;
+  }
 }
 
 .form-langganan { display: flex; flex-direction: column; gap: 10px; }
@@ -694,7 +720,8 @@ main { flex-grow: 1; }
 }
 
 .samping-tautan {
-  display: block;
+  display: flex;
+  gap: 8px;
   font-size: 16px;
   line-height: 1.45;
   padding-block: 9px;
@@ -707,6 +734,41 @@ main { flex-grow: 1; }
   font-weight: 600;
   padding-left: 12px;
   border-left: 2px solid var(--bara);
+}
+
+/* Kolom centang selalu memakai ruang yang sama, supaya judul pelajaran
+   tidak bergeser saat satu pelajaran ditandai selesai. */
+.samping-tautan .tanda-centang {
+  flex: 0 0 14px;
+  font-family: var(--sans);
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--bara);
+}
+.samping-tautan .samping-judul { min-width: 0; }
+.samping-tautan.sudah .samping-judul { color: var(--abu); }
+.samping-tautan.sudah[aria-current='page'] .samping-judul { color: var(--bara); }
+
+.hitung-selesai {
+  display: block;
+  font-family: var(--sans);
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--bara);
+  padding-top: 10px;
+}
+
+.khusus-pembaca-layar {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }
 
 .pelajaran-isi {
