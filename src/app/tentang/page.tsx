@@ -6,13 +6,14 @@ import FormLangganan from '@/components/FormLangganan';
 
 export const metadata: Metadata = {
   title: 'Tentang',
-  description: 'Kenapa belummenyerah ada, untuk siapa, dan bagaimana kami menulis.',
+  description:
+    'Kenapa belummenyerah ada, untuk siapa kami menulis, dan aturan yang kami pakai sebelum menerbitkan tulisan.',
 };
 
 const SARINGAN = [
-  'Masih berguna tahun depan? Kalau tidak, tidak kami terbitkan.',
-  'Ada satu angka yang bisa dihitung sendiri oleh pembaca?',
-  'Beranikah kami mengirimkannya ke orang yang usahanya sedang bangkrut?',
+  'Apakah tulisan ini masih berguna tahun depan? Kalau tidak, kami tidak menerbitkannya.',
+  'Apakah ada satu angka yang bisa langsung dihitung sendiri oleh pembaca?',
+  'Apakah kami berani mengirimkannya kepada orang yang usahanya sedang bangkrut?',
 ];
 
 export default function HalamanTentang() {
@@ -23,28 +24,42 @@ export default function HalamanTentang() {
       <main id="isi" className="halaman utama">
         <span className="kicker">Tentang</span>
         <h1 className="judul-raksasa" style={{ marginTop: 18, maxWidth: 880 }}>
-          Kebanyakan usaha kecil tidak tutup karena pemiliknya kurang semangat.
+          Usaha kecil jarang tutup karena pemiliknya kurang semangat.
         </h1>
 
         <article className="tulisan prosa" style={{ marginTop: 44 }}>
           <p>
-            Mereka tutup karena tidak ada yang pernah menjelaskan angkanya dengan jujur, dan karena
-            bulan-bulan sepi itu dilewati sendirian. belummenyerah dibuat untuk dua hal itu.
+            Lebih sering, usaha tutup karena tidak ada yang pernah menjelaskan angkanya
+            secara jujur, dan karena bulan-bulan sepi itu dilewati sendirian.
           </p>
           <p>
-            Kami menulis untuk pemilik usaha di tahun pertama sampai ketiga, untuk orang yang
-            usahanya sedang turun dan mulai menimbang untuk berhenti, dan untuk perintis yang masih
-            bekerja di tempat lain. Bukan untuk investor, bukan untuk konsultan.
+            belummenyerah dibuat untuk dua masalah tersebut. Kami menjelaskan angka usaha
+            dengan bahasa yang bisa dipahami siapa saja, dan kami menulis supaya pembaca tahu
+            bahwa masa sulit itu tidak hanya dialami olehnya.
           </p>
 
-          <h2>Yang kami bukan</h2>
+          <h2>Untuk siapa kami menulis</h2>
           <p>
-            Bukan media motivasi — semangat tanpa angka itu racun. Bukan panduan cepat kaya — tidak
-            ada yang cepat di sini. Bukan media berita — tulisan kami harus tetap berguna tahun
-            depan. Bukan panggung pamer hasil.
+            Kami menulis untuk pemilik usaha yang baru berjalan satu sampai tiga tahun. Kami
+            menulis untuk orang yang usahanya sedang menurun dan mulai berpikir untuk berhenti.
+            Kami juga menulis untuk orang yang sedang merintis usaha sambil tetap bekerja di
+            tempat lain.
+          </p>
+          <p>Kami tidak menulis untuk investor atau konsultan.</p>
+
+          <h2>Yang tidak kami lakukan</h2>
+          <p>
+            Kami bukan media motivasi. Semangat tanpa angka justru berbahaya, karena membuat
+            orang bertahan pada usaha yang sebenarnya sudah perlu diperbaiki.
+          </p>
+          <p>
+            Kami juga bukan panduan cepat kaya, sebab tidak ada yang cepat dalam mengurus
+            usaha. Kami bukan media berita, karena tulisan kami harus tetap berguna tahun
+            depan. Dan kami bukan tempat untuk memamerkan hasil.
           </p>
 
           <h2>Tiga saringan sebelum terbit</h2>
+          <p>Setiap tulisan harus lolos tiga pertanyaan ini sebelum kami terbitkan.</p>
           <ol>
             {SARINGAN.map((s) => (
               <li key={s}>{s}</li>
@@ -53,8 +68,9 @@ export default function HalamanTentang() {
 
           <h2>Janji editorial</h2>
           <p>
-            Tidak ada artikel berbayar yang disamarkan. Kalau ada sponsor, ditulis di atas — bukan
-            di bawah.
+            Kami tidak pernah menyamarkan artikel berbayar sebagai tulisan biasa. Kalau sebuah
+            tulisan disponsori, keterangannya kami cantumkan di bagian atas halaman, bukan
+            disembunyikan di bagian bawah.
           </p>
         </article>
 
@@ -66,7 +82,7 @@ export default function HalamanTentang() {
           <div>
             <p className="judul-seksi">Satu catatan setiap Senin pagi.</p>
             <p style={{ marginTop: 12, fontSize: 17, color: 'var(--tinta-lembut)' }}>
-              Gratis. Berhenti kapan saja.
+              Gratis, tanpa iklan. Berhenti kapan saja.
             </p>
           </div>
           <FormLangganan sumber="tentang" />

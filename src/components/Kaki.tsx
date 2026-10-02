@@ -10,7 +10,7 @@ export default function Kaki() {
           <GarisBelum />
         </div>
         <span className="keterangan">
-          Media bisnis kecil dan keuangan. Dibuat di Indonesia.
+          Media bisnis kecil dan keuangan. Ditulis di Indonesia, untuk usaha di Indonesia.
         </span>
       </div>
 
@@ -24,13 +24,14 @@ export default function Kaki() {
       <div className="kolom">
         <span className="label">Berlangganan</span>
         <Link href="/berlangganan">Daftar email</Link>
-        <span className="keterangan">Satu catatan setiap Senin pagi.</span>
+        <span className="keterangan">Satu catatan setiap Senin pagi. Gratis.</span>
       </div>
 
       <div className="kolom">
-        <span className="label">Dibuat dengan</span>
+        <span className="label">Cara kami menulis</span>
+        <Link href="/tentang">Janji editorial</Link>
         <span className="keterangan">
-          Instrument Serif, Newsreader, dan Instrument Sans. Tanpa pelacak pihak ketiga.
+          Tidak ada artikel berbayar yang disamarkan, dan tidak ada pelacak pihak ketiga.
         </span>
       </div>
     </footer>

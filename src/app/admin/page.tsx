@@ -51,12 +51,13 @@ export default async function DaftarTulisan() {
         <div className="kosong susun susun-16">
           <span className="label">Kosong</span>
           <p style={{ fontSize: 19, lineHeight: 1.6, maxWidth: 560 }}>
-            Belum ada apa-apa di sini. Tulisan pertama biasanya yang paling berat — mulai saja dari
+            Belum ada apa-apa di sini. Tulisan pertama biasanya yang paling berat, jadi mulai saja dari
             satu pertanyaan yang sering kamu dengar dari pemilik usaha.
           </p>
         </div>
       ) : (
-        <table className="admin-tabel">
+        <div className="bungkus-tabel">
+          <table className="admin-tabel">
           <thead>
             <tr>
               <th style={{ width: '46%' }}>Judul</th>
@@ -101,6 +102,7 @@ export default async function DaftarTulisan() {
             ))}
           </tbody>
         </table>
+          </div>
       )}
     </div>
   );

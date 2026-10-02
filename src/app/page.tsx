@@ -9,6 +9,24 @@ import { ambilKatalogRingkas, NAMA_TINGKAT } from '@/lib/kursus';
 import { supabaseTerpasang } from '@/lib/supabase/server';
 import { penanda, tanggalPanjang } from '@/lib/format';
 
+const YANG_DIBAHAS = [
+  {
+    angka: '01',
+    judul: 'Kas dan arus uang',
+    isi: 'Berapa uang yang benar-benar kamu pegang bulan ini, dan berapa yang sebenarnya sudah jadi milik orang lain.',
+  },
+  {
+    angka: '02',
+    judul: 'Harga dan margin',
+    isi: 'Cara menghitung harga jual supaya usaha masih hidup setelah semua biaya dibayar, bukan sekadar ikut harga tetangga.',
+  },
+  {
+    angka: '03',
+    judul: 'Dompet pribadi dan usaha',
+    isi: 'Cara memisahkan uang usaha dari uang rumah tangga, dan menentukan berapa gaji yang boleh kamu ambil.',
+  },
+];
+
 export default async function Beranda() {
   const tersambung = supabaseTerpasang();
   const [semua, katalog] = tersambung
@@ -60,14 +78,14 @@ export default async function Beranda() {
                         Uang usaha, dijelaskan dengan bahasa manusia.
                       </h1>
                       <p className="deck" style={{ marginTop: 22, maxWidth: 620 }}>
-                        Untuk orang yang sedang berada di bulan terberatnya — praktis soal angka,
+                        Untuk kamu yang sedang melewati bulan terberat. Praktis soal angka,
                         jujur soal rasanya.
                       </p>
                       <div style={{ marginTop: 30, maxWidth: 520 }}>
                         <FormLangganan
                           sumber="beranda-hero"
-                          tombol="Kirimi saya catatannya"
-                          catatan="Gratis. Berhenti kapan saja. Tidak ada iklan."
+                          tombol="Kirim ke email saya"
+                          catatan="Gratis, tanpa iklan. Berhenti kapan saja."
                         />
                       </div>
                     </>
@@ -76,18 +94,18 @@ export default async function Beranda() {
 
                 <div className="kanan">
                   <span className="label" style={{ paddingBottom: 14 }}>
-                    Yang kamu terima
+                    Isi langganan
                   </span>
                   <div className="susun">
-                    <span className="baris-tipis">Senin — satu catatan panjang</span>
+                    <span className="baris-tipis">Senin: satu tulisan utama</span>
                     <span className="baris-tipis">
-                      Kamis — Satu Halaman, Panduan, atau Wawancara
+                      Kamis: panduan singkat atau cerita pemilik usaha
                     </span>
                     <span
                       className="baris-tipis"
                       style={{ borderBottom: '1px solid var(--garis)' }}
                     >
-                      Tidak ada iklan, tidak ada tautan afiliasi
+                      Tanpa iklan dan tanpa tautan afiliasi
                     </span>
                   </div>
                 </div>
@@ -99,18 +117,10 @@ export default async function Beranda() {
             </section>
 
             {sisanya.length > 0 && (
-              <section className="halaman" style={{ paddingTop: 56 }}>
-                <div
-                  style={{
-                    display: 'flex',
-                    alignItems: 'baseline',
-                    justifyContent: 'space-between',
-                    gap: 20,
-                    paddingBottom: 22,
-                  }}
-                >
+              <section className="halaman seksi">
+                <div className="kepala-seksi">
                   <span className="label">Tulisan sebelumnya</span>
-                  <Link href="/blog" className="label" style={{ color: 'var(--bara)' }}>
+                  <Link href="/blog" className="label tautan-lihat">
                     Lihat semua →
                   </Link>
                 </div>
@@ -146,19 +156,29 @@ export default async function Beranda() {
               </section>
             )}
 
+            {/* Selama arsip masih kosong, beranda tetap menjelaskan isi situsnya. */}
+            {semua.length === 0 && (
+              <section className="halaman seksi">
+                <div className="kepala-seksi">
+                  <span className="label">Yang dibahas di sini</span>
+                </div>
+                <div className="kartu-kisi" style={{ marginTop: 24 }}>
+                  {YANG_DIBAHAS.map((k) => (
+                    <div key={k.angka} className="kartu">
+                      <span className="angka-kartu">{k.angka}</span>
+                      <span className="judul-kartu">{k.judul}</span>
+                      <p className="isi-kartu">{k.isi}</p>
+                    </div>
+                  ))}
+                </div>
+              </section>
+            )}
+
             {katalog.length > 0 && (
-              <section className="halaman" style={{ paddingTop: 62 }}>
-                <div
-                  style={{
-                    display: 'flex',
-                    alignItems: 'baseline',
-                    justifyContent: 'space-between',
-                    gap: 20,
-                    paddingBottom: 22,
-                  }}
-                >
+              <section className="halaman seksi">
+                <div className="kepala-seksi">
                   <span className="label">Kursus gratis</span>
-                  <Link href="/belajar" className="label" style={{ color: 'var(--bara)' }}>
+                  <Link href="/belajar" className="label tautan-lihat">
                     Lihat semua →
                   </Link>
                 </div>
@@ -195,19 +215,17 @@ export default async function Beranda() {
               </section>
             )}
 
-            {utama && (
-              <section className="halaman">
-                <div className="kotak-langganan">
-                  <div>
-                    <p className="judul-seksi">Satu catatan setiap Senin pagi.</p>
-                    <p style={{ marginTop: 12, fontSize: 17, color: 'var(--tinta-lembut)' }}>
-                      Gratis. Berhenti kapan saja. Tidak ada iklan, tidak ada tautan afiliasi.
-                    </p>
-                  </div>
-                  <FormLangganan sumber="beranda" />
+            <section className="halaman">
+              <div className="kotak-langganan">
+                <div>
+                  <p className="judul-seksi">Satu catatan setiap Senin pagi.</p>
+                  <p style={{ marginTop: 12, fontSize: 17, color: 'var(--tinta-lembut)' }}>
+                    Gratis, tanpa iklan, tanpa tautan afiliasi. Berhenti kapan saja.
+                  </p>
                 </div>
-              </section>
-            )}
+                <FormLangganan sumber="beranda" />
+              </div>
+            </section>
           </>
         )}
       </main>

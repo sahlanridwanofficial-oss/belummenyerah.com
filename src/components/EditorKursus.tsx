@@ -4,6 +4,7 @@ import { useMemo, useState, useTransition } from 'react';
 import { useRouter } from 'next/navigation';
 import { buatSlug } from '@/lib/format';
 import { NAMA_TINGKAT } from '@/lib/kursus-umum';
+import { useBelumTersimpan } from '@/lib/belum-tersimpan';
 import { hapusKursus, simpanKursus, type DataKursus } from '@/app/admin/aksi-kursus';
 import type { Kursus, StatusTulisan, Tingkat } from '@/lib/types';
 
@@ -23,6 +24,16 @@ export default function EditorKursus({ awal }: { awal?: Kursus }) {
 
   const [pesan, setPesan] = useState('');
   const [buruk, setBuruk] = useState(false);
+
+  const sekarang = JSON.stringify([judul, slug, deck, ringkasan, untukSiapa, tingkat, penulis, urutan]);
+  const { belumTersimpan, tandaiTersimpan } = useBelumTersimpan(
+    sekarang,
+    JSON.stringify([
+      awal?.judul ?? '', awal?.slug ?? '', awal?.deck ?? '', awal?.ringkasan ?? '',
+      awal?.untuk_siapa ?? '', awal?.tingkat ?? 'pemula', awal?.penulis ?? 'Redaksi',
+      awal ? String(awal.urutan) : '0',
+    ]),
+  );
 
   const slugOtomatis = useMemo(() => buatSlug(judul), [judul]);
   const slugDipakai = slug.trim() ? buatSlug(slug) : slugOtomatis;
@@ -48,6 +59,9 @@ export default function EditorKursus({ awal }: { awal?: Kursus }) {
       setBuruk(!hasil.ok);
 
       if (hasil.ok) {
+        tandaiTersimpan(
+          JSON.stringify([judul, slugDipakai, deck, ringkasan, untukSiapa, tingkat, penulis, urutan]),
+        );
         setStatus(statusAkhir);
         if (!awal?.id && hasil.id) router.replace(`/admin/kursus/${hasil.id}`);
         else router.refresh();
@@ -65,7 +79,10 @@ export default function EditorKursus({ awal }: { awal?: Kursus }) {
       return;
 
     const hasil = await hapusKursus(awal.id);
-    if (hasil.ok) router.replace('/admin/kursus');
+    if (hasil.ok) {
+      tandaiTersimpan(sekarang);
+      router.replace('/admin/kursus');
+    }
     else {
       setPesan(hasil.pesan);
       setBuruk(true);
@@ -98,7 +115,7 @@ export default function EditorKursus({ awal }: { awal?: Kursus }) {
       </div>
 
       <div className="form-isian">
-        <label htmlFor="deck">Ringkasan — satu kalimat pengantar</label>
+        <label htmlFor="deck">Ringkasan: satu kalimat pengantar</label>
         <input
           id="deck"
           className="isian"
@@ -146,7 +163,7 @@ export default function EditorKursus({ awal }: { awal?: Kursus }) {
       </div>
 
       <div className="form-isian">
-        <label htmlFor="ringkasan">Ringkasan — Markdown, tampil di halaman kursus</label>
+        <label htmlFor="ringkasan">Ringkasan: Markdown, tampil di halaman kursus</label>
         <textarea
           id="ringkasan"
           className="editor"
@@ -158,7 +175,7 @@ export default function EditorKursus({ awal }: { awal?: Kursus }) {
       </div>
 
       <div className="form-isian">
-        <label htmlFor="untuk-siapa">Untuk siapa — Markdown, tampil di kolom samping</label>
+        <label htmlFor="untuk-siapa">Untuk siapa: Markdown, tampil di kolom samping</label>
         <textarea
           id="untuk-siapa"
           className="editor"
@@ -190,6 +207,9 @@ export default function EditorKursus({ awal }: { awal?: Kursus }) {
         <button type="button" className="tombol" onClick={() => simpan('terbit')} disabled={menyimpan}>
           {status === 'terbit' ? 'Simpan & tetap terbit' : 'Terbitkan'}
         </button>
+        {belumTersimpan && !menyimpan && (
+          <span className="tanda-belum-simpan">Ada perubahan yang belum disimpan</span>
+        )}
         {awal?.id && (
           <button
             type="button"

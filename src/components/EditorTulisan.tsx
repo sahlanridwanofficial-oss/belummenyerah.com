@@ -4,6 +4,7 @@ import { useMemo, useState, useTransition } from 'react';
 import { useRouter } from 'next/navigation';
 import { marked } from 'marked';
 import { buatSlug, hitungMenitBaca, NAMA_FORMAT } from '@/lib/format';
+import { useBelumTersimpan } from '@/lib/belum-tersimpan';
 import { hapusTulisan, simpanTulisan, type DataTulisan } from '@/app/admin/aksi';
 import type { FormatTulisan, StatusTulisan, Tulisan } from '@/lib/types';
 
@@ -37,6 +38,15 @@ export default function EditorTulisan({ awal }: { awal?: Tulisan }) {
   const [buruk, setBuruk] = useState(false);
   const [mengirim, setMengirim] = useState(false);
 
+  const sekarang = JSON.stringify([judul, slug, deck, isi, format, nomor, penulis]);
+  const { belumTersimpan, tandaiTersimpan } = useBelumTersimpan(
+    sekarang,
+    JSON.stringify([
+      awal?.judul ?? '', awal?.slug ?? '', awal?.deck ?? '', awal?.isi ?? '',
+      awal?.format ?? 'catatan', awal?.nomor ? String(awal.nomor) : '', awal?.penulis ?? 'Redaksi',
+    ]),
+  );
+
   const slugOtomatis = useMemo(() => buatSlug(judul), [judul]);
   const slugDipakai = slug.trim() ? buatSlug(slug) : slugOtomatis;
   const menit = hitungMenitBaca(isi);
@@ -66,6 +76,7 @@ export default function EditorTulisan({ awal }: { awal?: Tulisan }) {
       lapor(hasil.pesan, !hasil.ok);
 
       if (hasil.ok) {
+        tandaiTersimpan(JSON.stringify([judul, slugDipakai, deck, isi, format, nomor, penulis]));
         setStatus(statusAkhir);
         if (!awal?.id && hasil.id) router.replace(`/admin/tulis/${hasil.id}`);
         else router.refresh();
@@ -78,7 +89,10 @@ export default function EditorTulisan({ awal }: { awal?: Tulisan }) {
     if (!window.confirm(`Hapus “${awal.judul}” selamanya? Ini tidak bisa dibatalkan.`)) return;
 
     const hasil = await hapusTulisan(awal.id);
-    if (hasil.ok) router.replace('/admin');
+    if (hasil.ok) {
+      tandaiTersimpan(sekarang);
+      router.replace('/admin');
+    }
     else lapor(hasil.pesan, true);
   }
 
@@ -132,7 +146,7 @@ export default function EditorTulisan({ awal }: { awal?: Tulisan }) {
       </div>
 
       <div className="form-isian">
-        <label htmlFor="deck">Ringkasan — satu kalimat pengantar</label>
+        <label htmlFor="deck">Ringkasan: satu kalimat pengantar</label>
         <input
           id="deck"
           className="isian"
@@ -210,7 +224,7 @@ export default function EditorTulisan({ awal }: { awal?: Tulisan }) {
             </button>
           </div>
           <span className="pesan-kecil">
-            {menit} menit baca · /catatan/{slugDipakai || '…'}
+            {menit} menit baca · /blog/{slugDipakai || '…'}
           </span>
         </div>
 
@@ -240,6 +254,10 @@ export default function EditorTulisan({ awal }: { awal?: Tulisan }) {
         <button type="button" className="tombol tombol-garis" onClick={() => simpan('draf')} disabled={menyimpan}>
           {menyimpan ? 'Menyimpan…' : 'Simpan draf'}
         </button>
+
+        {belumTersimpan && !menyimpan && (
+          <span className="tanda-belum-simpan">Ada perubahan yang belum disimpan</span>
+        )}
 
         <button type="button" className="tombol" onClick={() => simpan('terbit')} disabled={menyimpan}>
           {status === 'terbit' ? 'Simpan & tetap terbit' : 'Terbitkan'}

@@ -9,7 +9,7 @@ const POLA_EMAIL = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
 export async function POST(request: Request) {
   if (!supabaseTerpasang()) {
     return NextResponse.json(
-      { pesan: 'Pendaftaran belum aktif. Database-nya belum tersambung.' },
+      { pesan: 'Pendaftaran belum aktif karena database belum tersambung.' },
       { status: 503 },
     );
   }
@@ -22,11 +22,11 @@ export async function POST(request: Request) {
     email = (badan.email ?? '').trim().toLowerCase();
     sumber = badan.sumber?.slice(0, 120) ?? null;
   } catch {
-    return NextResponse.json({ pesan: 'Data yang dikirim tidak terbaca.' }, { status: 400 });
+    return NextResponse.json({ pesan: 'Data yang dikirim tidak bisa dibaca.' }, { status: 400 });
   }
 
   if (!POLA_EMAIL.test(email) || email.length > 254) {
-    return NextResponse.json({ pesan: 'Sepertinya alamat emailnya salah.' }, { status: 400 });
+    return NextResponse.json({ pesan: 'Alamat emailnya sepertinya belum benar.' }, { status: 400 });
   }
 
   const supabase = await klienServer();
@@ -35,7 +35,7 @@ export async function POST(request: Request) {
   if (error) {
     console.error('[berlangganan] gagal:', error.message);
     return NextResponse.json(
-      { pesan: 'Pendaftarannya gagal. Coba lagi sebentar.' },
+      { pesan: 'Pendaftaran gagal. Coba lagi sebentar.' },
       { status: 500 },
     );
   }
@@ -66,5 +66,5 @@ export async function POST(request: Request) {
     }
   }
 
-  return NextResponse.json({ pesan: 'Sudah masuk. Sampai jumpa Senin pagi.' });
+  return NextResponse.json({ pesan: 'Emailmu sudah terdaftar. Sampai jumpa Senin pagi.' });
 }

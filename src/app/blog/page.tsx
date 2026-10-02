@@ -25,15 +25,15 @@ export default async function HalamanBlog() {
         </h1>
         <p className="deck" style={{ marginTop: 20, maxWidth: 620 }}>
           {daftar.length > 0
-            ? `${daftar.length} tulisan tentang kas, harga, utang, dan hal-hal yang biasanya tidak ada yang menjelaskan.`
-            : 'Belum ada yang terbit. Catatan pertama sedang ditulis.'}
+            ? `${daftar.length} tulisan tentang kas, harga, dan utang. Hal-hal yang jarang dijelaskan dengan terbuka.`
+            : 'Belum ada tulisan yang terbit. Catatan pertama sedang disiapkan.'}
         </p>
 
         {daftar.length === 0 ? (
           <div className="kosong susun susun-16" style={{ marginTop: 44, maxWidth: 620 }}>
             <span className="label">Masih kosong</span>
             <p style={{ fontSize: 19, lineHeight: 1.6 }}>
-              Tinggalkan emailmu, dan kamu termasuk yang pertama membacanya.
+              Tinggalkan alamat emailmu, dan kamu jadi salah satu pembaca pertama.
             </p>
             <div style={{ marginTop: 8 }}>
               <FormLangganan sumber="blog-kosong" tombol="Kabari saya" />
