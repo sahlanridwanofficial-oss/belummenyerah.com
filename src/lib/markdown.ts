@@ -8,7 +8,12 @@ marked.setOptions({ gfm: true, breaks: false });
  * pasang sanitiser di sini sebelum membuka aksesnya.
  */
 export function keHtml(markdown: string): string {
-  return marked.parse(markdown ?? '', { async: false }) as string;
+  const html = marked.parse(markdown ?? '', { async: false }) as string;
+  // Tabel lebar dibungkus supaya bisa digeser di dalam wadahnya sendiri,
+  // bukan membuat seluruh halaman melebar di layar ponsel.
+  return html
+    .replace(/<table>/g, '<div class="tabel-geser"><table>')
+    .replace(/<\/table>/g, '</table></div>');
 }
 
 /** Versi teks polos untuk cuplikan dan email. */

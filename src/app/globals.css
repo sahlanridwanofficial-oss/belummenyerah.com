@@ -382,11 +382,29 @@ main { flex-grow: 1; }
   color: var(--kertas-terang);
   padding: 20px;
   overflow-x: auto;
+  /* Contoh perintah ditulis sebagai paragraf panjang. Tanpa pembungkusan,
+     pembaca harus menggeser ke samping untuk membaca satu kalimat. */
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
 }
-.prosa pre code { background: none; padding: 0; color: inherit; }
+.prosa pre code { background: none; padding: 0; color: inherit; white-space: inherit; }
 .prosa img { display: block; margin-block: 28px; }
+.tabel-geser { width: 100%; overflow-x: auto; }
 .prosa table { width: 100%; border-collapse: collapse; font-size: 17px; }
-.prosa th, .prosa td { text-align: left; padding: 10px 12px; border-top: 1px solid var(--garis); }
+.prosa th, .prosa td { text-align: left; padding: 10px 12px; border-top: 1px solid var(--garis); vertical-align: top; }
+.prosa th {
+  font-family: var(--sans);
+  font-size: 13px;
+  font-weight: 600;
+  border-top: 0;
+  border-bottom: 1px solid var(--tinta);
+}
+
+@media (max-width: 560px) {
+  .prosa table { font-size: 15px; }
+  .prosa th, .prosa td { padding: 8px 10px; }
+  .prosa pre { padding: 16px; font-size: 14px; }
+}
 
 .baris-byline {
   display: flex;
