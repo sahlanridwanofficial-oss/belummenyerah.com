@@ -173,7 +173,7 @@ export default async function Beranda() {
             </div>
             <FormLangganan
               sumber="beranda"
-              tombol="Berlangganan"
+              tombol="Daftar gratis"
               catatan="Kami tidak pernah membagikan alamat emailmu."
             />
           </div>

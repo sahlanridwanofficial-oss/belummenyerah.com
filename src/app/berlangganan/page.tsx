@@ -5,7 +5,7 @@ import FormLangganan from '@/components/FormLangganan';
 import { TandaLogo } from '@/components/Logo';
 
 export const metadata: Metadata = {
-  title: 'Berlangganan',
+  title: 'Langganan gratis',
   description: 'Satu catatan setiap Senin pagi tentang uang usaha. Gratis, berhenti kapan saja.',
 };
 
@@ -26,7 +26,10 @@ export default function HalamanBerlangganan() {
             <div className="kiri">
               <TandaLogo ukuran={52} />
 
-              <h1 className="judul-raksasa" style={{ marginTop: 32, maxWidth: 620 }}>
+              <span className="kicker" style={{ marginTop: 32 }}>
+                Gratis, lewat email
+              </span>
+              <h1 className="judul-raksasa" style={{ marginTop: 16, maxWidth: 620 }}>
                 Bulan ini berat. Bulan depan belum tentu.
               </h1>
 
