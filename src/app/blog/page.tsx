@@ -1,10 +1,12 @@
-import Link from 'next/link';
 import type { Metadata } from 'next';
 import Masthead from '@/components/Masthead';
 import Kaki from '@/components/Kaki';
 import FormLangganan from '@/components/FormLangganan';
 import { ambilTerbit } from '@/lib/tulisan';
-import { penanda, tanggalPanjang } from '@/lib/format';
+import KartuTulisan, { LencanaFormat } from '@/components/KartuTulisan';
+import { Warung } from '@/components/Ilustrasi';
+import { NAMA_FORMAT } from '@/lib/format';
+import type { FormatTulisan } from '@/lib/types';
 
 export const metadata: Metadata = {
   title: 'Blog',
@@ -25,51 +27,36 @@ export default async function HalamanBlog() {
         </h1>
         <p className="deck" style={{ marginTop: 20, maxWidth: 620 }}>
           {daftar.length > 0
-            ? `${daftar.length} tulisan tentang kas, harga, utang, dan hal-hal yang biasanya tidak ada yang menjelaskan.`
-            : 'Belum ada yang terbit. Catatan pertama sedang ditulis.'}
+            ? `${daftar.length} tulisan tentang kas, harga, dan utang. Hal-hal yang jarang dijelaskan dengan terbuka.`
+            : 'Belum ada tulisan yang terbit. Catatan pertama sedang disiapkan.'}
         </p>
 
         {daftar.length === 0 ? (
-          <div className="kosong susun susun-16" style={{ marginTop: 44, maxWidth: 620 }}>
-            <span className="label">Masih kosong</span>
-            <p style={{ fontSize: 19, lineHeight: 1.6 }}>
-              Tinggalkan emailmu, dan kamu termasuk yang pertama membacanya.
-            </p>
-            <div style={{ marginTop: 8 }}>
-              <FormLangganan sumber="blog-kosong" tombol="Kabari saya" />
+          <div className="kosong kosong-ilustrasi" style={{ marginTop: 44 }}>
+            <Warung ukuran={180} />
+            <div className="susun susun-16">
+              <span className="label">Masih kosong</span>
+              <p style={{ fontSize: 19, lineHeight: 1.6 }}>
+                Tinggalkan alamat emailmu, dan kamu jadi salah satu pembaca pertama.
+              </p>
+              <div style={{ marginTop: 8, maxWidth: 480 }}>
+                <FormLangganan sumber="blog-kosong" tombol="Kabari saya" />
+              </div>
             </div>
           </div>
         ) : (
-          <div style={{ marginTop: 48 }}>
-            {daftar.map((t) => (
-              <article key={t.id} className="baris-arsip">
-                <div className="waktu">
-                  <span className="meta">{tanggalPanjang(t.terbit_pada)}</span>
-                </div>
-                <div className="isi">
-                  <Link href={`/blog/${t.slug}`} className="judul">
-                    {t.judul}
-                  </Link>
-                  {t.deck && (
-                    <p
-                      style={{
-                        marginTop: 10,
-                        fontSize: 17,
-                        lineHeight: 1.55,
-                        color: 'var(--tinta-lembut)',
-                        maxWidth: 620,
-                      }}
-                    >
-                      {t.deck}
-                    </p>
-                  )}
-                  <span className="meta" style={{ display: 'block', marginTop: 12 }}>
-                    {penanda(t.format, t.nomor)} · {t.menit_baca} menit
-                  </span>
-                </div>
-              </article>
-            ))}
-          </div>
+          <>
+            <div className="legenda-format" aria-label="Jenis tulisan">
+              {(Object.keys(NAMA_FORMAT) as FormatTulisan[]).map((f) => (
+                <LencanaFormat key={f} format={f} />
+              ))}
+            </div>
+            <div className="kartu-tulisan-kisi" style={{ marginTop: 40 }}>
+              {daftar.map((t, i) => (
+                <KartuTulisan key={t.id} tulisan={t} utama={i === 0} />
+              ))}
+            </div>
+          </>
         )}
       </main>
 

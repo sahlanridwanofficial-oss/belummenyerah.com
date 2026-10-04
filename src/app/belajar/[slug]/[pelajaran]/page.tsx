@@ -5,6 +5,7 @@ import Masthead from '@/components/Masthead';
 import Kaki from '@/components/Kaki';
 import PemutarVideo from '@/components/PemutarVideo';
 import TandaiSelesai from '@/components/TandaiSelesai';
+import DaftarSamping from '@/components/DaftarSamping';
 import { ambilKursus, ratakan } from '@/lib/kursus';
 import { keHtml, keTeks } from '@/lib/markdown';
 
@@ -17,7 +18,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if (!kursus || !isi) return { title: 'Pelajaran tidak ditemukan' };
 
   return {
-    title: `${isi.judul} — ${kursus.judul}`,
+    title: `${isi.judul} · ${kursus.judul}`,
     description: isi.ringkas || keTeks(isi.isi, 160),
   };
 }
@@ -42,27 +43,13 @@ export default async function HalamanPelajaran({ params }: Props) {
 
       <main id="isi" className="halaman pelajaran-tata">
         <aside className="pelajaran-samping">
-          <Link href={`/belajar/${kursus.slug}`} className="label" style={{ paddingBottom: 10 }}>
-            ← {kursus.judul}
-          </Link>
-
-          {kursus.modul.map((m, i) => (
-            <div key={m.id} style={{ marginTop: 18 }}>
-              <span className="label" style={{ paddingBottom: 8 }}>
-                {String(i + 1).padStart(2, '0')} · {m.judul}
-              </span>
-              {m.pelajaran.map((p) => (
-                <Link
-                  key={p.id}
-                  href={`/belajar/${kursus.slug}/${p.slug}`}
-                  className="samping-tautan"
-                  aria-current={p.slug === ini.slug ? 'page' : undefined}
-                >
-                  {p.judul}
-                </Link>
-              ))}
-            </div>
-          ))}
+          <DaftarSamping
+            kursusSlug={kursus.slug}
+            kursusJudul={kursus.judul}
+            modul={kursus.modul}
+            pelajaranAktif={ini.slug}
+            total={semua.length}
+          />
         </aside>
 
         <article className="pelajaran-isi">

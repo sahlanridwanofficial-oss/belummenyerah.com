@@ -6,6 +6,8 @@ import '@fontsource/instrument-sans/500.css';
 import '@fontsource/instrument-sans/600.css';
 import '@fontsource-variable/newsreader/opsz.css';
 import '@fontsource-variable/newsreader/opsz-italic.css';
+import '@fontsource/ibm-plex-mono/400.css';
+import '@fontsource/ibm-plex-mono/500.css';
 import './globals.css';
 
 const situs = process.env.NEXT_PUBLIC_SITUS_URL ?? 'https://belummenyerah.com';
@@ -13,11 +15,11 @@ const situs = process.env.NEXT_PUBLIC_SITUS_URL ?? 'https://belummenyerah.com';
 export const metadata: Metadata = {
   metadataBase: new URL(situs),
   title: {
-    default: 'belummenyerah — media bisnis kecil & keuangan',
-    template: '%s — belummenyerah',
+    default: 'belummenyerah · media bisnis kecil & keuangan',
+    template: '%s · belummenyerah',
   },
   description:
-    'Media edukasi bisnis kecil dan keuangan untuk orang yang sedang di titik terberatnya — praktis soal angka, jujur soal rasanya.',
+    'Media edukasi bisnis kecil dan keuangan untuk orang yang sedang di titik terberatnya. Praktis soal angka, jujur soal rasanya.',
   openGraph: {
     type: 'website',
     locale: 'id_ID',

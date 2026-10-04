@@ -7,7 +7,8 @@ import GarisBelum from '@/components/GarisBelum';
 import FormLangganan from '@/components/FormLangganan';
 import { ambilSatu, ambilTetangga } from '@/lib/tulisan';
 import { keHtml, keTeks } from '@/lib/markdown';
-import { penanda, tanggalPanjang } from '@/lib/format';
+import { tanggalPanjang } from '@/lib/format';
+import { LencanaFormat, nomorSeri } from '@/components/KartuTulisan';
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -36,15 +37,16 @@ export default async function HalamanTulisan({ params }: Props) {
     <>
       <Masthead aktif="blog" />
 
-      <main id="isi" className="halaman">
+      <main id="isi" className="halaman halaman-tulisan">
         {tulisan.status === 'draf' && (
-          <div className="tanda-draf" style={{ marginTop: 24 }}>
-            Draf — hanya kamu yang bisa melihatnya
-          </div>
+          <div className="tanda-draf">Draf. Hanya kamu yang bisa melihatnya</div>
         )}
 
         <article className="tulisan">
-          <span className="kicker">{penanda(tulisan.format, tulisan.nomor)}</span>
+          <div className="kartu-tulisan-kepala" style={{ justifyContent: 'flex-start' }}>
+            <LencanaFormat format={tulisan.format} />
+            {tulisan.nomor && <span className="kartu-nomor">{nomorSeri(tulisan.nomor)}</span>}
+          </div>
           <h1 className="judul-artikel" style={{ marginTop: 18 }}>
             {tulisan.judul}
           </h1>
@@ -61,10 +63,11 @@ export default async function HalamanTulisan({ params }: Props) {
             >
               {tulisan.penulis}
             </span>
-            <span className="titik" />
-            <span className="meta">{tanggalPanjang(tulisan.terbit_pada)}</span>
-            <span className="titik" />
-            <span className="meta">{tulisan.menit_baca} menit baca</span>
+            <span className="gugus">
+              <span className="meta">{tanggalPanjang(tulisan.terbit_pada)}</span>
+              <span className="titik" />
+              <span className="meta">{tulisan.menit_baca} menit baca</span>
+            </span>
           </div>
 
           <div
@@ -90,8 +93,8 @@ export default async function HalamanTulisan({ params }: Props) {
                 >
                   {berikutnya.judul}
                 </Link>
-                <span className="meta" style={{ display: 'block', marginTop: 14 }}>
-                  {penanda(berikutnya.format, berikutnya.nomor)}
+                <span style={{ display: 'block', marginTop: 14 }}>
+                  <LencanaFormat format={berikutnya.format} />
                 </span>
               </>
             ) : (
@@ -108,11 +111,11 @@ export default async function HalamanTulisan({ params }: Props) {
             )}
           </div>
 
-          <div style={{ borderLeft: '1px solid var(--garis)', paddingLeft: 60 }}>
+          <div className="sisi-kanan">
             <p className="judul-seksi" style={{ fontSize: 28, marginBottom: 14 }}>
-              Kirimi saya catatan setiap Senin.
+              Dapatkan catatan berikutnya lewat email.
             </p>
-            <FormLangganan sumber={`tulisan:${tulisan.slug}`} tombol="Kirim" />
+            <FormLangganan sumber={`tulisan:${tulisan.slug}`} tombol="Daftar" />
           </div>
         </div>
       </main>

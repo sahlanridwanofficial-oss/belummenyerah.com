@@ -55,7 +55,8 @@ export default async function DaftarKursusRedaksi() {
           </p>
         </div>
       ) : (
-        <table className="admin-tabel">
+        <div className="bungkus-tabel">
+          <table className="admin-tabel">
           <thead>
             <tr>
               <th style={{ width: '44%' }}>Judul</th>
@@ -99,6 +100,7 @@ export default async function DaftarKursusRedaksi() {
             ))}
           </tbody>
         </table>
+          </div>
       )}
     </div>
   );
