@@ -7,7 +7,7 @@ type Keadaan = 'diam' | 'kirim' | 'berhasil' | 'gagal';
 export default function FormLangganan({
   sumber,
   label = 'Alamat email',
-  tombol = 'Berlangganan',
+  tombol = 'Daftar gratis',
   catatan = 'Gratis. Berhenti kapan saja.',
   kursusSlug,
   pesanBerhasil,

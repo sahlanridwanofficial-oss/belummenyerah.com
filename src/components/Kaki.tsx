@@ -19,7 +19,7 @@ export default function Kaki() {
       </div>
 
       <div className="kolom">
-        <span className="label">Berlangganan</span>
+        <span className="label">Langganan gratis</span>
         <Link href="/berlangganan">Daftar email</Link>
         <span className="keterangan">Satu catatan setiap Senin pagi. Gratis.</span>
       </div>

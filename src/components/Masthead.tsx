@@ -21,7 +21,7 @@ export default function Masthead({ aktif }: { aktif?: Bagian }) {
             Tentang
           </Link>
           <Link href="/berlangganan" className="tombol tombol-kecil">
-            Berlangganan
+            Langganan gratis
           </Link>
         </nav>
       </div>
