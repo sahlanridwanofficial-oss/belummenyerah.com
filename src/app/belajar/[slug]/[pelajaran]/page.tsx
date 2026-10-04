@@ -39,7 +39,7 @@ export default async function HalamanPelajaran({ params }: Props) {
 
   return (
     <>
-      <Masthead aktif="belajar" />
+      <Masthead aktif="belajar" ajakan={false} />
 
       <main id="isi" className="halaman pelajaran-tata">
         <aside className="pelajaran-samping">
