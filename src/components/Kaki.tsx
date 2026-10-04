@@ -1,14 +1,11 @@
 import Link from 'next/link';
-import GarisBelum from './GarisBelum';
+import Logo from './Logo';
 
 export default function Kaki() {
   return (
     <footer className="halaman kaki">
       <div className="kolom">
-        <span className="wordmark">belummenyerah</span>
-        <div style={{ width: 240, marginBlock: 6 }}>
-          <GarisBelum />
-        </div>
+        <Logo />
         <span className="keterangan">
           Media bisnis kecil dan keuangan. Ditulis di Indonesia, untuk usaha di Indonesia.
         </span>

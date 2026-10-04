@@ -7,7 +7,8 @@ import GarisBelum from '@/components/GarisBelum';
 import FormLangganan from '@/components/FormLangganan';
 import { ambilSatu, ambilTetangga } from '@/lib/tulisan';
 import { keHtml, keTeks } from '@/lib/markdown';
-import { penanda, tanggalPanjang } from '@/lib/format';
+import { tanggalPanjang } from '@/lib/format';
+import { LencanaFormat, nomorSeri } from '@/components/KartuTulisan';
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -38,13 +39,14 @@ export default async function HalamanTulisan({ params }: Props) {
 
       <main id="isi" className="halaman halaman-tulisan">
         {tulisan.status === 'draf' && (
-          <div className="tanda-draf">
-            Draf. Hanya kamu yang bisa melihatnya
-          </div>
+          <div className="tanda-draf">Draf. Hanya kamu yang bisa melihatnya</div>
         )}
 
         <article className="tulisan">
-          <span className="kicker">{penanda(tulisan.format, tulisan.nomor)}</span>
+          <div className="kartu-tulisan-kepala" style={{ justifyContent: 'flex-start' }}>
+            <LencanaFormat format={tulisan.format} />
+            {tulisan.nomor && <span className="kartu-nomor">{nomorSeri(tulisan.nomor)}</span>}
+          </div>
           <h1 className="judul-artikel" style={{ marginTop: 18 }}>
             {tulisan.judul}
           </h1>
@@ -91,8 +93,8 @@ export default async function HalamanTulisan({ params }: Props) {
                 >
                   {berikutnya.judul}
                 </Link>
-                <span className="meta" style={{ display: 'block', marginTop: 14 }}>
-                  {penanda(berikutnya.format, berikutnya.nomor)}
+                <span style={{ display: 'block', marginTop: 14 }}>
+                  <LencanaFormat format={berikutnya.format} />
                 </span>
               </>
             ) : (

@@ -6,6 +6,8 @@ import '@fontsource/instrument-sans/500.css';
 import '@fontsource/instrument-sans/600.css';
 import '@fontsource-variable/newsreader/opsz.css';
 import '@fontsource-variable/newsreader/opsz-italic.css';
+import '@fontsource/ibm-plex-mono/400.css';
+import '@fontsource/ibm-plex-mono/500.css';
 import './globals.css';
 
 const situs = process.env.NEXT_PUBLIC_SITUS_URL ?? 'https://belummenyerah.com';
