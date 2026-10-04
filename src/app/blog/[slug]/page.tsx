@@ -35,7 +35,7 @@ export default async function HalamanTulisan({ params }: Props) {
 
   return (
     <>
-      <Masthead aktif="blog" />
+      <Masthead aktif="blog" ajakan={false} />
 
       <main id="isi" className="halaman halaman-tulisan">
         {tulisan.status === 'draf' && (

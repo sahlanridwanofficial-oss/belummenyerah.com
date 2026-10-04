@@ -3,7 +3,11 @@ import Logo from './Logo';
 
 export type Bagian = 'blog' | 'belajar' | 'tentang';
 
-export default function Masthead({ aktif }: { aktif?: Bagian }) {
+/**
+ * `ajakan` menampilkan tombol langganan di menu. Di halaman baca tombol itu
+ * dimatikan, supaya pembaca tidak terganggu ajakan saat sedang membaca.
+ */
+export default function Masthead({ aktif, ajakan = true }: { aktif?: Bagian; ajakan?: boolean }) {
   return (
     <header className="masthead">
       <div className="halaman masthead-isi">
@@ -20,9 +24,11 @@ export default function Masthead({ aktif }: { aktif?: Bagian }) {
           <Link href="/tentang" aria-current={aktif === 'tentang' ? 'page' : undefined}>
             Tentang
           </Link>
-          <Link href="/berlangganan" className="tombol tombol-kecil">
-            Langganan gratis
-          </Link>
+          {ajakan && (
+            <Link href="/berlangganan" className="tombol tombol-kecil">
+              Langganan gratis
+            </Link>
+          )}
         </nav>
       </div>
     </header>

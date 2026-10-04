@@ -18,7 +18,7 @@ export default async function HalamanBlog() {
 
   return (
     <>
-      <Masthead aktif="blog" />
+      <Masthead aktif="blog" ajakan={false} />
 
       <main id="isi" className="halaman utama">
         <span className="kicker">Blog</span>
