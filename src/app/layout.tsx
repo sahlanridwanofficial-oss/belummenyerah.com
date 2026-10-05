@@ -9,17 +9,18 @@ import '@fontsource-variable/newsreader/opsz-italic.css';
 import '@fontsource/ibm-plex-mono/400.css';
 import '@fontsource/ibm-plex-mono/500.css';
 import './globals.css';
+import './interface.css';
 
 const situs = process.env.NEXT_PUBLIC_SITUS_URL ?? 'https://belummenyerah.com';
 
 export const metadata: Metadata = {
   metadataBase: new URL(situs),
   title: {
-    default: 'belummenyerah · media bisnis kecil & keuangan',
+    default: 'belummenyerah · sekolah dan media untuk UMKM',
     template: '%s · belummenyerah',
   },
   description:
-    'Media edukasi bisnis kecil dan keuangan untuk orang yang sedang di titik terberatnya. Praktis soal angka, jujur soal rasanya.',
+    'Sekolah dan media untuk UMKM. Kelas online gratis, insight bisnis, dan edukasi keuangan untuk membangun usaha yang lebih kuat.',
   openGraph: {
     type: 'website',
     locale: 'id_ID',

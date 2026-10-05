@@ -13,8 +13,8 @@ Next.js (App Router) + Supabase + Resend, dipasang di Vercel.
 | Alamat | Isi |
 | --- | --- |
 | `/` | Beranda: tulisan terbaru, seri Cerita, tiga topik, kursus |
-| `/baca` | Semua tulisan, dengan saringan topik |
-| `/baca/[slug]` | Halaman tulisan |
+| `/blog` | Semua tulisan, dengan saringan topik |
+| `/blog/[slug]` | Halaman tulisan |
 | `/topik/bertahan`, `/topik/bangun`, `/topik/uang-pribadi` | Tulisan per topik |
 | `/cerita` | Seri wawancara "Hampir Nyerah" |
 | `/belajar` | Katalog kursus |
@@ -142,7 +142,9 @@ mendaftar — pendaftaran hanya untuk dikabari kalau ada materi baru.
 
 ## Sistem desain
 
-Ada di `src/app/globals.css`, dan versi lengkapnya di kanvas konsep.
+Fondasi ada di `src/app/globals.css`. Lapisan publik terbaru ada di
+`src/app/interface.css`; catatan desain lama di bawah menjelaskan fondasi editorial,
+bukan tampilan 3D real-time yang sedang dikembangkan.
 
 - **Warna** — Kertas `#FCFBF8`, Tinta `#191714`, Bara `#9C3B23`, Arang `#1A1815`.
   Aturan 90 / 8 / 2: sembilan puluh persen kertas, delapan persen tinta, dua persen bara.
@@ -181,3 +183,25 @@ src/
   middleware.ts           penyegar sesi + penjaga /admin
 supabase/migrations/
 ```
+
+## Sekolah dan media untuk UMKM — real-time 3D
+
+The modern interface uses three actual skinned glTF scenes: learning, running a
+business, and collaboration. Scrolling moves a real camera between authored sets;
+AnimationMixers drive their skeletal gestures. Matching scene renders remain visible
+while loading, with Save-Data, or after a graphics error.
+
+The original symbol uses a white solid arc and black dots. Free classes, business/
+finance media, real content and signup behavior are preserved; the cash calculator
+is removed. See `docs/human-scene-integration.md` for the runtime contract, loading
+policy, verification scope and remaining visual review.
+
+```bash
+npm ci
+npm test
+npm run typecheck
+npm run build
+npm run dev
+```
+
+No backend schema changes or live newsletter/course registrations were made.

@@ -1,15 +1,15 @@
-import type { Metadata } from 'next';
-import Masthead from '@/components/Masthead';
-import Kaki from '@/components/Kaki';
-import { Warung } from '@/components/Ilustrasi';
-import FormLangganan from '@/components/FormLangganan';
-import { TandaLogo } from '@/components/Logo';
-import { SARINGAN } from '@/lib/redaksi';
+import type { Metadata } from "next";
+import Masthead from "@/components/Masthead";
+import Kaki from "@/components/Kaki";
+import { Warung } from "@/components/Ilustrasi";
+import FormLangganan from "@/components/FormLangganan";
+import { TandaLogo } from "@/components/Logo";
+import { SARINGAN } from "@/lib/redaksi";
 
 export const metadata: Metadata = {
-  title: 'Tentang',
+  title: "Tentang",
   description:
-    'Kenapa belummenyerah ada, untuk siapa kami menulis, dan aturan yang kami pakai sebelum menerbitkan tulisan.',
+    "Kenapa belummenyerah ada, untuk siapa kami menulis, dan aturan yang kami pakai sebelum menerbitkan tulisan.",
 };
 
 export default function HalamanTentang() {
@@ -22,8 +22,11 @@ export default function HalamanTentang() {
           <div className="kepala-ilustrasi">
             <div>
               <span className="kicker">Tentang</span>
-              <h1 className="judul-raksasa" style={{ marginTop: 18, maxWidth: 820 }}>
-                Usaha kecil jarang tutup karena pemiliknya kurang semangat.
+              <h1
+                className="judul-raksasa"
+                style={{ marginTop: 18, maxWidth: 820 }}
+              >
+                Sekolah dan media untuk UMKM yang belum menyerah.
               </h1>
             </div>
             <Warung ukuran={240} />
@@ -31,40 +34,51 @@ export default function HalamanTentang() {
 
           <article className="tulisan prosa" style={{ marginTop: 44 }}>
             <p>
-              Lebih sering, usaha tutup karena tidak ada yang pernah menjelaskan angkanya secara
-              jujur, dan karena bulan-bulan sepi itu dilewati sendirian.
+              Belum Menyerah adalah sekolah dan media untuk UMKM. Kami
+              mempertemukan kelas online gratis dengan tulisan bisnis dan
+              keuangan yang bisa langsung dipakai dalam usaha sehari-hari.
+              Belajar tanpa biaya, tanpa perlu membuat akun.
             </p>
             <p>
-              belummenyerah dibuat untuk dua masalah tersebut. Kami menjelaskan angka usaha dengan
-              bahasa yang bisa dipahami siapa saja, dan kami menulis supaya pembaca tahu bahwa masa
-              sulit itu tidak hanya dialami olehnya.
+              Lebih sering, usaha tutup karena tidak ada yang pernah menjelaskan
+              angkanya secara jujur, dan karena bulan-bulan sepi itu dilewati
+              sendirian.
+            </p>
+            <p>
+              belummenyerah dibuat untuk dua masalah tersebut. Kami menjelaskan
+              angka usaha dengan bahasa yang bisa dipahami siapa saja, dan kami
+              menulis supaya pembaca tahu bahwa masa sulit itu tidak hanya
+              dialami olehnya.
             </p>
 
             <h2>Untuk siapa kami menulis</h2>
             <p>
-              Kami menulis untuk pemilik usaha yang baru berjalan satu sampai tiga tahun. Kami
-              menulis untuk orang yang usahanya sedang menurun dan mulai berpikir untuk berhenti.
-              Kami juga menulis untuk orang yang sedang merintis usaha sambil tetap bekerja di
-              tempat lain.
+              Kami menulis untuk pemilik usaha yang baru berjalan satu sampai
+              tiga tahun. Kami menulis untuk orang yang usahanya sedang menurun
+              dan mulai berpikir untuk berhenti. Kami juga menulis untuk orang
+              yang sedang merintis usaha sambil tetap bekerja di tempat lain.
             </p>
             <p>Kami tidak menulis untuk investor atau konsultan.</p>
 
             <h2>Yang tidak kami lakukan</h2>
             <p>
-              Kami bukan media motivasi. Semangat tanpa angka justru berbahaya, karena membuat orang
-              bertahan pada usaha yang sebenarnya sudah perlu diperbaiki.
+              Kami bukan media motivasi. Semangat tanpa angka justru berbahaya,
+              karena membuat orang bertahan pada usaha yang sebenarnya sudah
+              perlu diperbaiki.
             </p>
             <p>
-              Kami juga bukan panduan cepat kaya, sebab tidak ada yang cepat dalam mengurus usaha.
-              Kami bukan media berita, karena tulisan kami harus tetap berguna tahun depan. Dan kami
-              bukan tempat untuk memamerkan hasil.
+              Kami juga bukan panduan cepat kaya, sebab tidak ada yang cepat
+              dalam mengurus usaha. Kami bukan media berita, karena tulisan kami
+              harus tetap berguna tahun depan. Dan kami bukan tempat untuk
+              memamerkan hasil.
             </p>
 
             <h2>Janji editorial</h2>
             <p>
-              Kami tidak pernah menyamarkan artikel berbayar sebagai tulisan biasa. Kalau sebuah
-              tulisan disponsori, keterangannya kami cantumkan di bagian atas halaman, bukan
-              disembunyikan di bagian bawah.
+              Kami tidak pernah menyamarkan artikel berbayar sebagai tulisan
+              biasa. Kalau sebuah tulisan disponsori, keterangannya kami
+              cantumkan di bagian atas halaman, bukan disembunyikan di bagian
+              bawah.
             </p>
           </article>
         </div>
@@ -73,7 +87,8 @@ export default function HalamanTentang() {
           <div className="halaman">
             <span className="kicker">Tiga saringan sebelum terbit</span>
             <h2 className="pita-gelap-judul" style={{ marginTop: 18 }}>
-              Setiap tulisan harus lolos tiga pertanyaan ini sebelum kami terbitkan.
+              Setiap tulisan harus lolos tiga pertanyaan ini sebelum kami
+              terbitkan.
             </h2>
             <div className="saringan-kisi" style={{ marginTop: 48 }}>
               {SARINGAN.map((teks, i) => (

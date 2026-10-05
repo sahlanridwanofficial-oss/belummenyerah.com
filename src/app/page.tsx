@@ -1,186 +1,113 @@
-import Link from 'next/link';
-import Masthead from '@/components/Masthead';
-import Kaki from '@/components/Kaki';
-import FormLangganan from '@/components/FormLangganan';
-import BelumTersambung from '@/components/BelumTersambung';
-import KartuKas from '@/components/KartuKas';
-import KartuTulisan from '@/components/KartuTulisan';
-import KartuKursus from '@/components/KartuKursus';
-import { TandaLogo } from '@/components/Logo';
-import { DuaDompet, Laci, LabelHarga } from '@/components/Ilustrasi';
-import { ambilTerbit } from '@/lib/tulisan';
-import { ambilKatalogRingkas } from '@/lib/kursus';
-import { supabaseTerpasang } from '@/lib/supabase/server';
-import { SARINGAN } from '@/lib/redaksi';
-
-const JADWAL = [
-  { hari: 'Senin', apa: 'Satu tulisan utama tentang kas, harga, atau utang.' },
-  { hari: 'Kamis', apa: 'Panduan singkat atau cerita pemilik usaha.' },
-  { hari: 'Selalu', apa: 'Tanpa iklan dan tanpa tautan afiliasi.' },
-];
-
-const YANG_DIBAHAS = [
-  {
-    Gambar: Laci,
-    judul: 'Kas dan arus uang',
-    isi: 'Berapa uang yang benar-benar kamu pegang bulan ini, dan berapa yang sebenarnya sudah jadi milik pemasok, pemilik tempat, dan karyawan.',
-  },
-  {
-    Gambar: LabelHarga,
-    judul: 'Harga dan margin',
-    isi: 'Cara menghitung harga jual supaya usaha masih hidup setelah semua biaya dibayar, bukan sekadar ikut harga tetangga.',
-  },
-  {
-    Gambar: DuaDompet,
-    judul: 'Dompet pribadi dan usaha',
-    isi: 'Cara memisahkan uang usaha dari uang rumah tangga, dan menentukan berapa gaji yang boleh kamu ambil setiap bulan.',
-  },
-];
+import Link from "next/link";
+import Masthead from "@/components/Masthead";
+import Kaki from "@/components/Kaki";
+import HumanStory from "@/components/HumanStory";
+import FormLangganan from "@/components/FormLangganan";
+import BelumTersambung from "@/components/BelumTersambung";
+import KartuTulisan from "@/components/KartuTulisan";
+import KartuKursus from "@/components/KartuKursus";
+import { ambilTerbit } from "@/lib/tulisan";
+import { ambilKatalogRingkas } from "@/lib/kursus";
+import { supabaseTerpasang } from "@/lib/supabase/server";
 
 export default async function Beranda() {
   const tersambung = supabaseTerpasang();
   const [tulisan, katalog] = tersambung
-    ? await Promise.all([ambilTerbit(5), ambilKatalogRingkas()])
+    ? await Promise.all([ambilTerbit(4), ambilKatalogRingkas()])
     : [[], []];
 
   return (
-    <>
+    <div className="sekolah-home">
       <Masthead />
-
       <main id="isi">
-        {!tersambung && (
+        <HumanStory />
+
+        <section id="kelas" className="school-section school-classes" aria-labelledby="judul-kelas">
           <div className="halaman">
-            <BelumTersambung />
-          </div>
-        )}
-
-        <section className="halaman hero">
-          <div>
-            <span className="kicker">Media bisnis kecil &amp; keuangan</span>
-            <h1 className="hero-judul" style={{ marginTop: 22 }}>
-              Omzet besar belum tentu <em>ada sisanya.</em>
-            </h1>
-            <p className="deck" style={{ marginTop: 24, maxWidth: 560 }}>
-              Kami menjelaskan uang usaha kecil dengan bahasa manusia, untuk kamu yang sedang
-              melewati bulan terberat. Praktis soal angka, jujur soal rasanya.
-            </p>
-            <div style={{ marginTop: 34, maxWidth: 520 }}>
-              <FormLangganan
-                sumber="beranda-hero"
-                tombol="Kirim ke email saya"
-                catatan="Satu catatan setiap Senin pagi. Gratis, tanpa iklan."
-              />
-            </div>
-          </div>
-
-          <KartuKas />
-        </section>
-
-        <section className="pita-jadwal" aria-label="Isi langganan">
-          <div className="halaman pita-jadwal-isi">
-            {JADWAL.map((j) => (
-              <div key={j.hari}>
-                <span className="hari">{j.hari}</span>
-                <span className="apa">{j.apa}</span>
+            <div className="school-section__head">
+              <div>
+                <span className="school-eyebrow">01 / KELAS ONLINE GRATIS</span>
+                <h2 id="judul-kelas">Belajar hal baru.<br /><span>Buka kemungkinan.</span></h2>
               </div>
-            ))}
-          </div>
-        </section>
-
-        {tulisan.length > 0 && (
-          <section className="halaman seksi" style={{ paddingTop: 76 }}>
-            <div className="kepala-seksi">
-              <span className="label">Tulisan terbaru</span>
-              <Link href="/blog" className="label tautan-lihat">
-                Semua tulisan →
-              </Link>
+              <div className="school-section__aside">
+                <p>Ilmu praktis untuk usaha sehari-hari. Belajar sesuai ritmemu, tanpa biaya dan tanpa akun.</p>
+                <Link href="/belajar" className="school-text-link">Jelajahi kelas <span aria-hidden="true">↗</span></Link>
+              </div>
             </div>
-            <div className="kartu-tulisan-kisi">
-              {tulisan.map((t, i) => (
-                <KartuTulisan key={t.id} tulisan={t} utama={i === 0} />
-              ))}
-            </div>
-          </section>
-        )}
 
-        <section className="pita-gelap" style={{ marginTop: tulisan.length > 0 ? 88 : 0 }}>
-          <div className="halaman">
-            <span className="kicker">Yang dibahas di sini</span>
-            <h2 className="pita-gelap-judul" style={{ marginTop: 18 }}>
-              Tiga hal yang paling sering membuat usaha kecil tutup, padahal bisa dihitung.
-            </h2>
-            <div className="topik-kisi">
-              {YANG_DIBAHAS.map(({ Gambar, judul, isi }) => (
-                <div key={judul} className="topik">
-                  <Gambar />
-                  <div className="susun susun-8">
-                    <span className="topik-judul">{judul}</span>
-                    <p className="topik-isi">{isi}</p>
-                  </div>
+            {katalog.length > 0 ? (
+              <div className="kartu-kursus-kisi school-course-grid">
+                {katalog.slice(0, 4).map((kursus) => <KartuKursus key={kursus.id} kursus={kursus} />)}
+              </div>
+            ) : (
+              <div className="school-course-preview nk-coming-class">
+                <div className="school-course-preview__art" aria-hidden="true">
+                  <span className="school-course-preview__label">SELALU ADA YANG BISA DIPELAJARI.</span>
+                  <span className="school-course-preview__type">Mulai<br />dari rasa<br />ingin tahu.</span>
+                  <span className="school-course-preview__arrow">↗</span>
                 </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {katalog.length > 0 && (
-          <section className="halaman seksi" style={{ paddingTop: 80 }}>
-            <div className="kepala-seksi">
-              <span className="label">Kursus gratis</span>
-              <Link href="/belajar" className="label tautan-lihat">
-                Semua kursus →
-              </Link>
-            </div>
-            <div className="kartu-kursus-kisi">
-              {katalog.slice(0, 4).map((k) => (
-                <KartuKursus key={k.id} kursus={k} />
-              ))}
-            </div>
-          </section>
-        )}
-
-        <section className="halaman seksi" style={{ paddingTop: 80 }}>
-          <span className="kicker">Cara kami menulis</span>
-          <h2 className="judul-seksi" style={{ marginTop: 16, maxWidth: 720 }}>
-            Setiap tulisan harus lolos tiga pertanyaan sebelum terbit.
-          </h2>
-          <div className="saringan-kisi">
-            {SARINGAN.map((s, i) => (
-              <div key={s} className="saringan">
-                <span className="saringan-angka">{i + 1}</span>
-                <p>{s}</p>
+                <div className="school-course-preview__copy">
+                  <span className="school-pill">SEDANG DISIAPKAN</span>
+                  <h3>Kelas pertama.<br />Langkah berikutnya.</h3>
+                  <p>Kami sedang menyusun kelas praktis untuk usaha kecil. Tinggalkan emailmu agar tahu saat kelas dibuka.</p>
+                  <FormLangganan
+                    sumber="kursus-kosong"
+                    tombol="Kabari saya"
+                    catatan="Juga berlangganan catatan Senin pagi. Gratis, berhenti kapan saja."
+                  />
+                </div>
               </div>
-            ))}
-          </div>
-          <Link
-            href="/tentang"
-            className="label tautan-lihat"
-            style={{ display: 'inline-block', marginTop: 32 }}
-          >
-            Baca janji editorial kami →
-          </Link>
-        </section>
+            )}
 
-        <section className="ajakan-bara">
-          <div className="halaman ajakan-bara-isi">
-            <div>
-              <TandaLogo ukuran={44} />
-              <h2 style={{ marginTop: 22 }}>Satu catatan setiap Senin pagi, sebelum toko buka.</h2>
-              <p className="sub">
-                Gratis, tanpa iklan, tanpa tautan afiliasi. Berhenti kapan saja lewat tautan di
-                bawah setiap email.
-              </p>
+            <div className="school-learning-steps" aria-label="Cara belajar">
+              <div><span>01</span><p><b>Pilih yang kamu butuhkan.</b> Mulai dari tantangan usahamu hari ini.</p></div>
+              <div><span>02</span><p><b>Pelajari sesuai ritmemu.</b> Sedikit demi sedikit, saat kamu sempat.</p></div>
+              <div><span>03</span><p><b>Bawa ke usahamu.</b> Praktikkan, evaluasi, lalu lanjutkan.</p></div>
             </div>
-            <FormLangganan
-              sumber="beranda"
-              tombol="Daftar gratis"
-              catatan="Kami tidak pernah membagikan alamat emailmu."
-            />
           </div>
         </section>
-      </main>
 
+        <section id="media" className="school-section school-media halaman" aria-labelledby="judul-media">
+          <div className="school-section__head">
+            <div>
+              <span className="school-eyebrow">02 / MEDIA BISNIS &amp; KEUANGAN</span>
+              <h2 id="judul-media">Sudut pandang baru.<br /><span>Untuk langkahmu.</span></h2>
+            </div>
+            <div className="school-section__aside">
+              <p>Praktis soal angka, jujur soal rasanya. Cerita dan wawasan yang dekat dengan realitas pemilik usaha.</p>
+              <Link href="/blog" className="school-text-link">Jelajahi media <span aria-hidden="true">↗</span></Link>
+            </div>
+          </div>
+          {tulisan.length > 0 ? (
+            <div className="kartu-tulisan-kisi school-editorial-grid">
+              {tulisan.map((t, index) => <KartuTulisan key={t.id} tulisan={t} utama={index === 0} />)}
+            </div>
+          ) : (
+            <div className="school-editorial-empty nk-insight-empty">
+              <span className="school-editorial-empty__mark" aria-hidden="true">↗</span>
+              <div>
+                <span className="school-eyebrow">DARI MEJA REDAKSI</span>
+                <h3>Catatan pertama sedang disiapkan.</h3>
+                <p>Wawasan bisnis dan keuangan untuk menemani proses membangun usaha. Kami sedang menyiapkan tulisan pertamanya.</p>
+              </div>
+              <Link href="/blog" className="school-text-link">Ke media <span aria-hidden="true">↗</span></Link>
+            </div>
+          )}
+        </section>
+
+        <section className="school-newsletter" aria-labelledby="judul-langganan">
+          <div className="halaman school-newsletter__inside">
+            <div>
+              <span className="school-eyebrow">SATU EMAIL. BEKAL SEMINGGU.</span>
+              <h2 id="judul-langganan">Terus belajar.<br />Tetap melangkah.</h2>
+              <p>Satu catatan setiap Senin pagi. Gratis, tanpa iklan, tanpa tautan afiliasi. Berhenti kapan saja.</p>
+            </div>
+            <FormLangganan sumber="beranda" tombol="Langganan gratis" catatan="Kami tidak pernah membagikan alamat emailmu." />
+          </div>
+        </section>
+        {!tersambung && <div className="halaman school-connection"><BelumTersambung /></div>}
+      </main>
       <Kaki />
-    </>
+    </div>
   );
 }

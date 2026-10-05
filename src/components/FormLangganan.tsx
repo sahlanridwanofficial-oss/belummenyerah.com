@@ -1,14 +1,14 @@
-'use client';
+"use client";
 
-import { useId, useState } from 'react';
+import { useEffect, useId, useRef, useState } from "react";
 
-type Keadaan = 'diam' | 'kirim' | 'berhasil' | 'gagal';
+type Keadaan = "diam" | "kirim" | "berhasil" | "gagal";
 
 export default function FormLangganan({
   sumber,
-  label = 'Alamat email',
-  tombol = 'Daftar gratis',
-  catatan = 'Gratis. Berhenti kapan saja.',
+  label = "Alamat email",
+  tombol = "Daftar gratis",
+  catatan = "Gratis. Berhenti kapan saja.",
   kursusSlug,
   pesanBerhasil,
 }: {
@@ -21,42 +21,66 @@ export default function FormLangganan({
   pesanBerhasil?: string;
 }) {
   const id = useId();
-  const [email, setEmail] = useState('');
-  const [keadaan, setKeadaan] = useState<Keadaan>('diam');
-  const [pesan, setPesan] = useState('');
+  const [email, setEmail] = useState("");
+  const [keadaan, setKeadaan] = useState<Keadaan>("diam");
+  const [pesan, setPesan] = useState("");
+  const [emailBermasalah, setEmailBermasalah] = useState(false);
+  const keteranganId = `${id}-keterangan`;
+  const konfirmasi = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (keadaan === "berhasil")
+      konfirmasi.current?.focus({ preventScroll: true });
+  }, [keadaan]);
 
   async function kirim(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    if (keadaan === 'kirim') return;
+    if (keadaan === "kirim") return;
 
-    setKeadaan('kirim');
-    setPesan('');
+    setKeadaan("kirim");
+    setPesan("");
+    setEmailBermasalah(false);
 
     try {
-      const jawab = await fetch(kursusSlug ? '/api/daftar-kursus' : '/api/berlangganan', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(kursusSlug ? { email, slug: kursusSlug } : { email, sumber }),
-      });
+      const jawab = await fetch(
+        kursusSlug ? "/api/daftar-kursus" : "/api/berlangganan",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(
+            kursusSlug ? { email, slug: kursusSlug } : { email, sumber },
+          ),
+        },
+      );
       const data = (await jawab.json()) as { pesan?: string };
 
       if (jawab.ok) {
-        setKeadaan('berhasil');
-        setPesan(pesanBerhasil ?? data.pesan ?? 'Emailmu sudah terdaftar. Sampai jumpa Senin pagi.');
-        setEmail('');
+        setKeadaan("berhasil");
+        setPesan(
+          pesanBerhasil ??
+            data.pesan ??
+            "Emailmu sudah terdaftar. Sampai jumpa Senin pagi.",
+        );
+        setEmail("");
       } else {
-        setKeadaan('gagal');
-        setPesan(data.pesan ?? 'Pendaftaran gagal. Coba lagi sebentar.');
+        setKeadaan("gagal");
+        setEmailBermasalah(jawab.status === 400);
+        setPesan(data.pesan ?? "Pendaftaran gagal. Coba lagi sebentar.");
       }
     } catch {
-      setKeadaan('gagal');
-      setPesan('Koneksi bermasalah. Periksa jaringanmu, lalu coba lagi.');
+      setKeadaan("gagal");
+      setPesan("Koneksi bermasalah. Periksa jaringanmu, lalu coba lagi.");
     }
   }
 
-  if (keadaan === 'berhasil') {
+  if (keadaan === "berhasil") {
     return (
-      <div className="susun susun-8" role="status">
+      <div
+        ref={konfirmasi}
+        className="susun susun-8 form-langganan-berhasil"
+        role="status"
+        tabIndex={-1}
+      >
         <span className="label">Terkirim</span>
         <p style={{ fontSize: 19, lineHeight: 1.55 }}>{pesan}</p>
       </div>
@@ -64,7 +88,11 @@ export default function FormLangganan({
   }
 
   return (
-    <form className="form-langganan" onSubmit={kirim}>
+    <form
+      className="form-langganan"
+      onSubmit={kirim}
+      aria-busy={keadaan === "kirim"}
+    >
       <label htmlFor={id} className="label">
         {label}
       </label>
@@ -75,21 +103,28 @@ export default function FormLangganan({
           type="email"
           name="email"
           autoComplete="email"
+          aria-describedby={keteranganId}
+          aria-invalid={emailBermasalah || undefined}
           required
           placeholder="nama@email.com"
           value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          onChange={(e) => {
+            setEmail(e.target.value);
+            setEmailBermasalah(false);
+          }}
         />
-        <button type="submit" className="tombol" disabled={keadaan === 'kirim'}>
-          {keadaan === 'kirim' ? 'Mengirim…' : tombol}
+        <button type="submit" className="tombol" disabled={keadaan === "kirim"}>
+          {keadaan === "kirim" ? "Mengirim…" : tombol}
         </button>
       </div>
-      {keadaan === 'gagal' ? (
-        <span className="pesan-buruk" role="alert">
+      {keadaan === "gagal" ? (
+        <span id={keteranganId} className="pesan-buruk" role="alert">
           {pesan}
         </span>
       ) : (
-        <span className="pesan-kecil">{catatan}</span>
+        <span id={keteranganId} className="pesan-kecil">
+          {catatan}
+        </span>
       )}
     </form>
   );

@@ -1,35 +1,28 @@
-import Link from 'next/link';
-import Logo from './Logo';
+import Link from "next/link";
+import { TandaLogo } from "./Logo";
 
 export default function Kaki() {
   return (
-    <footer className="halaman kaki">
-      <div className="kolom">
-        <Logo />
-        <span className="keterangan">
-          Media bisnis kecil dan keuangan. Ditulis di Indonesia, untuk usaha di Indonesia.
-        </span>
-      </div>
-
-      <div className="kolom">
-        <span className="label">Jelajahi</span>
-        <Link href="/blog">Blog</Link>
-        <Link href="/belajar">Belajar</Link>
-        <Link href="/tentang">Tentang</Link>
-      </div>
-
-      <div className="kolom">
-        <span className="label">Langganan gratis</span>
-        <Link href="/berlangganan">Daftar email</Link>
-        <span className="keterangan">Satu catatan setiap Senin pagi. Gratis.</span>
-      </div>
-
-      <div className="kolom">
-        <span className="label">Cara kami menulis</span>
-        <Link href="/tentang">Janji editorial</Link>
-        <span className="keterangan">
-          Tidak ada artikel berbayar yang disamarkan, dan tidak ada pelacak pihak ketiga.
-        </span>
+    <footer className="kaki">
+      <div className="halaman kaki-isi">
+        <div className="kaki-identitas">
+          <Link href="/" className="tautan-logo" aria-label="belummenyerah, ke beranda">
+            <TandaLogo ukuran={64} />
+          </Link>
+          <p>Sekolah dan media untuk UMKM.<br />Belajar. Bertumbuh. Bersama.</p>
+        </div>
+        <nav className="kaki-tautan" aria-label="Navigasi kaki halaman">
+          <Link href="/belajar">Kelas gratis <span aria-hidden="true">↗</span></Link>
+          <Link href="/blog">Media <span aria-hidden="true">↗</span></Link>
+          <Link href="/tentang">Tentang kami <span aria-hidden="true">↗</span></Link>
+          <Link href="/berlangganan">Langganan gratis <span aria-hidden="true">↗</span></Link>
+        </nav>
+        <div className="kaki-bawah">
+          <span>Untuk usaha yang terus melangkah.</span>
+          <Link href="/tentang">Janji editorial</Link>
+          <Link href="/kredit">Kredit visual 3D</Link>
+          <span>Tanpa pelacak pihak ketiga.</span>
+        </div>
       </div>
     </footer>
   );
