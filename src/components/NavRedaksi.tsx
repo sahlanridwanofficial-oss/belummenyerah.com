@@ -9,6 +9,7 @@ import { klienBrowser } from '@/lib/supabase/client';
 const MENU = [
   { href: '/admin', label: 'Arsip tulisan' },
   { href: '/admin/kursus', label: 'Kursus' },
+  { href: '/admin/sosial', label: 'Sosial' },
   { href: '/admin/pelanggan', label: 'Pelanggan' },
 ];
 
