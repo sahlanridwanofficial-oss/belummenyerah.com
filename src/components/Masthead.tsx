@@ -11,9 +11,11 @@ export type Bagian = "blog" | "belajar" | "tentang";
 export default function Masthead({
   aktif,
   ajakan = true,
+  ringkas = false,
 }: {
   aktif?: Bagian;
   ajakan?: boolean;
+  ringkas?: boolean;
 }) {
   const [terbuka, setTerbuka] = useState(false);
   const menuId = useId();
@@ -43,7 +45,7 @@ export default function Masthead({
   }, [terbuka]);
 
   return (
-    <header className="masthead">
+    <header className={`masthead${ringkas ? " masthead--ringkas" : ""}`}>
       <div className="halaman masthead-isi">
         <Link href="/" className="tautan-logo" aria-label="belummenyerah, ke beranda">
           <TandaLogo ukuran={48} />
@@ -53,8 +55,8 @@ export default function Masthead({
             <Link href="/belajar" aria-current={aktif === "belajar" ? "page" : undefined}>
               Kelas gratis
             </Link>
-            <Link href="/blog" aria-current={aktif === "blog" ? "page" : undefined}>
-              Media
+            <Link href="/tentang" aria-current={aktif === "tentang" ? "page" : undefined}>
+              Tentang
             </Link>
           </nav>
           <button
@@ -120,11 +122,10 @@ export default function Masthead({
             }}
           >
             <Link href="/belajar" aria-current={aktif === "belajar" ? "page" : undefined}><span>Kelas gratis</span><span aria-hidden="true">↗</span></Link>
-            <Link href="/blog" aria-current={aktif === "blog" ? "page" : undefined}><span>Media</span><span aria-hidden="true">↗</span></Link>
             <Link href="/tentang" aria-current={aktif === "tentang" ? "page" : undefined}><span>Tentang kami</span><span aria-hidden="true">↗</span></Link>
             {ajakan && <Link href="/berlangganan"><span>Langganan gratis</span><span aria-hidden="true">↗</span></Link>}
           </nav>
-          <p className="menu-overlay__note">Sekolah dan media untuk UMKM.<br />Belajar. Bertumbuh. Bersama.</p>
+          <p className="menu-overlay__note">Bekal belajar untuk UMKM.<br />Belajar. Bertumbuh. Bersama.</p>
         </div>
       </dialog>
       <noscript>

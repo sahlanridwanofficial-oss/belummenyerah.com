@@ -16,11 +16,11 @@ const situs = process.env.NEXT_PUBLIC_SITUS_URL ?? 'https://belummenyerah.com';
 export const metadata: Metadata = {
   metadataBase: new URL(situs),
   title: {
-    default: 'belummenyerah · sekolah dan media untuk UMKM',
+    default: 'belummenyerah · bekal belajar untuk UMKM',
     template: '%s · belummenyerah',
   },
   description:
-    'Sekolah dan media untuk UMKM. Kelas online gratis, insight bisnis, dan edukasi keuangan untuk membangun usaha yang lebih kuat.',
+    'Kelas online gratis untuk UMKM. Bekal bisnis dan keuangan untuk usaha yang terus tumbuh. Usaha boleh kecil. Mimpi jangan.',
   openGraph: {
     type: 'website',
     locale: 'id_ID',

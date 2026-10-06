@@ -7,13 +7,16 @@ import KartuTulisan, { LencanaFormat } from '@/components/KartuTulisan';
 import { Warung } from '@/components/Ilustrasi';
 import { NAMA_FORMAT } from '@/lib/format';
 import type { FormatTulisan } from '@/lib/types';
+import { requirePublicArticles } from './_visibility';
 
 export const metadata: Metadata = {
   title: 'Blog',
   description: 'Semua tulisan belummenyerah tentang uang usaha, terbaru dulu.',
+  robots: { index: false, follow: false },
 };
 
 export default async function HalamanBlog() {
+  requirePublicArticles();
   const daftar = await ambilTerbit(200);
 
   return (

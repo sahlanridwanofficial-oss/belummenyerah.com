@@ -9,10 +9,12 @@ import { ambilSatu, ambilTetangga } from '@/lib/tulisan';
 import { keHtml, keTeks } from '@/lib/markdown';
 import { tanggalPanjang } from '@/lib/format';
 import { LencanaFormat, nomorSeri } from '@/components/KartuTulisan';
+import { requirePublicArticles } from '../_visibility';
 
 type Props = { params: Promise<{ slug: string }> };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  requirePublicArticles();
   const { slug } = await params;
   const tulisan = await ambilSatu(slug);
   if (!tulisan) return { title: 'Tulisan tidak ditemukan' };
@@ -26,6 +28,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function HalamanTulisan({ params }: Props) {
+  requirePublicArticles();
   const { slug } = await params;
   const tulisan = await ambilSatu(slug);
   if (!tulisan) notFound();

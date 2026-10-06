@@ -1,5 +1,5 @@
 /**
- * Narrow declarations for the Three r180 APIs used by the real-time human scenes.
+ * Narrow declarations for the Three r180 APIs used by the real-time scenes and original Bekal model.
  * The official @types/three tarball was unavailable (HTTP 403) in this environment.
  * These declarations are checked against installed runtime exports and scene tests.
  * Replace this file with matching official declarations when registry access returns.
@@ -110,7 +110,30 @@ declare module "three" {
     setAttribute(name: string, attribute: BufferAttribute): this;
     setIndex(index: number[]): this;
     computeVertexNormals(): void;
+    translate(x: number, y: number, z: number): this;
     dispose(): void;
+  }
+  export class Shape {
+    moveTo(x: number, y: number): this;
+    lineTo(x: number, y: number): this;
+    quadraticCurveTo(cpx: number, cpy: number, x: number, y: number): this;
+  }
+  export class ExtrudeGeometry extends BufferGeometry {
+    constructor(shape: Shape, options?: {
+      depth?: number;
+      steps?: number;
+      bevelEnabled?: boolean;
+      bevelSegments?: number;
+      bevelSize?: number;
+      bevelThickness?: number;
+      curveSegments?: number;
+    });
+  }
+  export class SphereGeometry extends BufferGeometry {
+    constructor(radius?: number, widthSegments?: number, heightSegments?: number);
+  }
+  export class CatmullRomCurve3 extends Curve<Vector3> {
+    constructor(points?: Vector3[], closed?: boolean, curveType?: string, tension?: number);
   }
   export class PlaneGeometry extends BufferGeometry {
     constructor(width?: number, height?: number);
@@ -187,6 +210,18 @@ declare module "three" {
   }
   export class MeshPhysicalMaterial extends Material {
     constructor(parameters?: MeshPhysicalMaterialParameters);
+  }
+  export class ShadowMaterial extends Material {
+    constructor(parameters?: MaterialParameters & { color?: ColorRepresentation; depthWrite?: boolean });
+  }
+  export class ShaderMaterial extends Material {
+    constructor(parameters?: MaterialParameters & {
+      uniforms?: Record<string, { value: number }>;
+      vertexShader?: string;
+      fragmentShader?: string;
+      depthWrite?: boolean;
+    });
+    uniforms: Record<string, { value: number }>;
   }
   export class PointsMaterial extends Material {
     constructor(

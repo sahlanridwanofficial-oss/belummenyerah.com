@@ -15,15 +15,15 @@ export default function TidakDitemukan() {
               Halaman ini tidak ada.
             </h1>
             <p className="deck" style={{ marginTop: 20 }}>
-              Tautannya mungkin salah, atau tulisannya sudah dipindahkan. Semua tulisan yang terbit
-              ada di halaman Blog.
+              Tautannya mungkin salah, atau halamannya sudah dipindahkan. Kamu bisa melanjutkan
+              ke pilihan kursus gratis.
             </p>
             <Link
-              href="/blog"
+              href="/belajar"
               className="tombol tombol-garis"
               style={{ marginTop: 32, display: 'inline-block' }}
             >
-              Lihat semua tulisan
+              Lihat kursus gratis
             </Link>
           </div>
           <LabelHarga ukuran={200} />

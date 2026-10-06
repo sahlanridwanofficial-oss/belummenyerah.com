@@ -2,6 +2,7 @@ import { Resend } from 'resend';
 import type { Tulisan } from './types';
 import { keHtml, keTeks } from './markdown';
 import { penanda, tanggalPanjang } from './format';
+import { PUBLIC_ARTICLES_ENABLED } from './article-visibility';
 
 export function resendTerpasang(): boolean {
   return Boolean(process.env.RESEND_API_KEY && process.env.EMAIL_PENGIRIM);
@@ -82,15 +83,16 @@ ${
 <hr style="border:0;border-top:1px solid #ddd6c9;margin:0 0 28px;">
 `;
 
-  const ekor = `
+  const ekor = PUBLIC_ARTICLES_ENABLED ? `
 <p style="margin:32px 0 0;">
 <a href="${tautanBaca}" style="font-family:Helvetica,Arial,sans-serif;font-size:14px;font-weight:bold;color:#9c3b23;text-decoration:none;">Baca di situs &rarr;</a>
-</p>`;
+</p>` : '';
+  const tautanTeks = PUBLIC_ARTICLES_ENABLED ? `Baca: ${tautanBaca}\n` : '';
 
   return {
     subjek: tulisan.judul,
     html: bungkusEmail(kepala + keHtml(tulisan.isi) + ekor, tautanBerhenti),
-    teks: `${tulisan.judul}\n\n${tulisan.deck}\n\n${keTeks(tulisan.isi, 4000)}\n\nBaca: ${tautanBaca}\nBerhenti: ${tautanBerhenti}`,
+    teks: `${tulisan.judul}\n\n${tulisan.deck}\n\n${keTeks(tulisan.isi, 4000)}\n\n${tautanTeks}Berhenti: ${tautanBerhenti}`,
   };
 }
 
@@ -103,11 +105,11 @@ export function emailSelamatDatang(token: string) {
 <p style="margin:0 0 16px;">Mulai Senin depan, kamu akan menerima satu catatan setiap Senin pagi tentang kas, harga, dan utang. Hal-hal yang jarang dijelaskan dengan jujur.</p>
 <p style="margin:0 0 16px;">Setiap Kamis ada satu kiriman lagi, berupa panduan singkat atau cerita pemilik usaha yang pernah hampir berhenti.</p>
 <p style="margin:0 0 16px;">Kalau ada pertanyaan soal angka di usahamu, balas saja email ini. Semua dibaca.</p>
-<p style="margin:24px 0 0;"><a href="${situs}/blog" style="font-family:Helvetica,Arial,sans-serif;font-size:14px;font-weight:bold;color:#9c3b23;text-decoration:none;">Sementara itu, lihat arsipnya &rarr;</a></p>`;
+<p style="margin:24px 0 0;"><a href="${situs}/belajar" style="font-family:Helvetica,Arial,sans-serif;font-size:14px;font-weight:bold;color:#9c3b23;text-decoration:none;">Sementara itu, lihat kursus gratisnya &rarr;</a></p>`;
 
   return {
     subjek: 'Selamat datang di belummenyerah',
     html: bungkusEmail(isi, tautanBerhenti),
-    teks: `Terima kasih sudah mendaftar.\n\nMulai Senin depan kamu akan menerima satu catatan setiap Senin pagi.\n\nArsip: ${situs}/blog\nBerhenti: ${tautanBerhenti}`,
+    teks: `Terima kasih sudah mendaftar.\n\nMulai Senin depan kamu akan menerima satu catatan setiap Senin pagi.\n\nKursus gratis: ${situs}/belajar\nBerhenti: ${tautanBerhenti}`,
   };
 }

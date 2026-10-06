@@ -4,6 +4,7 @@ import EditorTulisan from '@/components/EditorTulisan';
 import { klienServer, supabaseTerpasang } from '@/lib/supabase/server';
 import { tanggalPanjang } from '@/lib/format';
 import type { Tulisan } from '@/lib/types';
+import { PUBLIC_ARTICLES_ENABLED } from '@/lib/article-visibility';
 
 type Props = { params: Promise<{ id: string }> };
 
@@ -39,7 +40,7 @@ export default async function SuntingTulisan({ params }: Props) {
               : 'Masih draf'}
           </span>
         </div>
-        {tulisan.status === 'terbit' && (
+        {PUBLIC_ARTICLES_ENABLED && tulisan.status === 'terbit' && (
           <Link
             href={`/blog/${tulisan.slug}`}
             target="_blank"
