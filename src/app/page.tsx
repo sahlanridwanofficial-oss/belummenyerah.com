@@ -1,3 +1,4 @@
+import ArrowIcon from "@/components/ArrowIcon";
 import Link from "next/link";
 import Masthead from "@/components/Masthead";
 import DontGiveUpTitle from "@/components/DontGiveUpTitle";
@@ -20,8 +21,8 @@ export default function Beranda() {
           <p>Usaha boleh kecil. Mimpi jangan.</p>
           <span>Belajar gratis. Tumbuh bareng. Lanjut lagi.</span>
           <div className="giveup-actions">
-            <Link href="/belajar" className="giveup-button giveup-button--dark">Kelas gratis <span aria-hidden="true">↗</span></Link>
-            <Link href="/tentang" className="giveup-button">Kenalan dulu <span aria-hidden="true">↗</span></Link>
+            <Link href="/belajar" className="giveup-button giveup-button--dark">Kelas gratis <ArrowIcon /></Link>
+            <Link href="/tentang" className="giveup-button">Kenalan dulu <ArrowIcon /></Link>
           </div>
         </div>
       </main>

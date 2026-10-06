@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import BekalFallback from "./BekalFallback";
+import ArrowIcon from "./ArrowIcon";
 import type { BekalSceneHandle } from "@/lib/bekal-scene";
 
 export default function BekalScene() {
@@ -12,6 +13,7 @@ export default function BekalScene() {
   const [failed, setFailed] = useState(false);
   const [paused, setPaused] = useState(false);
   const [limited, setLimited] = useState(false);
+  const [reducedMotion, setReducedMotion] = useState(false);
   const [attempt, setAttempt] = useState(0);
   const pausedRef = useRef(paused);
   pausedRef.current = paused;
@@ -22,6 +24,7 @@ export default function BekalScene() {
     const update = () => {
       const save = motion.matches || Boolean(connection?.saveData);
       setLimited(save);
+      setReducedMotion(motion.matches);
       setEnabled(!save);
       if (save) { setPaused(true); setReady(false); }
     };
@@ -84,12 +87,12 @@ export default function BekalScene() {
       <div className="bekal-still" hidden={ready}><BekalFallback /></div>
       <div className="bekal-canvas" ref={host} aria-hidden="true" style={{ opacity: ready ? 1 : 0 }} />
     </div>
-    <div className="bekal-note"><span className="bekal-note__line" aria-hidden="true">↖</span><span>Bekal kecil.<br />Langkah besar.</span></div>
+    <div className="bekal-note"><ArrowIcon className="bekal-note__line"/><span>Bekal kecil.<br />Langkah besar.</span></div>
     <div className="bekal-controls">
-      {ready ? <>
-        <button type="button" onClick={() => { if (paused) { setPaused(false); scene.current?.setPaused(false); } scene.current?.celebrate(); }} aria-label="Sapa Bekal, mainkan gerakan pendek">Sapa Bekal <span aria-hidden="true">✳</span></button>
-        <button className="bekal-pause" type="button" aria-pressed={paused} aria-label={paused ? "Lanjutkan animasi" : "Jeda animasi"} onClick={() => setPaused(value => !value)}>{paused ? "▷" : "Ⅱ"}</button>
-      </> : (failed || limited) ? <button type="button" onClick={() => { setPaused(false); setEnabled(true); setAttempt(value => value + 1); }}>Coba animasi 3D <span aria-hidden="true">↗</span></button> : null}
+      {ready && reducedMotion ? <span>3D · gerak dikurangi</span> : ready ? <>
+        <button type="button" onClick={() => { if (paused) { setPaused(false); scene.current?.setPaused(false); } scene.current?.celebrate(); }} aria-label="Sapa Bekal, mainkan gerakan pendek">Sapa Bekal <svg width="15" height="15" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 2v16M2 10h16M4 4l12 12M16 4L4 16" stroke="currentColor" strokeWidth="1.5"/></svg></button>
+        <button className="bekal-pause" type="button" aria-pressed={paused} aria-label={paused ? "Lanjutkan animasi" : "Jeda animasi"} onClick={() => setPaused(value => !value)}><svg width="16" height="16" viewBox="0 0 20 20" aria-hidden="true">{paused ? <path d="M6 3l10 7-10 7Z" fill="none" stroke="currentColor" strokeWidth="1.5"/> : <path d="M7 4v12M13 4v12" stroke="currentColor" strokeWidth="2"/>}</svg></button>
+      </> : (failed || limited) ? <button type="button" onClick={() => { setPaused(false); setEnabled(true); setAttempt(value => value + 1); }}>Coba animasi 3D <ArrowIcon/></button> : null}
     </div>
     <span className="khusus-pembaca-layar" role="status">{failed ? "Ilustrasi Bekal ditampilkan karena 3D tidak tersedia di perangkat ini." : limited && !ready ? "Ilustrasi diam ditampilkan untuk menghemat data atau mengurangi gerak." : "Bekal, karakter buku kecil yang menemani langkah usahamu."}</span>
   </div>;

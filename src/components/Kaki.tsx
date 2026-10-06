@@ -1,3 +1,4 @@
+import ArrowIcon from "@/components/ArrowIcon";
 import Link from "next/link";
 import { TandaLogo } from "./Logo";
 
@@ -12,9 +13,9 @@ export default function Kaki() {
           <p>Bekal belajar untuk UMKM.<br />Belajar. Bertumbuh. Bersama.</p>
         </div>
         <nav className="kaki-tautan" aria-label="Navigasi kaki halaman">
-          <Link href="/belajar">Kelas gratis <span aria-hidden="true">↗</span></Link>
-          <Link href="/tentang">Tentang kami <span aria-hidden="true">↗</span></Link>
-          <Link href="/berlangganan">Langganan gratis <span aria-hidden="true">↗</span></Link>
+          <Link href="/belajar">Kelas gratis <ArrowIcon /></Link>
+          <Link href="/tentang">Tentang kami <ArrowIcon /></Link>
+          <Link href="/berlangganan">Langganan gratis <ArrowIcon /></Link>
         </nav>
         <div className="kaki-bawah">
           <span>Untuk usaha yang terus melangkah.</span>

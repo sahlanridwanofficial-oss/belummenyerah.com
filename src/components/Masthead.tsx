@@ -1,5 +1,6 @@
 "use client";
 
+import ArrowIcon from "@/components/ArrowIcon";
 import Link from "next/link";
 import { useEffect, useId, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
@@ -121,9 +122,9 @@ export default function Masthead({
               if (event.target instanceof Element && event.target.closest("a")) setTerbuka(false);
             }}
           >
-            <Link href="/belajar" aria-current={aktif === "belajar" ? "page" : undefined}><span>Kelas gratis</span><span aria-hidden="true">↗</span></Link>
-            <Link href="/tentang" aria-current={aktif === "tentang" ? "page" : undefined}><span>Tentang kami</span><span aria-hidden="true">↗</span></Link>
-            {ajakan && <Link href="/berlangganan"><span>Langganan gratis</span><span aria-hidden="true">↗</span></Link>}
+            <Link href="/belajar" aria-current={aktif === "belajar" ? "page" : undefined}><span>Kelas gratis</span><ArrowIcon /></Link>
+            <Link href="/tentang" aria-current={aktif === "tentang" ? "page" : undefined}><span>Tentang kami</span><ArrowIcon /></Link>
+            {ajakan && <Link href="/berlangganan"><span>Langganan gratis</span><ArrowIcon /></Link>}
           </nav>
           <p className="menu-overlay__note">Bekal belajar untuk UMKM.<br />Belajar. Bertumbuh. Bersama.</p>
         </div>

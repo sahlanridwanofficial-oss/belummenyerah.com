@@ -158,3 +158,23 @@ body:has(.masthead) .ajakan-bara .isian::placeholder { color:#626259; }
 
 .pita-gelap .tanda-logo, .ajakan-bara .tanda-logo { color:#fff; background:#e1c65b; border-radius:50%; padding:4px; }
 .pita-gelap .tanda-logo .titik-logo, .ajakan-bara .tanda-logo .titik-logo { stroke:#14140f; }
+.bekal-controls > span { display:inline-flex; align-items:center; min-height:44px; color:#626259; font:400 10px/1.4 var(--sans); }
+.bekal-controls button { display:inline-flex; align-items:center; gap:6px; }
+.bekal-controls button > svg { width:14px; height:14px; }
+.bekal-note__line { width:30px; height:30px; transform:scaleX(-1) rotate(-12deg); }
+.menu-overlay__links > a > svg { width:.6em; height:.6em; }
+.kaki-tautan > a > svg { width:16px; height:16px; }
+.kelas-baru__stamp > svg { width:55%; height:55%; }
+.langganan-ringkas { max-width:1040px; padding-block:70px 100px; }
+.langganan-ringkas h1 { font:600 clamp(44px,6.5vw,78px)/1.06 var(--sans); letter-spacing:-.06em; margin-top:24px; }
+.langganan-ringkas > p { font:400 17px/1.6 var(--sans); color:#626259; margin-top:24px; }
+.langganan-ringkas .form-langganan { max-width:520px; margin-top:36px; }
+@media (max-width:560px) { .langganan-ringkas { padding-block:48px 70px; } .langganan-ringkas .form-kirim { flex-direction:column; } .langganan-ringkas .tombol { align-self:flex-start; } }
+/* Reset the legacy four-column footer shell before applying the inner grid. */
+.kaki { display:block; }
+.kaki .kaki-tautan > a { gap:12px; }
+body:has(.masthead) .deck { font-family:var(--sans); font-size:17px; line-height:1.6; }
+main.utama { padding-bottom:64px; }
+.giveup-footer { font-size:11px; }
+.giveup-footer a { min-height:44px; }
+@media (max-width:560px) { .giveup-footer { font-size:10px; } }

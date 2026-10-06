@@ -9,7 +9,7 @@ const { project, loadSource } = require('./helpers.cjs');
 const read = file => fs.readFileSync(path.join(project, file), 'utf8');
 const Link = ({children,...props}) => React.createElement('a',props,children);
 const Title = loadSource('src/components/DontGiveUpTitle.tsx').default;
-const Home = loadSource('src/app/page.tsx', {'next/link':Link,'@/components/Masthead':()=>React.createElement('header'),'@/components/DontGiveUpTitle':Title,'@/components/BekalScene':()=>React.createElement('div',{'data-bekal':true})}).default;
+const Home = loadSource('src/app/page.tsx', {'@/components/ArrowIcon':()=>React.createElement('svg'), 'next/link':Link,'@/components/Masthead':()=>React.createElement('header'),'@/components/DontGiveUpTitle':Title,'@/components/BekalScene':()=>React.createElement('div',{'data-bekal':true})}).default;
 
 test('homepage is a sparse, accessible original title and only two main destinations', () => {
   const dom = new JSDOM(renderToStaticMarkup(React.createElement(Home)));
@@ -51,4 +51,11 @@ test('no reference artwork, stock humans, or video assets are shipped by the new
   assert.doesNotMatch(source,/dontlookup\.app|Renderpeople|<video|\.glb|\.mp4/);
   assert.ok(!fs.existsSync(path.join(project,'public/models')));
   assert.ok(!fs.existsSync(path.join(project,'src/components/HumanStory.tsx')));
+});
+test('shared footer resets the legacy outer grid instead of squeezing all content into one column',()=>{
+  assert.match(read('src/app/interface.css'),/\.kaki \{ display:block; \}/);
+});
+test('navigation icons are SVG shapes rather than missing font arrows',()=>{
+  for(const file of ['src/app/page.tsx','src/components/Masthead.tsx','src/components/Kaki.tsx','src/components/BekalScene.tsx']) assert.doesNotMatch(read(file),/[↗↖✳▷Ⅱ]/,file);
+  assert.match(read('src/components/ArrowIcon.tsx'),/aria-hidden="true"/);
 });

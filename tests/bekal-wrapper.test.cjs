@@ -16,6 +16,7 @@ async function mount(t,{reduced=false,saveData=false,fail=false}={}){
   const handle={dispose:()=>disposals++,setPaused:value=>pauses.push(value),setPointer:()=>{},setProgress:()=>{},celebrate:()=>celebrations++};
   const Scene=loadSource('src/components/BekalScene.tsx',{
     './BekalFallback':()=>React.createElement('svg',{'data-still':true}),
+    './ArrowIcon':()=>React.createElement('svg'),
     '@/lib/bekal-scene':{startBekalScene:(_,cb)=>{loads++;callbacks=cb;if(fail) cb.onError(new Error('test'));else cb.onReady();return handle;}},
   }).default;
   const container=document.createElement('div');document.body.appendChild(container); const root=createRoot(container);
@@ -52,4 +53,10 @@ test('enabling reduced motion after mount disposes WebGL and reveals the still',
   await v.toggleMotion(true);assert.equal(v.disposals,1);
   assert.equal(v.container.querySelector('.bekal').dataset.ready,'false');
   assert.equal(v.container.querySelector('.bekal-still').hidden,false);
+});
+
+test('reduced-motion opt-in labels a still 3D scene without inert gesture buttons',async t=>{
+  const v=await mount(t,{reduced:true});await act(async()=>v.container.querySelector('button').click());
+  assert.match(v.container.querySelector('.bekal-controls').textContent,/gerak dikurangi/);
+  assert.equal(v.container.querySelector('[aria-label^="Sapa Bekal"]'),null);
 });
