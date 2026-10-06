@@ -2,12 +2,13 @@
 
 import { Suspense, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
+import { adminReturnPath } from '@/lib/admin-return-path';
 import { klienBrowser } from '@/lib/supabase/client';
 
 function FormMasuk() {
   const router = useRouter();
   const params = useSearchParams();
-  const lanjut = params.get('lanjut') || '/admin';
+  const lanjut = adminReturnPath(params.get('lanjut'));
 
   const [email, setEmail] = useState('');
   const [sandi, setSandi] = useState('');
@@ -16,27 +17,29 @@ function FormMasuk() {
 
   async function masuk(e: React.FormEvent) {
     e.preventDefault();
+    if (sibuk) return;
     setSibuk(true);
     setGalat('');
 
-    const { error } = await klienBrowser().auth.signInWithPassword({ email, password: sandi });
-
-    if (error) {
-      setGalat(
-        error.message === 'Invalid login credentials'
+    try {
+      const { error } = await klienBrowser().auth.signInWithPassword({ email, password: sandi });
+      if (error) {
+        setGalat(error.message === 'Invalid login credentials'
           ? 'Email atau kata sandinya tidak cocok.'
-          : error.message,
-      );
+          : 'Belum berhasil masuk. Periksa koneksi dan coba lagi.');
+        setSibuk(false);
+        return;
+      }
+      router.replace(lanjut);
+      router.refresh();
+    } catch {
+      setGalat('Belum berhasil masuk. Periksa koneksi dan coba lagi.');
       setSibuk(false);
-      return;
     }
-
-    router.replace(lanjut);
-    router.refresh();
   }
 
   return (
-    <form className="susun susun-16" onSubmit={masuk} style={{ maxWidth: 420 }}>
+    <form className="susun susun-16" onSubmit={masuk} aria-busy={sibuk} style={{ maxWidth: 420 }}>
       <div className="form-isian">
         <label htmlFor="email">Email</label>
         <input
@@ -87,8 +90,7 @@ export default function HalamanLogin() {
         <FormMasuk />
       </Suspense>
       <p className="pesan-kecil" style={{ marginTop: 24, maxWidth: 420 }}>
-        Akun dibuat sekali lewat dashboard Supabase (Authentication → Users → Add user), lalu dipakai
-        seterusnya dari sini.
+        Gunakan akun redaksi yang sudah diberikan pengelola situs. Halaman ini tidak menyediakan pendaftaran akun.
       </p>
     </div>
   );

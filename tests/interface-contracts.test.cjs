@@ -9,7 +9,7 @@ const { project, loadSource } = require('./helpers.cjs');
 const read = file => fs.readFileSync(path.join(project, file), 'utf8');
 const Link = ({children,...props}) => React.createElement('a',props,children);
 const Title = loadSource('src/components/DontGiveUpTitle.tsx').default;
-const Home = loadSource('src/app/page.tsx', {'@/components/ArrowIcon':()=>React.createElement('svg'), 'next/link':Link,'@/lib/blog':loadSource('src/lib/blog.ts'),'@/components/Masthead':()=>React.createElement('header'),'@/components/DontGiveUpTitle':Title,'@/components/CrowdScene':()=>React.createElement('div',{'data-crowd':true})}).default;
+const Home = loadSource('src/app/page.tsx', {'@fontsource/luckiest-guy/400.css':{},'@/components/ArrowIcon':()=>React.createElement('svg'), 'next/link':Link,'@/lib/blog':loadSource('src/lib/blog.ts'),'@/components/Masthead':()=>React.createElement('header'),'@/components/DontGiveUpTitle':Title,'@/components/CrowdScene':()=>React.createElement('div',{'data-crowd':true})}).default;
 
 test('homepage is a sparse, accessible original title and only two main destinations', () => {
   const dom = new JSDOM(renderToStaticMarkup(React.createElement(Home)));
@@ -17,7 +17,7 @@ test('homepage is a sparse, accessible original title and only two main destinat
   assert.equal(doc.querySelectorAll('h1').length,1);
   assert.match(doc.querySelector('h1').textContent,/Don’t give up/);
   assert.ok(doc.querySelector('h1 svg[aria-hidden="true"]'));
-  assert.deepEqual(Array.from(doc.querySelectorAll('main a')).map(a=>a.getAttribute('href')),['/belajar','/tentang']);
+  assert.deepEqual(Array.from(doc.querySelectorAll('main a')).map(a=>a.getAttribute('href')),['/belajar','/blog']);
   assert.equal(doc.querySelectorAll('main section, main article, main form').length,0);
   assert.ok(doc.querySelector('[data-crowd]'));
   assert.match(doc.body.textContent,/Belajar gratis/);
@@ -52,7 +52,7 @@ test('paper, ink, butter palette and responsive reduced-motion rules replace old
   assert.doesNotMatch(css,/human-story|school-course|#f6d8b8|#a3411f/);
 });
 test('no reference artwork, stock humans, or video assets are shipped by the new homepage',()=>{
-  const source=read('src/components/DontGiveUpTitle.tsx')+read('src/lib/crowd-model.ts')+read('src/components/CrowdScene.tsx');
+  const source=read('src/components/DontGiveUpTitle.tsx')+read('src/lib/illustrated-crowd-model.ts')+read('src/components/CrowdScene.tsx');
   assert.doesNotMatch(source,/dontlookup\.app|Renderpeople|<video|\.glb|\.mp4/);
   assert.ok(!fs.existsSync(path.join(project,'public/models')));
   assert.ok(!fs.existsSync(path.join(project,'src/components/HumanStory.tsx')));
@@ -65,13 +65,12 @@ test('navigation icons are SVG shapes rather than missing font arrows',()=>{
   assert.match(read('src/components/ArrowIcon.tsx'),/aria-hidden="true"/);
 });
 
-test('the three new blog cards sit outside the full hero and its animation layer', () => {
+test('homepage has no article cards while the secondary CTA still opens the preserved blog', () => {
   const dom = new JSDOM(renderToStaticMarkup(React.createElement(Home)));
   const doc = dom.window.document;
-  assert.equal(doc.querySelector('.giveup-home .beranda-blog'), null);
-  assert.ok(doc.querySelector('.giveup-home + .beranda-blog'));
-  assert.equal(doc.querySelectorAll('.beranda-blog article').length, 3);
-  for (const link of doc.querySelectorAll('.beranda-blog article a')) assert.match(link.getAttribute('href'), /^\/blog\//);
+  assert.equal(doc.querySelectorAll('.beranda-blog, article').length, 0);
+  assert.ok(doc.querySelector('.giveup-actions a[href="/blog"]'));
+  assert.doesNotMatch(read('src/app/page.tsx'), /ARTIKEL_BLOG|lib\/blog/);
   dom.window.close();
 });
 test('hero CTA geometry follows the observed irregular reference with accessible touch targets',()=>{
@@ -84,6 +83,26 @@ test('hero CTA geometry follows the observed irregular reference with accessible
  assert.match(css,/\.giveup-button,.giveup-button:hover,.giveup-button:active \{ transition:none; transform:rotate\(var\(--button-tilt\)\); \}/);
  const dom=new JSDOM(renderToStaticMarkup(React.createElement(Home)));
  assert.equal(dom.window.document.querySelectorAll('.giveup-actions svg').length,0);
- assert.deepEqual([...dom.window.document.querySelectorAll('.giveup-actions a')].map(a=>[a.textContent,a.getAttribute('href')]),[['Kelas gratis','/belajar'],['Kenalan dulu','/tentang']]);
+ assert.deepEqual([...dom.window.document.querySelectorAll('.giveup-actions a')].map(a=>[a.textContent,a.getAttribute('href')]),[['Kelas gratis','/belajar'],['Baca dulu','/blog']]);
  dom.window.close();
+});
+test('only the secondary Blog CTA keeps white fill and ink colors in every interaction state',()=>{
+ const css=read('src/app/interface.css');
+ const block=css.match(/\/\* The Blog CTA stays white[\s\S]*?\n\}/)[0];
+ for(const state of ['',':visited',':hover',':active',':focus',':focus-visible']) assert.ok(block.includes(`.giveup-button--light${state}${state===':focus-visible'?' {':','}`));
+ assert.match(block,/background:#fff;/);assert.match(block,/color:#14140f;/);assert.match(block,/border-color:#14140f;/);
+ assert.doesNotMatch(block,/--dark|outline:|transform:|box-shadow:/);
+ assert.match(css,/:focus-visible \{ outline: 3px solid #6650c8; outline-offset: 5px; \}/);
+ const dom=new JSDOM(renderToStaticMarkup(React.createElement(Home)));
+ const secondary=dom.window.document.querySelector('.giveup-actions .giveup-button--light');
+ assert.equal(secondary.textContent,'Baca dulu');assert.equal(secondary.getAttribute('href'),'/blog');
+ assert.equal(dom.window.document.querySelectorAll('.giveup-button--light').length,1);
+ assert.equal(dom.window.document.querySelector('.giveup-button--dark').classList.contains('giveup-button--light'),false);
+ dom.window.close();
+});
+test('the licensed reference fallback font is scoped to hero buttons only',()=>{
+ assert.match(read('src/app/page.tsx'), /import "@fontsource\/luckiest-guy\/400.css"/);
+ assert.match(read('src/app/interface.css'), /\.giveup-actions \.giveup-button \{ font-family:'Luckiest Guy',var\(--sans\); font-weight:400; \}/);
+ assert.doesNotMatch(read('src/app/layout.tsx'), /luckiest-guy|Marsipan/);
+ assert.doesNotMatch(read('src/app/interface.css'), /font-family:[^;]*Marsipan/);
 });

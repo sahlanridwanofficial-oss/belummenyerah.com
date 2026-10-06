@@ -1,0 +1,8 @@
+Luckiest Guy Regular
+Copyright (c) 2010 by Brian J. Bonislawsky DBA Astigmatic (AOETI).
+All rights reserved. Available under the Apache 2.0 licence.
+
+Source: https://github.com/google/fonts/tree/main/apache/luckiestguy
+Distributed through @fontsource/luckiest-guy 5.3.0.
+Used only on Belum Menyerah's homepage action buttons.
+See luckiest-guy-LICENSE.txt for the full Apache License 2.0.

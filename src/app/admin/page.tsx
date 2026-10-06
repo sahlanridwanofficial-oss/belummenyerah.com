@@ -14,11 +14,13 @@ export default async function DaftarTulisan() {
   }
 
   const supabase = await klienServer();
-  const { data } = await supabase
+  const { data, error } = await supabase
     .from('tulisan')
     .select('id, slug, judul, format, nomor, status, menit_baca, terbit_pada, diubah_pada')
     .order('diubah_pada', { ascending: false })
     .limit(200);
+
+  if (error) return <div className="halaman" style={{ paddingBlock: 48 }}><h1 className="judul-seksi">Arsip tulisan</h1><p className="pesan-buruk" role="alert">Arsip belum bisa dimuat. Coba muat ulang halaman; data yang tersimpan tidak berubah.</p></div>;
 
   const daftar = (data ?? []) as unknown as Tulisan[];
   const draf = daftar.filter((t) => t.status === 'draf').length;
@@ -39,13 +41,19 @@ export default async function DaftarTulisan() {
         <div>
           <span className="kicker">Redaksi</span>
           <h1 className="judul-seksi" style={{ marginTop: 12 }}>
-            {daftar.length > 0 ? `${terbit} terbit · ${draf} draf` : 'Belum ada tulisan'}
+            {daftar.length > 0 ? `${terbit} siap dikirim · ${draf} draf` : 'Belum ada arsip tulisan'}
           </h1>
         </div>
         <Link href="/admin/tulis" className="tombol">
           Tulis catatan baru
         </Link>
       </div>
+
+      <aside className="admin-catatan" style={{ marginBottom: 28 }}>
+        <p><strong>Arsip tulisan dan newsletter</strong></p>
+        <p>Tulisan di sini tersimpan di database. Menyimpan atau menandai siap dikirim tidak menambah atau mengubah artikel di blog publik.</p>
+        <p>Blog publik saat ini dikelola melalui kode situs. <Link href="/blog" target="_blank" rel="noreferrer">Lihat blog publik ↗</Link></p>
+      </aside>
 
       {daftar.length === 0 ? (
         <div className="kosong susun susun-16">
@@ -63,7 +71,7 @@ export default async function DaftarTulisan() {
               <th style={{ width: '46%' }}>Judul</th>
               <th>Format</th>
               <th>Status</th>
-              <th>Terbit</th>
+              <th>Ditandai siap</th>
               <th>Diubah</th>
             </tr>
           </thead>
@@ -78,7 +86,7 @@ export default async function DaftarTulisan() {
                     className="pesan-kecil"
                     style={{ display: 'block', marginTop: 4, fontFamily: 'var(--sans)' }}
                   >
-                    /blog/{t.slug}
+                    Slug arsip: {t.slug}
                   </span>
                 </td>
                 <td style={{ fontSize: 16 }}>
@@ -89,7 +97,7 @@ export default async function DaftarTulisan() {
                   <span
                     className={t.status === 'terbit' ? 'lencana lencana-terbit' : 'lencana lencana-draf'}
                   >
-                    {t.status}
+                    {t.status === 'terbit' ? 'Siap dikirim' : 'Draf'}
                   </span>
                 </td>
                 <td style={{ fontSize: 15, color: 'var(--meta)' }}>

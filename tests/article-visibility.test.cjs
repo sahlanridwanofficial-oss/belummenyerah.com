@@ -214,7 +214,7 @@ test('the authenticated article list remains available with both draft and publi
     for (const record of records) {
       assert.equal(dom.window.document.querySelector(`a[href="/admin/tulis/${record.id}"]`).textContent, record.judul);
     }
-    assert.match(dom.window.document.body.textContent, /1 terbit · 1 draf/);
+    assert.match(dom.window.document.body.textContent, /1 siap dikirim · 1 draf/);
   } finally { dom.window.close(); }
 });
 

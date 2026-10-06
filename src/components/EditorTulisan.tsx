@@ -37,6 +37,8 @@ export default function EditorTulisan({ awal }: { awal?: Tulisan }) {
   const [pesan, setPesan] = useState('');
   const [buruk, setBuruk] = useState(false);
   const [mengirim, setMengirim] = useState(false);
+  const [menghapus, setMenghapus] = useState(false);
+  const sibuk = menyimpan || mengirim || menghapus;
 
   const sekarang = JSON.stringify([judul, slug, deck, isi, format, nomor, penulis]);
   const { belumTersimpan, tandaiTersimpan } = useBelumTersimpan(
@@ -58,6 +60,7 @@ export default function EditorTulisan({ awal }: { awal?: Tulisan }) {
   }
 
   function simpan(statusBaru?: StatusTulisan) {
+    if (sibuk) return;
     const statusAkhir = statusBaru ?? status;
     const form: DataTulisan = {
       id: awal?.id,
@@ -72,34 +75,50 @@ export default function EditorTulisan({ awal }: { awal?: Tulisan }) {
     };
 
     mulaiSimpan(async () => {
-      const hasil = await simpanTulisan(form);
-      lapor(hasil.pesan, !hasil.ok);
+      try {
+        const hasil = await simpanTulisan(form);
+        lapor(hasil.pesan, !hasil.ok);
 
-      if (hasil.ok) {
-        tandaiTersimpan(JSON.stringify([judul, slugDipakai, deck, isi, format, nomor, penulis]));
-        setStatus(statusAkhir);
-        if (!awal?.id && hasil.id) router.replace(`/admin/tulis/${hasil.id}`);
-        else router.refresh();
+        if (hasil.ok) {
+          tandaiTersimpan(JSON.stringify([judul, slugDipakai, deck, isi, format, nomor, penulis]));
+          setSlug(slugDipakai);
+          setStatus(statusAkhir);
+          if (!awal?.id && hasil.id) router.replace(`/admin/tulis/${hasil.id}`);
+          else router.refresh();
+        }
+      } catch {
+        lapor('Tulisan belum berhasil disimpan. Coba lagi; isian tetap ada.', true);
       }
     });
   }
 
   async function hapus() {
-    if (!awal?.id) return;
+    if (!awal?.id || sibuk) return;
     if (!window.confirm(`Hapus “${awal.judul}” selamanya? Ini tidak bisa dibatalkan.`)) return;
 
-    const hasil = await hapusTulisan(awal.id);
-    if (hasil.ok) {
-      tandaiTersimpan(sekarang);
-      router.replace('/admin');
+    setMenghapus(true);
+    try {
+      const hasil = await hapusTulisan(awal.id);
+      if (hasil.ok) {
+        tandaiTersimpan(sekarang);
+        router.replace('/admin');
+      }
+      else lapor(hasil.pesan, true);
+    } catch {
+      lapor('Tulisan belum berhasil dihapus. Coba lagi.', true);
+    } finally {
+      setMenghapus(false);
     }
-    else lapor(hasil.pesan, true);
   }
 
   async function kirimNewsletter() {
-    if (!awal?.id) return;
+    if (!awal?.id || sibuk) return;
+    if (belumTersimpan) {
+      lapor('Simpan perubahan sebelum mengirim ke pelanggan.', true);
+      return;
+    }
     if (status !== 'terbit') {
-      lapor('Terbitkan dulu sebelum dikirim ke pelanggan.', true);
+      lapor('Tandai tulisan siap dikirim terlebih dahulu.', true);
       return;
     }
     if (!window.confirm('Kirim tulisan ini ke SEMUA pelanggan aktif sekarang?')) return;
@@ -121,13 +140,17 @@ export default function EditorTulisan({ awal }: { awal?: Tulisan }) {
   }
 
   return (
-    <div className="susun susun-28">
+    <div className="susun susun-28" aria-busy={sibuk}>
+      <aside className="admin-catatan">
+        Arsip untuk newsletter. Penyimpanan di sini tidak mengubah blog publik, yang saat ini dikelola melalui kode situs. Menandai siap dikirim belum mengirim email.
+      </aside>
       <div className="form-baris">
         <div className="form-isian" style={{ flex: '3 1 320px' }}>
           <label htmlFor="judul">Judul</label>
           <input
             id="judul"
             className="isian"
+            disabled={sibuk}
             value={judul}
             onChange={(e) => setJudul(e.target.value)}
             placeholder="Warung yang omzetnya naik tapi kasnya kering"
@@ -138,6 +161,7 @@ export default function EditorTulisan({ awal }: { awal?: Tulisan }) {
           <input
             id="slug"
             className="isian"
+            disabled={sibuk}
             value={slug}
             onChange={(e) => setSlug(e.target.value)}
             placeholder={slugOtomatis || 'otomatis-dari-judul'}
@@ -150,6 +174,7 @@ export default function EditorTulisan({ awal }: { awal?: Tulisan }) {
         <input
           id="deck"
           className="isian"
+            disabled={sibuk}
           value={deck}
           onChange={(e) => setDeck(e.target.value)}
           placeholder="Penjualan yang bertambah tidak selalu berarti uang bertambah."
@@ -162,6 +187,7 @@ export default function EditorTulisan({ awal }: { awal?: Tulisan }) {
           <select
             id="format"
             className="isian"
+            disabled={sibuk}
             value={format}
             onChange={(e) => setFormat(e.target.value as FormatTulisan)}
           >
@@ -177,6 +203,7 @@ export default function EditorTulisan({ awal }: { awal?: Tulisan }) {
           <input
             id="nomor"
             className="isian"
+            disabled={sibuk}
             inputMode="numeric"
             value={nomor}
             onChange={(e) => setNomor(e.target.value)}
@@ -188,6 +215,7 @@ export default function EditorTulisan({ awal }: { awal?: Tulisan }) {
           <input
             id="penulis"
             className="isian"
+            disabled={sibuk}
             value={penulis}
             onChange={(e) => setPenulis(e.target.value)}
           />
@@ -224,13 +252,14 @@ export default function EditorTulisan({ awal }: { awal?: Tulisan }) {
             </button>
           </div>
           <span className="pesan-kecil">
-            {menit} menit baca · /blog/{slugDipakai || '…'}
+            {menit} menit baca · Slug arsip: {slugDipakai || '…'}
           </span>
         </div>
 
         {tab === 'tulis' ? (
           <textarea
             className="editor"
+            disabled={sibuk}
             value={isi}
             onChange={(e) => setIsi(e.target.value)}
             placeholder={CONTOH}
@@ -251,7 +280,7 @@ export default function EditorTulisan({ awal }: { awal?: Tulisan }) {
           paddingTop: 22,
         }}
       >
-        <button type="button" className="tombol tombol-garis" onClick={() => simpan('draf')} disabled={menyimpan}>
+        <button type="button" className="tombol tombol-garis" onClick={() => simpan('draf')} disabled={sibuk}>
           {menyimpan ? 'Menyimpan…' : 'Simpan draf'}
         </button>
 
@@ -259,8 +288,8 @@ export default function EditorTulisan({ awal }: { awal?: Tulisan }) {
           <span className="tanda-belum-simpan">Ada perubahan yang belum disimpan</span>
         )}
 
-        <button type="button" className="tombol" onClick={() => simpan('terbit')} disabled={menyimpan}>
-          {status === 'terbit' ? 'Simpan & tetap terbit' : 'Terbitkan'}
+        <button type="button" className="tombol" onClick={() => simpan('terbit')} disabled={sibuk}>
+          {status === 'terbit' ? 'Simpan & tetap siap dikirim' : 'Simpan & siap dikirim'}
         </button>
 
         {awal?.id && (
@@ -269,7 +298,7 @@ export default function EditorTulisan({ awal }: { awal?: Tulisan }) {
               type="button"
               className="tombol tombol-garis"
               onClick={kirimNewsletter}
-              disabled={mengirim}
+              disabled={sibuk || belumTersimpan || status !== 'terbit'}
             >
               {mengirim ? 'Mengirim…' : 'Kirim ke pelanggan'}
             </button>
@@ -277,6 +306,7 @@ export default function EditorTulisan({ awal }: { awal?: Tulisan }) {
               type="button"
               className="tombol tombol-garis"
               onClick={hapus}
+              disabled={sibuk}
               style={{ marginLeft: 'auto', borderColor: 'var(--bara)', color: 'var(--bara)' }}
             >
               Hapus

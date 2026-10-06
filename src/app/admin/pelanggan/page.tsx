@@ -14,7 +14,7 @@ export default async function DaftarPelanggan() {
 
   const supabase = await klienServer();
 
-  const [{ data: dataPelanggan }, { data: dataKiriman }] = await Promise.all([
+  const [{ data: dataPelanggan, error: galatPelanggan }, { data: dataKiriman, error: galatKiriman }] = await Promise.all([
     supabase
       .from('pelanggan')
       .select('id, email, status, sumber, dibuat_pada, berhenti_pada')
@@ -22,6 +22,8 @@ export default async function DaftarPelanggan() {
       .limit(500),
     supabase.from('kiriman').select('*').order('dikirim_pada', { ascending: false }).limit(10),
   ]);
+
+  if (galatPelanggan || galatKiriman) return <div className="halaman" style={{ paddingBlock: 48 }}><h1 className="judul-seksi">Pelanggan</h1><p className="pesan-buruk" role="alert">Daftar pelanggan atau riwayat kiriman belum bisa dimuat. Coba muat ulang halaman; data yang tersimpan tidak berubah.</p></div>;
 
   const pelanggan = (dataPelanggan ?? []) as unknown as Pelanggan[];
   const kiriman = (dataKiriman ?? []) as unknown as Kiriman[];

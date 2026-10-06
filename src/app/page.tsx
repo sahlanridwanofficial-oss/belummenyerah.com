@@ -1,13 +1,11 @@
-import ArrowIcon from "@/components/ArrowIcon";
+import "@fontsource/luckiest-guy/400.css";
 import Link from "next/link";
 import Masthead from "@/components/Masthead";
 import DontGiveUpTitle from "@/components/DontGiveUpTitle";
 import CrowdScene from "@/components/CrowdScene";
-import { ARTIKEL_BLOG } from "@/lib/blog";
 
 export default function Beranda() {
   return (
-    <>
     <div className="giveup-home">
       <Masthead ringkas />
       <main id="isi" className="giveup-main">
@@ -24,7 +22,7 @@ export default function Beranda() {
           <span>Belajar gratis. Tumbuh bareng. Lanjut lagi.</span>
           <div className="giveup-actions">
             <Link href="/belajar" className="giveup-button giveup-button--dark">Kelas gratis</Link>
-            <Link href="/tentang" className="giveup-button">Kenalan dulu</Link>
+            <Link href="/blog" className="giveup-button giveup-button--light">Baca dulu</Link>
           </div>
         </div>
       </main>
@@ -34,27 +32,5 @@ export default function Beranda() {
         <span>© {new Date().getFullYear()} Belum Menyerah</span>
       </footer>
     </div>
-    <section className="halaman beranda-blog" aria-labelledby="beranda-blog-judul">
-      <div className="beranda-blog__head">
-        <div>
-          <span className="kicker">Blog</span>
-          <h2 id="beranda-blog-judul">Bacaan buat langkah berikutnya.</h2>
-        </div>
-        <Link href="/blog">Semua tulisan <ArrowIcon /></Link>
-      </div>
-      <div className="beranda-blog__kisi">
-        {ARTIKEL_BLOG.map((artikel) => (
-          <article key={artikel.slug} className="beranda-blog__kartu">
-            <Link href={`/blog/${artikel.slug}`} className="beranda-blog__tautan" aria-label={`Baca: ${artikel.judul}`}>
-              <span className="blog-baru__waktu">{artikel.menitBaca} menit baca</span>
-              <h3>{artikel.judul}</h3>
-              <p>{artikel.ringkasan}</p>
-              <span className="blog-baru__baca">Baca <ArrowIcon /></span>
-            </Link>
-          </article>
-        ))}
-      </div>
-    </section>
-    </>
   );
 }

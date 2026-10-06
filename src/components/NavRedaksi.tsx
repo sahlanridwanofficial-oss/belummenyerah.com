@@ -6,7 +6,7 @@ import { useState } from 'react';
 import { klienBrowser } from '@/lib/supabase/client';
 
 const MENU = [
-  { href: '/admin', label: 'Tulisan' },
+  { href: '/admin', label: 'Arsip tulisan' },
   { href: '/admin/kursus', label: 'Kursus' },
   { href: '/admin/pelanggan', label: 'Pelanggan' },
 ];
@@ -21,12 +21,21 @@ export default function NavRedaksi() {
   const jalan = usePathname() ?? '';
   const router = useRouter();
   const [keluar, setKeluar] = useState(false);
+  const [galat, setGalat] = useState('');
 
   async function keluarkan() {
+    if (keluar) return;
     setKeluar(true);
-    await klienBrowser().auth.signOut();
-    router.replace('/admin/login');
-    router.refresh();
+    setGalat('');
+    try {
+      const { error } = await klienBrowser().auth.signOut();
+      if (error) throw error;
+      router.replace('/admin/login');
+      router.refresh();
+    } catch {
+      setGalat('Belum berhasil keluar. Periksa koneksi dan coba lagi.');
+      setKeluar(false);
+    }
   }
 
   if (jalan === '/admin/login') {
@@ -56,6 +65,7 @@ export default function NavRedaksi() {
       <button type="button" className="tautan-keluar" onClick={keluarkan} disabled={keluar}>
         {keluar ? 'Keluar…' : 'Keluar'}
       </button>
+      {galat && <span className="pesan-buruk" role="alert">{galat}</span>}
     </nav>
   );
 }

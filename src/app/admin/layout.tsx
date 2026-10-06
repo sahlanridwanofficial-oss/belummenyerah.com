@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import './admin.css';
 import type { Metadata } from 'next';
 import NavRedaksi from '@/components/NavRedaksi';
 import { TandaLogo } from '@/components/Logo';

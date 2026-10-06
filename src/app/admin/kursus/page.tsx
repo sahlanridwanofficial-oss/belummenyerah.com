@@ -15,10 +15,12 @@ export default async function DaftarKursusRedaksi() {
   }
 
   const supabase = await klienServer();
-  const [{ data: dataKursus }, { data: dataPelajaran }] = await Promise.all([
+  const [{ data: dataKursus, error: galatKursus }, { data: dataPelajaran, error: galatPelajaran }] = await Promise.all([
     supabase.from('kursus').select('*').order('urutan').order('diubah_pada', { ascending: false }),
     supabase.from('pelajaran').select('id, kursus_id'),
   ]);
+
+  if (galatKursus || galatPelajaran) return <div className="halaman" style={{ paddingBlock: 48 }}><h1 className="judul-seksi">Kursus</h1><p className="pesan-buruk" role="alert">Daftar kursus belum bisa dimuat. Coba muat ulang halaman; data yang tersimpan tidak berubah.</p></div>;
 
   const daftar = (dataKursus ?? []) as Kursus[];
   const pelajaran = (dataPelajaran ?? []) as { id: string; kursus_id: string }[];

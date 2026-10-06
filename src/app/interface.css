@@ -296,3 +296,17 @@ main.utama { padding-bottom:64px; }
 @media (prefers-reduced-motion:reduce) {
   .giveup-button,.giveup-button:hover,.giveup-button:active { transition:none; transform:rotate(var(--button-tilt)); }
 }
+
+/* The Blog CTA stays white before, during, and after interaction. */
+.giveup-button--light,
+.giveup-button--light:visited,
+.giveup-button--light:hover,
+.giveup-button--light:active,
+.giveup-button--light:focus,
+.giveup-button--light:focus-visible {
+  background:#fff;
+  color:#14140f;
+  border-color:#14140f;
+}
+/* Openly licensed reference fallback, scoped to the two hero CTAs. */
+.giveup-actions .giveup-button { font-family:'Luckiest Guy',var(--sans); font-weight:400; }

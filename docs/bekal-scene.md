@@ -9,7 +9,7 @@ The accepted homepage lettering, copy, menu, colors, dimensions, grid footprint 
 - `illustrated-rock.ts` creates an asymmetrical near-white volumetric boulder, continuous ink contour, face shading and original surface hatching.
 - `illustrated-crowd-scene.ts` renders the world with an oblique camera, a roughly 44-degree authored orbit and inward reframe. The camera clipping range adapts to narrow viewports. Geometry/materials are shared where possible, deforming buffers are preallocated, and rendering is capped at 30 fps with mobile DPR capped at 1. Rendering pauses in hidden tabs and outside the viewport; disposal releases resources.
 
-No reference art, downloaded character model, video hero, third-party tracking or external scene asset fetch is used. The older scene modules remain as unused historical source.
+No reference art, downloaded character model, video hero, third-party tracking or external scene asset fetch is used. Unused book-mascot, older crowd-rendering and audio experiment modules and their dedicated tests have been removed. The current illustrated scene has no dependency on those experiments.
 
 ## Boundaries and verification
 
@@ -21,4 +21,4 @@ The offline proof is rendered from the actual scene geometry and poses using Ble
 
 ## Silent playback
 
-The scene is intentionally silent. The temporary sound integration and its control have been removed at the user’s request; the accepted animation and foreground remain unchanged. The unused audio module and unit tests are retained as historical source only and are not imported by the page or scene. Wrapper regression tests assert that no audio engine or AudioContext is created, including after interaction.
+The scene is intentionally silent. The temporary sound integration and its control have been removed at the user’s request; the accepted animation and foreground remain unchanged. The unused audio module and its unit tests have also been removed. Wrapper regression tests assert that no audio engine or AudioContext is created, including after interaction.

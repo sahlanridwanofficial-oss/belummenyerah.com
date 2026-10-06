@@ -13,7 +13,8 @@ export default async function SuntingTulisan({ params }: Props) {
   if (!supabaseTerpasang()) notFound();
 
   const supabase = await klienServer();
-  const { data } = await supabase.from('tulisan').select('*').eq('id', id).maybeSingle();
+  const { data, error } = await supabase.from('tulisan').select('*').eq('id', id).maybeSingle();
+  if (error) return <div className="halaman" style={{ paddingBlock: 48 }}><p className="pesan-buruk" role="alert">Tulisan belum bisa dimuat. Coba muat ulang halaman.</p><Link href="/admin">Kembali ke arsip</Link></div>;
   const tulisan = data as Tulisan | null;
   if (!tulisan) notFound();
 
@@ -36,7 +37,7 @@ export default async function SuntingTulisan({ params }: Props) {
           </h1>
           <span className="pesan-kecil" style={{ display: 'block', marginTop: 8 }}>
             {tulisan.status === 'terbit'
-              ? `Terbit ${tanggalPanjang(tulisan.terbit_pada)}`
+              ? `Ditandai siap dikirim ${tanggalPanjang(tulisan.terbit_pada)}`
               : 'Masih draf'}
           </span>
         </div>
