@@ -2,7 +2,7 @@
 
 import { useMemo, useState, useTransition } from 'react';
 import { useRouter } from 'next/navigation';
-import { marked } from 'marked';
+import { keHtml } from '@/lib/markdown';
 import { buatSlug, hitungMenitBaca, NAMA_FORMAT } from '@/lib/format';
 import { useBelumTersimpan } from '@/lib/belum-tersimpan';
 import { hapusTulisan, simpanTulisan, type DataTulisan } from '@/app/admin/aksi';
@@ -52,7 +52,7 @@ export default function EditorTulisan({ awal }: { awal?: Tulisan }) {
   const slugOtomatis = useMemo(() => buatSlug(judul), [judul]);
   const slugDipakai = slug.trim() ? buatSlug(slug) : slugOtomatis;
   const menit = hitungMenitBaca(isi);
-  const pratinjau = useMemo(() => marked.parse(isi || '', { async: false }) as string, [isi]);
+  const pratinjau = useMemo(() => keHtml(isi), [isi]);
 
   function lapor(teks: string, gagal = false) {
     setPesan(teks);

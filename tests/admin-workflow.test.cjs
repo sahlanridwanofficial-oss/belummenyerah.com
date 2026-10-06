@@ -90,10 +90,11 @@ test('archive editor preserves data, labels publishing honestly, and recovers fr
   const Editor = loadSource('src/components/EditorTulisan.tsx', {
     'next/navigation': {useRouter: () => ({replace() {}, refresh() {}})},
     '@/lib/format': format,
+    '@/lib/markdown': loadSource('src/lib/markdown.ts'),
     '@/lib/belum-tersimpan': loadSource('src/lib/belum-tersimpan.ts'),
     '@/app/admin/aksi': { simpanTulisan: async form => { calls.push(form); if (calls.length === 1) return saves.promise; return {ok:true, pesan:'Tersimpan.', id:'archive-1'}; }, hapusTulisan: async () => {throw new Error('Unexpected deletion');}},
   }).default;
-  const awal = {id:'archive-1', judul:'Arsip', slug:'', deck:'Ringkas', isi:'Isi asli', format:'catatan', nomor:null, penulis:'Redaksi', status:'draf'};
+  const awal = {id:'archive-1', judul:'Arsip', slug:'', deck:'Ringkas', isi:'Isi asli <img src="x" onerror="alert(1)">', format:'catatan', nomor:null, penulis:'Redaksi', status:'draf'};
   const container = await mount(t, Editor, {awal});
   assert.match(container.textContent, /tidak mengubah blog publik/);
   assert.doesNotMatch(container.textContent, /Terbitkan|\/blog\//);
@@ -111,4 +112,7 @@ test('archive editor preserves data, labels publishing honestly, and recovers fr
   assert.equal(container.querySelector('#slug').value, 'arsip');
   assert.equal(container.querySelector('.tanda-belum-simpan'), null);
   assert.equal(button(container, 'Kirim ke pelanggan').disabled, false);
+  await click(button(container, 'Pratinjau'));
+  assert.ok(container.querySelector('.pratinjau'));
+  assert.equal(container.querySelector('.pratinjau [onerror]'), null);
 });

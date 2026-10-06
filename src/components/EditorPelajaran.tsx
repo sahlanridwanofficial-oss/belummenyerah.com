@@ -2,7 +2,7 @@
 
 import { useMemo, useState, useTransition } from 'react';
 import { useRouter } from 'next/navigation';
-import { marked } from 'marked';
+import { keHtml } from '@/lib/markdown';
 import { buatSlug } from '@/lib/format';
 import { idYouTube } from '@/lib/kursus-umum';
 import { useBelumTersimpan } from '@/lib/belum-tersimpan';
@@ -44,7 +44,7 @@ export default function EditorPelajaran({
   );
 
   const slugDipakai = slug.trim() ? buatSlug(slug) : buatSlug(judul);
-  const pratinjau = useMemo(() => marked.parse(isi || '', { async: false }) as string, [isi]);
+  const pratinjau = useMemo(() => keHtml(isi), [isi]);
   const idVideo = idYouTube(videoUrl || null);
 
   function simpan() {
