@@ -17,29 +17,6 @@ const visibility = loadSource('src/app/blog/_visibility.ts', {
 const Link = ({ children, ...props }) => React.createElement('a', props, children);
 const Empty = () => null;
 
-function publicArticleRoute(file) {
-  const calls = { articleReads: 0, formatting: 0, params: 0 };
-  const readArticle = async () => { calls.articleReads++; throw new Error('Hidden article data must not be queried'); };
-  const formatArticle = () => { calls.formatting++; throw new Error('Hidden article data must not be formatted'); };
-  const route = loadSource(file, {
-    'next/navigation': navigation,
-    'next/link': Link,
-    './_visibility': visibility,
-    '../_visibility': visibility,
-    '@/components/Masthead': Empty,
-    '@/components/Kaki': Empty,
-    '@/components/FormLangganan': Empty,
-    '@/components/GarisBelum': Empty,
-    '@/components/KartuTulisan': { default: Empty, LencanaFormat: Empty, nomorSeri: formatArticle },
-    '@/components/Ilustrasi': { Warung: Empty },
-    '@/lib/format': { NAMA_FORMAT: {}, tanggalPanjang: formatArticle },
-    '@/lib/markdown': { keHtml: formatArticle, keTeks: formatArticle },
-    '@/lib/tulisan': { ambilTerbit: readArticle, ambilSatu: readArticle, ambilTetangga: readArticle },
-  });
-  const params = { then() { calls.params++; throw new Error('Gate must run before resolving article params'); } };
-  return { route, calls, params };
-}
-
 test('public article gate responds with notFound', () => {
   assert.equal(articleSettings.PUBLIC_ARTICLES_ENABLED, false);
   assert.throws(() => visibility.requirePublicArticles(), (error) => error === notFoundError);
@@ -53,27 +30,58 @@ test('the visibility gate can be reopened explicitly without changing the stored
   assert.doesNotThrow(() => reopened.requirePublicArticles());
 });
 
-test('/blog stops before querying published articles and opts out of indexing', async () => {
-  const { route, calls } = publicArticleRoute('src/app/blog/page.tsx');
-  await assert.rejects(route.default(), (error) => error === notFoundError);
-  assert.deepEqual(calls, { articleReads: 0, formatting: 0, params: 0 });
-  assert.equal(route.metadata.robots.index, false);
-  assert.equal(route.metadata.robots.follow, false);
-});
-
-for (const entrypoint of ['default', 'generateMetadata']) {
-  test(`/blog/[slug] ${entrypoint} stops before params, article reads, and metadata/body rendering`, async () => {
-    const { route, calls, params } = publicArticleRoute('src/app/blog/[slug]/page.tsx');
-    await assert.rejects(route[entrypoint]({ params }), (error) => error === notFoundError);
-    assert.deepEqual(calls, { articleReads: 0, formatting: 0, params: 0 });
+const blog = loadSource('src/lib/blog.ts');
+const markdown = loadSource('src/lib/markdown.ts');
+function newBlogRoute(file) {
+  return loadSource(file, {
+    'next/navigation': navigation, 'next/link': Link,
+    '@/components/Masthead': Empty, '@/components/Kaki': Empty,
+    '@/components/ArrowIcon': Empty, '@/lib/blog': blog, '@/lib/markdown': markdown,
   });
 }
 
-test('sitemap includes the working public destinations and no article, admin, or unsubscribe routes', () => {
-  const sitemap = loadSource('src/app/sitemap.ts').default;
-  const paths = sitemap().map((entry) => new URL(entry.url).pathname);
-  assert.deepEqual(paths, ['/', '/belajar', '/tentang', '/berlangganan']);
-  assert.ok(paths.every((route) => !/^\/(?:blog|admin|berhenti)(?:\/|$)/.test(route)));
+test('new public listing exposes exactly the curated articles without database reads', () => {
+  const route = newBlogRoute('src/app/blog/page.tsx');
+  const dom = new JSDOM(renderToStaticMarkup(React.createElement(route.default)));
+  assert.equal(blog.ARTIKEL_BLOG.length, 3);
+  assert.equal(new Set(blog.ARTIKEL_BLOG.map(a => a.slug)).size, 3);
+  assert.deepEqual([...dom.window.document.querySelectorAll('main li a')].map(a => a.getAttribute('href')), blog.ARTIKEL_BLOG.map(a => `/blog/${a.slug}`));
+  assert.equal(route.metadata.robots, undefined);
+  dom.window.close();
+});
+
+test('all new article pages render their complete text and correct metadata', async () => {
+  const route = newBlogRoute('src/app/blog/[slug]/page.tsx');
+  assert.equal(route.dynamicParams, false);
+  assert.deepEqual(route.generateStaticParams(), blog.ARTIKEL_BLOG.map(({slug}) => ({slug})));
+  for (const article of blog.ARTIKEL_BLOG) {
+    const params = Promise.resolve({ slug: article.slug });
+    const meta = await route.generateMetadata({params});
+    assert.equal(meta.title, article.judul);
+    assert.equal(meta.alternates.canonical, `/blog/${article.slug}`);
+    const dom = new JSDOM(renderToStaticMarkup(await route.default({params})));
+    assert.equal(dom.window.document.querySelector('h1').textContent, article.judul);
+    assert.ok(dom.window.document.querySelector('.prosa').textContent.length > 700);
+    assert.ok(dom.window.document.querySelector('a[href="/blog"]'));
+    assert.equal(dom.window.document.querySelectorAll('form').length, 0);
+    dom.window.close();
+  }
+});
+
+for (const entrypoint of ['default', 'generateMetadata']) {
+  test(`legacy and unknown slugs remain 404 in ${entrypoint}`, async () => {
+    const route = newBlogRoute('src/app/blog/[slug]/page.tsx');
+    for (const slug of ['existing-article', 'private-draft', 'missing-page', '__proto__']) {
+      await assert.rejects(route[entrypoint]({params: Promise.resolve({slug})}), error => error === notFoundError);
+    }
+  });
+}
+
+test('sitemap contains only working destinations and new curated articles', () => {
+  const sitemap = loadSource('src/app/sitemap.ts', {'@/lib/blog': blog}).default;
+  const paths = sitemap().map(entry => new URL(entry.url).pathname);
+  assert.deepEqual(paths, ['/', '/belajar', '/tentang', '/berlangganan', '/blog', ...blog.ARTIKEL_BLOG.map(a => `/blog/${a.slug}`)]);
+  assert.ok(paths.every(route => !/^\/(?:admin|berhenti)(?:\/|$)/.test(route)));
 });
 
 function filesIn(relativeDirectory) {
@@ -83,7 +91,7 @@ function filesIn(relativeDirectory) {
   });
 }
 
-test('no public search, feed, sitemap, or API reader exposes article data', () => {
+test('no public search, feed, sitemap, or API reader exposes legacy database article data', () => {
   const discoveryFiles = filesIn('src/app').filter((file) => (
     /(?:^|\/)(?:sitemap|feed|rss|atom|search|cari)(?:[./]|$)/i.test(file)
     || (/\/api\/.+\/route\.[jt]s$/.test(file) && !file.includes('/api/kirim/'))
@@ -91,7 +99,7 @@ test('no public search, feed, sitemap, or API reader exposes article data', () =
   assert.ok(discoveryFiles.includes('src/app/sitemap.ts'));
   for (const file of discoveryFiles) {
     const source = fs.readFileSync(path.join(project, file), 'utf8');
-    assert.doesNotMatch(source, /(?:lib\/tulisan|\.from\(['"]tulisan['"]\)|\/blog(?:\/|['"`]))/, file);
+    assert.doesNotMatch(source, /(?:lib\/tulisan|\.from\(['"]tulisan['"]\))/, file);
   }
 });
 

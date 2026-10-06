@@ -1,11 +1,9 @@
 import type { MetadataRoute } from 'next';
+import { ARTIKEL_BLOG } from '@/lib/blog';
 
-// Only currently available public destinations belong here. Article content is
-// preserved privately, but must not be queried or advertised in the sitemap.
+// Advertise only the new curated blog. Legacy database articles stay private.
 export default function sitemap(): MetadataRoute.Sitemap {
   const situs = (process.env.NEXT_PUBLIC_SITUS_URL ?? 'https://belummenyerah.com').replace(/\/+$/, '');
-
-  return ['/', '/belajar', '/tentang', '/berlangganan'].map((path) => ({
-    url: `${situs}${path}`,
-  }));
+  return ['/', '/belajar', '/tentang', '/berlangganan', '/blog', ...ARTIKEL_BLOG.map(({ slug }) => `/blog/${slug}`)]
+    .map((path) => ({ url: `${situs}${path}` }));
 }

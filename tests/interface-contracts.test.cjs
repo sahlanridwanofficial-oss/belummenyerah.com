@@ -9,7 +9,7 @@ const { project, loadSource } = require('./helpers.cjs');
 const read = file => fs.readFileSync(path.join(project, file), 'utf8');
 const Link = ({children,...props}) => React.createElement('a',props,children);
 const Title = loadSource('src/components/DontGiveUpTitle.tsx').default;
-const Home = loadSource('src/app/page.tsx', {'@/components/ArrowIcon':()=>React.createElement('svg'), 'next/link':Link,'@/components/Masthead':()=>React.createElement('header'),'@/components/DontGiveUpTitle':Title,'@/components/CrowdScene':()=>React.createElement('div',{'data-crowd':true})}).default;
+const Home = loadSource('src/app/page.tsx', {'@/components/ArrowIcon':()=>React.createElement('svg'), 'next/link':Link,'@/lib/blog':loadSource('src/lib/blog.ts'),'@/components/Masthead':()=>React.createElement('header'),'@/components/DontGiveUpTitle':Title,'@/components/CrowdScene':()=>React.createElement('div',{'data-crowd':true})}).default;
 
 test('homepage is a sparse, accessible original title and only two main destinations', () => {
   const dom = new JSDOM(renderToStaticMarkup(React.createElement(Home)));
@@ -21,15 +21,15 @@ test('homepage is a sparse, accessible original title and only two main destinat
   assert.equal(doc.querySelectorAll('main section, main article, main form').length,0);
   assert.ok(doc.querySelector('[data-crowd]'));
   assert.match(doc.body.textContent,/Belajar gratis/);
-  assert.doesNotMatch(doc.body.textContent,/Media|artikel|\d+\s*(peserta|alumni)/i);
+  assert.doesNotMatch(doc.body.textContent,/Media|\d+\s*(peserta|alumni)/i);
   dom.window.close();
 });
 test('homepage no longer fetches a catalog or articles merely to display a landing screen',()=>{
   assert.doesNotMatch(read('src/app/page.tsx'),/ambilTerbit|ambilKatalog|supabase|KartuTulisan|KartuKursus|HumanStory|FormLangganan/);
 });
-test('public navigation no longer promotes articles or the removed calculator',()=>{
+test('public navigation exposes the new blog without restoring the removed calculator',()=>{
   for(const file of ['src/app/page.tsx','src/components/Masthead.tsx','src/components/Kaki.tsx','src/app/tentang/page.tsx']) {
-    assert.doesNotMatch(read(file),/href="\/blog|KartuKas|Kalkulator|HumanStory/,file);
+    assert.doesNotMatch(read(file),/KartuKas|Kalkulator|HumanStory/,file);
   }
   assert.ok(!fs.existsSync(path.join(project,'src/components/KartuKas.tsx')));
 });
@@ -63,4 +63,27 @@ test('shared footer resets the legacy outer grid instead of squeezing all conten
 test('navigation icons are SVG shapes rather than missing font arrows',()=>{
   for(const file of ['src/app/page.tsx','src/components/Masthead.tsx','src/components/Kaki.tsx','src/components/CrowdScene.tsx']) assert.doesNotMatch(read(file),/[↗↖✳▷Ⅱ]/,file);
   assert.match(read('src/components/ArrowIcon.tsx'),/aria-hidden="true"/);
+});
+
+test('the three new blog cards sit outside the full hero and its animation layer', () => {
+  const dom = new JSDOM(renderToStaticMarkup(React.createElement(Home)));
+  const doc = dom.window.document;
+  assert.equal(doc.querySelector('.giveup-home .beranda-blog'), null);
+  assert.ok(doc.querySelector('.giveup-home + .beranda-blog'));
+  assert.equal(doc.querySelectorAll('.beranda-blog article').length, 3);
+  for (const link of doc.querySelectorAll('.beranda-blog article a')) assert.match(link.getAttribute('href'), /^\/blog\//);
+  dom.window.close();
+});
+test('hero CTA geometry follows the observed irregular reference with accessible touch targets',()=>{
+ const css=read('src/app/interface.css');
+ assert.match(css,/border-radius:24px 30px 22px 28px \/ 30px 22px 28px 24px/);
+ assert.match(css,/--button-tilt:1\.1deg/);
+ assert.match(css,/--button-tilt:-1\.2deg/);
+ assert.match(css,/box-shadow:5px 6px 0 #000/);
+ assert.match(css,/min-height:44px/);
+ assert.match(css,/\.giveup-button,.giveup-button:hover,.giveup-button:active \{ transition:none; transform:rotate\(var\(--button-tilt\)\); \}/);
+ const dom=new JSDOM(renderToStaticMarkup(React.createElement(Home)));
+ assert.equal(dom.window.document.querySelectorAll('.giveup-actions svg').length,0);
+ assert.deepEqual([...dom.window.document.querySelectorAll('.giveup-actions a')].map(a=>[a.textContent,a.getAttribute('href')]),[['Kelas gratis','/belajar'],['Kenalan dulu','/tentang']]);
+ dom.window.close();
 });

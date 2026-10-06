@@ -16,7 +16,7 @@ Copy `.env.example` to `.env.local` and use the existing project values. Never c
 
 ## Current interface
 
-The homepage is a concise off-white/ink/yellow design with original hand-drawn “Don’t give up” lettering and an original procedural Three.js crowd jointly supporting a giant boulder. Free classes and About are the two main paths. Article routes are reversibly paused before data access; the admin and database content remain intact. See [scene implementation](docs/bekal-scene.md).
+The homepage is a concise off-white/ink/yellow design with original hand-drawn “Don’t give up” lettering and an original procedural Three.js crowd jointly supporting a giant boulder. Free classes and About are the two main paths. The public blog uses new, short Indonesian articles from `src/lib/blog.ts`. Old database articles stay private; the admin and stored content remain intact. See [scene implementation](docs/bekal-scene.md).
 
 Newsletter and course subscriptions retain their separate API endpoints and duplicate/error/success behavior. Course progress remains browser-local. No cash calculator, downloaded human models, video hero or third-party tracking is used on the homepage.
 

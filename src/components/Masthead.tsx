@@ -56,6 +56,7 @@ export default function Masthead({
             <Link href="/belajar" aria-current={aktif === "belajar" ? "page" : undefined}>
               Kelas gratis
             </Link>
+            <Link href="/blog" aria-current={aktif === "blog" ? "page" : undefined}>Blog</Link>
             <Link href="/tentang" aria-current={aktif === "tentang" ? "page" : undefined}>
               Tentang
             </Link>
@@ -123,6 +124,7 @@ export default function Masthead({
             }}
           >
             <Link href="/belajar" aria-current={aktif === "belajar" ? "page" : undefined}><span>Kelas gratis</span><ArrowIcon /></Link>
+            <Link href="/blog" aria-current={aktif === "blog" ? "page" : undefined}><span>Blog</span><ArrowIcon /></Link>
             <Link href="/tentang" aria-current={aktif === "tentang" ? "page" : undefined}><span>Tentang kami</span><ArrowIcon /></Link>
             {ajakan && <Link href="/berlangganan"><span>Langganan gratis</span><ArrowIcon /></Link>}
           </nav>
@@ -132,6 +134,7 @@ export default function Masthead({
       <noscript>
         <style>{`.tombol-menu { display: none !important; }`}</style>
         <nav className="halaman menu-tanpa-script" aria-label="Halaman lainnya">
+          <Link href="/blog">Blog</Link>
           <Link href="/tentang">Tentang kami</Link>
           {ajakan && <Link href="/berlangganan">Langganan gratis</Link>}
         </nav>

@@ -14,6 +14,7 @@ export default function Kaki() {
         </div>
         <nav className="kaki-tautan" aria-label="Navigasi kaki halaman">
           <Link href="/belajar">Kelas gratis <ArrowIcon /></Link>
+          <Link href="/blog">Blog <ArrowIcon /></Link>
           <Link href="/tentang">Tentang kami <ArrowIcon /></Link>
           <Link href="/berlangganan">Langganan gratis <ArrowIcon /></Link>
         </nav>
