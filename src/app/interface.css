@@ -15,12 +15,12 @@ body:has(.masthead) .ajakan-bara .isian::placeholder { color:#626259; }
 .form-langganan-berhasil { border-left:2px solid currentColor; padding:16px 20px; }
 .kartu-kursus:focus-within { outline:2px solid #14140f; outline-offset:5px; }
 
-/* The original mark is untouched; its solid arc is white and its dots black. */
+/* The original mark is untouched; both its solid arc and dotted remainder are white. */
 .masthead { position:relative; z-index:20; border:0; background:transparent; font-family:var(--sans); }
 .masthead-isi { justify-content:space-between; flex-wrap:nowrap; min-height:100px; padding-block:22px; }
-.tautan-logo { display:inline-flex; align-items:center; justify-content:center; flex-shrink:0; width:54px; height:54px; border-radius:50%; background:#e1c65b; }
+.tautan-logo { display:inline-flex; align-items:center; justify-content:center; flex-shrink:0; width:54px; height:54px; border-radius:50%; background:#14140f; }
 .masthead .tanda-logo,.masthead a:hover .tanda-logo,.kaki .tanda-logo,.kaki a:hover .tanda-logo { color:#fff; width:42px; height:42px; }
-.masthead .tanda-logo .titik-logo,.kaki .tanda-logo .titik-logo { stroke:#14140f; }
+.masthead .tanda-logo .titik-logo,.kaki .tanda-logo .titik-logo { stroke:#fff; }
 .masthead-kanan { display:flex; align-items:center; gap:32px; }
 .nav-publik { display:flex; align-items:center; gap:30px; }
 .nav-publik > a { display:inline-flex; align-items:center; min-height:44px; font:500 14px var(--sans); color:#14140f; }
@@ -156,8 +156,8 @@ body:has(.masthead) .ajakan-bara .isian::placeholder { color:#626259; }
 .kelas-baru__note { font:400 12px/1.5 var(--sans); color:#626259; margin-top:24px; }
 @media (max-width:560px) { .kelas-baru { padding-block:35px 60px; } .kelas-baru__empty { gap:20px; } .kelas-baru__stamp { width:46px; height:46px; border-radius:13px; font-size:31px; } .kelas-baru__empty h2 { font-size:26px; } .kelas-baru__empty .form-kirim { flex-direction:column; } .kelas-baru__empty .tombol { align-self:flex-start; } }
 
-.pita-gelap .tanda-logo, .ajakan-bara .tanda-logo { color:#fff; background:#e1c65b; border-radius:50%; padding:4px; }
-.pita-gelap .tanda-logo .titik-logo, .ajakan-bara .tanda-logo .titik-logo { stroke:#14140f; }
+.pita-gelap .tanda-logo, .ajakan-bara .tanda-logo { color:#fff; background:#14140f; border-radius:50%; padding:4px; }
+.pita-gelap .tanda-logo .titik-logo, .ajakan-bara .tanda-logo .titik-logo { stroke:#fff; }
 .bekal-controls > span { display:inline-flex; align-items:center; min-height:44px; color:#626259; font:400 10px/1.4 var(--sans); }
 .bekal-controls button { display:inline-flex; align-items:center; gap:6px; }
 .bekal-controls button > svg { width:14px; height:14px; }

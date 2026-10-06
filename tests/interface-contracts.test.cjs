@@ -37,7 +37,12 @@ test('original logo geometry remains intact and the symbol-only color constraint
   const logo=read('src/components/Logo.tsx');
   assert.match(logo,/0\.68 \* 360/); assert.match(logo,/strokeDasharray="0 4\.4"/);
   const css=read('src/app/interface.css');
-  assert.match(css,/color:#fff; width:42px/); assert.match(css,/stroke:#14140f/);
+  assert.match(css,/color:#fff; width:42px/);
+  assert.match(css,/\.masthead \.tanda-logo \.titik-logo,\.kaki \.tanda-logo \.titik-logo \{ stroke:#fff; \}/);
+  assert.match(css,/\.tautan-logo \{[^}]*background:#14140f;/);
+  const icon=read('src/app/icon.svg');
+  assert.equal((icon.match(/stroke="#ffffff"/g)||[]).length,2);
+  assert.match(icon,/fill="#14140f"/);
   for(const file of ['src/components/Masthead.tsx','src/components/Kaki.tsx']) assert.doesNotMatch(read(file),/<Logo\s/);
 });
 test('paper, ink, butter palette and responsive reduced-motion rules replace old cinematic styling',()=>{
