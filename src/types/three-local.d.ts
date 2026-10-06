@@ -8,10 +8,12 @@
 declare module "three" {
   export const SRGBColorSpace: string;
   export const BackSide: number;
+  export const DoubleSide: number;
   export const ACESFilmicToneMapping: number;
   export const PCFSoftShadowMap: number;
   export const MathUtils: { degToRad: (degrees: number) => number };
   export class Color {
+    r:number; g:number; b:number;
     constructor(color?: ColorRepresentation);
     set(color: ColorRepresentation): this;
     copy(color: Color): this;
@@ -100,27 +102,43 @@ declare module "three" {
     constructor(fov?: number, aspect?: number, near?: number, far?: number);
     aspect: number;
     fov: number;
+    far: number;
     updateProjectionMatrix(): void;
   }
   export class BufferAttribute {
     count: number;
     array: ArrayLike<number>;
+    needsUpdate: boolean;
+    setX(index:number,x:number):this;
+    setXYZ(index: number, x: number, y: number, z: number): this;
   }
+  export class Uint16BufferAttribute extends BufferAttribute { constructor(array:ArrayLike<number>,itemSize:number); }
   export class Float32BufferAttribute extends BufferAttribute {
     constructor(array: ArrayLike<number>, itemSize: number);
   }
   export class BufferGeometry {
+    clone():BufferGeometry;
+    drawRange:{start:number;count:number};
+    setDrawRange(start:number,count:number):void;
+    index:BufferAttribute|null;
+    computeBoundingSphere():void;
+    attributes: Record<string, BufferAttribute>;
     setAttribute(name: string, attribute: BufferAttribute): this;
-    setIndex(index: number[]): this;
+    setIndex(index: number[]|BufferAttribute): this;
     computeVertexNormals(): void;
     translate(x: number, y: number, z: number): this;
     dispose(): void;
   }
   export class Shape {
+    getPoints(divisions?: number): { x:number; y:number }[];
+    bezierCurveTo(a:number,b:number,c:number,d:number,e:number,f:number):this;
     moveTo(x: number, y: number): this;
     lineTo(x: number, y: number): this;
     quadraticCurveTo(cpx: number, cpy: number, x: number, y: number): this;
   }
+  export class EdgesGeometry extends BufferGeometry { constructor(geometry:BufferGeometry,thresholdAngle?:number); }
+  export class ShapeGeometry extends BufferGeometry { constructor(shape:Shape,curveSegments?:number); }
+  export class CircleGeometry extends BufferGeometry { constructor(radius?:number,segments?:number); }
   export class ExtrudeGeometry extends BufferGeometry {
     constructor(shape: Shape, options?: {
       depth?: number;
@@ -185,6 +203,8 @@ declare module "three" {
   }
   export type ColorRepresentation = string | number | Color;
   export interface MaterialParameters {
+    vertexColors?: boolean;
+    depthWrite?: boolean;
     side?: number;
     transparent?: boolean;
     opacity?: number;
@@ -203,6 +223,7 @@ declare module "three" {
     clearcoatRoughness?: number;
   }
   export class Material {
+    opacity:number;
     dispose(): void;
   }
   export class MeshBasicMaterial extends Material {

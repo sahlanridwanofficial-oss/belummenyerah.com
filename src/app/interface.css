@@ -188,3 +188,12 @@ main.utama { padding-bottom:64px; }
 @media (max-width:560px) { .crowd .bekal-controls button:first-child { min-width:116px; } }
 .crowd .bekal-controls { left:58%; }
 @media (max-width:560px) { .crowd .bekal-controls { left:50%; } .giveup-stage:has(.crowd) + .giveup-invitation { margin-top:44px; } }
+
+/* Animation-only background layer; accepted foreground dimensions stay intact. */
+.giveup-home:has(.crowd) { position:relative; isolation:isolate; }
+.giveup-home:has(.crowd) > .giveup-main,
+.giveup-home:has(.crowd) > .giveup-footer { position:relative; z-index:1; }
+.crowd-background { position:absolute; inset:0; z-index:0; overflow:hidden; pointer-events:none; }
+.crowd-background__still,.crowd-background__canvas { position:absolute; inset:0; }
+.crowd-background__still[hidden] { display:none; }
+.crowd-background__still img,.crowd-background__canvas canvas { display:block; width:100%; height:100%; object-fit:contain; }
