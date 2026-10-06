@@ -18,3 +18,9 @@ Free classes and About remain the main homepage links. Article routes remain rev
 Run `npm test`, `npm run typecheck`, `npm run build`, and `git diff --check`. SHA-locked tests preserve the accepted foreground files and CSS prefix. Story tests cover staggered arrival, supported lift, continuous return paths, articulated gait, stable unsupported faces, preference races, disposal and portrait near/far clipping. Mocked rendering tests do not establish browser pixels or GPU performance.
 
 The offline proof is rendered from the actual scene geometry and poses using Blender. It is animation-only, at a reduced proof frame rate, and is not a screenshot of the integrated website. Browser/device appearance and foreground readability still require a real browser review before publication. Local Three declarations cover the used APIs rather than full upstream type declarations.
+
+## Optional scene sound
+
+`crowd-audio.ts` synthesizes original filtered-noise Foley locally: soft footsteps triggered by the same distance/phase as the visible gait, and a low rock-friction layer driven by vertical movement and strain. No music, samples, external requests or extra dependencies. The renderer forwards its paused scene clock; audio never runs a separate animation clock or catches up missed steps.
+
+Sound unlocks only after a trusted pointer/keyboard interaction while the animation is ready. A separate 44px accessible speaker toggle enables or mutes it without moving the accepted grid. Mute preference is stored locally when storage is available. Reduced motion, Save-Data, WebGL failure, offscreen/hidden state and unsupported Web Audio remain silent. Context suspension, short bounded voices, rejected resume handling, listener removal and idempotent disposal are covered by tests. Tests verify lifecycle and generated signal; they do not prove the sound heard on a physical device.
