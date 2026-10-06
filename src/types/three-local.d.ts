@@ -7,6 +7,7 @@
  */
 declare module "three" {
   export const SRGBColorSpace: string;
+  export const BackSide: number;
   export const ACESFilmicToneMapping: number;
   export const PCFSoftShadowMap: number;
   export const MathUtils: { degToRad: (degrees: number) => number };
@@ -17,6 +18,7 @@ declare module "three" {
     lerp(color: Color, alpha: number): this;
   }
   export class Quaternion {
+    setFromUnitVectors(from: Vector3, to: Vector3): this;
     copy(value: Quaternion): this;
     slerpQuaternions(a: Quaternion, b: Quaternion, t: number): this;
   }
@@ -55,6 +57,7 @@ declare module "three" {
     add(v: Vector3): this;
     addScaledVector(v: Vector3, s: number): this;
     multiplyScalar(s: number): this;
+    normalize(): this;
     setScalar(s: number): this;
     lerpVectors(a: Vector3, b: Vector3, alpha: number): this;
   }
@@ -182,6 +185,7 @@ declare module "three" {
   }
   export type ColorRepresentation = string | number | Color;
   export interface MaterialParameters {
+    side?: number;
     transparent?: boolean;
     opacity?: number;
   }

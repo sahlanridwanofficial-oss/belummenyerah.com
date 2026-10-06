@@ -178,3 +178,13 @@ main.utama { padding-bottom:64px; }
 .giveup-footer { font-size:11px; }
 .giveup-footer a { min-height:44px; }
 @media (max-width:560px) { .giveup-footer { font-size:10px; } }
+/* The original page composition stays put; the new scene is a shared effort. */
+.crowd-fallback { display:block; width:100%; height:100%; object-fit:contain; }
+.crowd .bekal-controls button:first-child { border:1px solid #14140f; background:#f5ce58; color:#14140f; font-weight:600; padding-inline:16px; }
+.crowd .bekal-controls button:first-child[aria-disabled="true"] { cursor:default; opacity:1; background:#eee6c8; }
+.crowd .bekal-controls { bottom:-3%; }
+@media (max-width:560px) { .crowd .bekal-controls { bottom:-16px; } .crowd .bekal-controls button:first-child { padding-inline:11px; font-size:10px; } }
+.crowd .bekal-controls button:first-child { min-width:132px; }
+@media (max-width:560px) { .crowd .bekal-controls button:first-child { min-width:116px; } }
+.crowd .bekal-controls { left:58%; }
+@media (max-width:560px) { .crowd .bekal-controls { left:50%; } .giveup-stage:has(.crowd) + .giveup-invitation { margin-top:44px; } }

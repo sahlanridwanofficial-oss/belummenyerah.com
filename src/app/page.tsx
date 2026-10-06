@@ -2,7 +2,7 @@ import ArrowIcon from "@/components/ArrowIcon";
 import Link from "next/link";
 import Masthead from "@/components/Masthead";
 import DontGiveUpTitle from "@/components/DontGiveUpTitle";
-import BekalScene from "@/components/BekalScene";
+import CrowdScene from "@/components/CrowdScene";
 
 export default function Beranda() {
   return (
@@ -14,7 +14,7 @@ export default function Beranda() {
             <p className="giveup-eyebrow">BEKAL BELAJAR UNTUK UMKM</p>
             <DontGiveUpTitle />
           </div>
-          <BekalScene />
+          <CrowdScene />
           <svg className="giveup-spark" viewBox="0 0 70 70" aria-hidden="true"><path d="M35 5L36 25L53 13L42 31L65 34L43 39L54 57L37 46L32 67L29 45L11 55L22 38L4 33L26 29L17 12L32 24Z"/></svg>
         </div>
         <div className="giveup-invitation">

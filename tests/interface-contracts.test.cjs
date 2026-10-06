@@ -9,7 +9,7 @@ const { project, loadSource } = require('./helpers.cjs');
 const read = file => fs.readFileSync(path.join(project, file), 'utf8');
 const Link = ({children,...props}) => React.createElement('a',props,children);
 const Title = loadSource('src/components/DontGiveUpTitle.tsx').default;
-const Home = loadSource('src/app/page.tsx', {'@/components/ArrowIcon':()=>React.createElement('svg'), 'next/link':Link,'@/components/Masthead':()=>React.createElement('header'),'@/components/DontGiveUpTitle':Title,'@/components/BekalScene':()=>React.createElement('div',{'data-bekal':true})}).default;
+const Home = loadSource('src/app/page.tsx', {'@/components/ArrowIcon':()=>React.createElement('svg'), 'next/link':Link,'@/components/Masthead':()=>React.createElement('header'),'@/components/DontGiveUpTitle':Title,'@/components/CrowdScene':()=>React.createElement('div',{'data-crowd':true})}).default;
 
 test('homepage is a sparse, accessible original title and only two main destinations', () => {
   const dom = new JSDOM(renderToStaticMarkup(React.createElement(Home)));
@@ -19,7 +19,7 @@ test('homepage is a sparse, accessible original title and only two main destinat
   assert.ok(doc.querySelector('h1 svg[aria-hidden="true"]'));
   assert.deepEqual(Array.from(doc.querySelectorAll('main a')).map(a=>a.getAttribute('href')),['/belajar','/tentang']);
   assert.equal(doc.querySelectorAll('main section, main article, main form').length,0);
-  assert.ok(doc.querySelector('[data-bekal]'));
+  assert.ok(doc.querySelector('[data-crowd]'));
   assert.match(doc.body.textContent,/Belajar gratis/);
   assert.doesNotMatch(doc.body.textContent,/Media|artikel|\d+\s*(peserta|alumni)/i);
   dom.window.close();
@@ -52,7 +52,7 @@ test('paper, ink, butter palette and responsive reduced-motion rules replace old
   assert.doesNotMatch(css,/human-story|school-course|#f6d8b8|#a3411f/);
 });
 test('no reference artwork, stock humans, or video assets are shipped by the new homepage',()=>{
-  const source=read('src/components/DontGiveUpTitle.tsx')+read('src/components/BekalFallback.tsx')+read('src/components/BekalScene.tsx');
+  const source=read('src/components/DontGiveUpTitle.tsx')+read('src/lib/crowd-model.ts')+read('src/components/CrowdScene.tsx');
   assert.doesNotMatch(source,/dontlookup\.app|Renderpeople|<video|\.glb|\.mp4/);
   assert.ok(!fs.existsSync(path.join(project,'public/models')));
   assert.ok(!fs.existsSync(path.join(project,'src/components/HumanStory.tsx')));
@@ -61,6 +61,6 @@ test('shared footer resets the legacy outer grid instead of squeezing all conten
   assert.match(read('src/app/interface.css'),/\.kaki \{ display:block; \}/);
 });
 test('navigation icons are SVG shapes rather than missing font arrows',()=>{
-  for(const file of ['src/app/page.tsx','src/components/Masthead.tsx','src/components/Kaki.tsx','src/components/BekalScene.tsx']) assert.doesNotMatch(read(file),/[↗↖✳▷Ⅱ]/,file);
+  for(const file of ['src/app/page.tsx','src/components/Masthead.tsx','src/components/Kaki.tsx','src/components/CrowdScene.tsx']) assert.doesNotMatch(read(file),/[↗↖✳▷Ⅱ]/,file);
   assert.match(read('src/components/ArrowIcon.tsx'),/aria-hidden="true"/);
 });
