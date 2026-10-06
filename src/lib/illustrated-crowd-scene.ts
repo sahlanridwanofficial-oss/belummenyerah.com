@@ -2,7 +2,7 @@ import * as THREE from 'three';
 import { createIllustratedCrowd, poseIllustratedCrowd } from './illustrated-crowd-model';
 import { getCrowdCamera } from './crowd-camera';
 export type IllustratedSceneHandle={setPaused:(value:boolean)=>void;dispose:()=>void};
-export function startIllustratedScene(host:HTMLElement,callbacks:{onReady:()=>void;onError:(error:unknown)=>void;onFrame?:(time:number)=>void}):IllustratedSceneHandle {
+export function startIllustratedScene(host:HTMLElement,callbacks:{onReady:()=>void;onError:(error:unknown)=>void}):IllustratedSceneHandle {
   let renderer:THREE.WebGLRenderer|null=null;
   let model:ReturnType<typeof createIllustratedCrowd>|null=null;
   let disposed=false,paused=false,frame=0,previous=0,time=0,ready=false;
@@ -21,7 +21,6 @@ export function startIllustratedScene(host:HTMLElement,callbacks:{onReady:()=>vo
     const view=getCrowdCamera(time,camera.aspect,reduced.matches);
     model.root.position.set(...view.rootPosition);camera.position.set(...view.position);camera.lookAt(...view.target);renderer.render(scene,camera);
     if(!ready){ready=true;callbacks.onReady();}
-    callbacks.onFrame?.(time);
   }catch(error){fail(error);}}
   function tick(now:number){frame=0;if(disposed||paused||document.hidden||reduced.matches)return;
     if(previous&&now-previous<32){frame=requestAnimationFrame(tick);return;}

@@ -197,10 +197,3 @@ main.utama { padding-bottom:64px; }
 .crowd-background__still,.crowd-background__canvas { position:absolute; inset:0; }
 .crowd-background__still[hidden] { display:none; }
 .crowd-background__still img,.crowd-background__canvas canvas { display:block; width:100%; height:100%; object-fit:contain; }
-
-/* Quiet, independent sound toggle; never changes the accepted foreground grid. */
-.crowd-sound { position:fixed; right:16px; bottom:16px; z-index:5; width:44px; height:44px; display:flex; align-items:center; justify-content:center; border:1px solid #d5d4cb; border-radius:50%; background:#f5f4ecd9; color:#626259; cursor:pointer; }
-.crowd-sound svg { width:19px; height:19px; }
-.crowd-sound:hover { background:#eeeadd; color:#14140f; }
-.crowd-sound:focus-visible { outline:2px solid #14140f; outline-offset:3px; }
-@media (max-width:560px) { .crowd-sound { right:8px; bottom:max(8px,env(safe-area-inset-bottom)); } }

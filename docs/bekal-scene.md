@@ -19,10 +19,6 @@ Run `npm test`, `npm run typecheck`, `npm run build`, and `git diff --check`. SH
 
 The offline proof is rendered from the actual scene geometry and poses using Blender. It is animation-only, at a reduced proof frame rate, and is not a screenshot of the integrated website. Browser/device appearance and foreground readability still require a real browser review before publication. Local Three declarations cover the used APIs rather than full upstream type declarations.
 
-## Optional scene sound
+## Silent playback
 
-`crowd-audio.ts` synthesizes original filtered-noise Foley locally: paired heel/toe shoe impacts with a short low-mid body, crisp contact and sparse grit, triggered by the same distance/phase as the visible gait; a granular lower stone scrape is gated by actual vertical and rolling motion. Four deterministic shoe variants avoid identical repeated puffs. PCM buffers are synthesized once, peak-normalized and mixed with bounded voice/master gain for clear laptop-speaker contact without a continuous hiss. No music, samples, external requests or extra dependencies. The renderer forwards its paused scene clock; audio never runs a separate animation clock or catches up missed steps.
-
-Sound unlocks only after a trusted pointer/keyboard interaction while the animation is ready. A separate 44px accessible speaker toggle enables or mutes it without moving the accepted grid. Mute preference is stored locally when storage is available. Reduced motion, Save-Data, WebGL failure, offscreen/hidden state and unsupported Web Audio remain silent. Context suspension, short bounded voices, rejected resume handling, listener removal and idempotent disposal are covered by tests. Tests verify lifecycle and generated signal; they do not prove the sound heard on a physical device.
-
-The clarity correction is checked with a 24-second offline render of the actual runtime PCM and scene-driven source/gain events. Its measured peak is −16.1 dBFS, full-loop RMS −35.3 dBFS, and clipped sample count zero. These objective checks do not replace device listening.
+The scene is intentionally silent. The temporary sound integration and its control have been removed at the user’s request; the accepted animation and foreground remain unchanged. The unused audio module and unit tests are retained as historical source only and are not imported by the page or scene. Wrapper regression tests assert that no audio engine or AudioContext is created, including after interaction.
