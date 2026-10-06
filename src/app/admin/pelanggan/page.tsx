@@ -1,4 +1,5 @@
-import { klienServer, supabaseTerpasang } from '@/lib/supabase/server';
+import { requireAdminPage } from '@/lib/admin-auth';
+import { supabaseTerpasang } from '@/lib/supabase/server';
 import BelumTersambung from '@/components/BelumTersambung';
 import { tanggalPendek } from '@/lib/format';
 import type { Kiriman, Pelanggan } from '@/lib/types';
@@ -12,7 +13,7 @@ export default async function DaftarPelanggan() {
     );
   }
 
-  const supabase = await klienServer();
+  const { supabase } = await requireAdminPage();
 
   const [{ data: dataPelanggan, error: galatPelanggan }, { data: dataKiriman, error: galatKiriman }] = await Promise.all([
     supabase

@@ -1,7 +1,8 @@
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import EditorPelajaran from '@/components/EditorPelajaran';
-import { klienServer, supabaseTerpasang } from '@/lib/supabase/server';
+import { requireAdminPage } from '@/lib/admin-auth';
+import { supabaseTerpasang } from '@/lib/supabase/server';
 import type { Kursus, Modul, Pelajaran } from '@/lib/types';
 
 type Props = { params: Promise<{ id: string; pid: string }> };
@@ -10,7 +11,7 @@ export default async function SuntingPelajaran({ params }: Props) {
   const { id, pid } = await params;
   if (!supabaseTerpasang()) notFound();
 
-  const supabase = await klienServer();
+  const { supabase } = await requireAdminPage();
 
   const [{ data: dataPelajaran }, { data: dataKursus }, { data: dataModul }] = await Promise.all([
     supabase.from('pelajaran').select('*').eq('id', pid).maybeSingle(),

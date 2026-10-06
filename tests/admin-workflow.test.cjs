@@ -34,6 +34,7 @@ test('admin navigation highlights nested routes and failed logout remains retrya
   const pending = deferred();
   const Nav = loadSource('src/components/NavRedaksi.tsx', {
     'next/link': Link,
+    '@/components/ArrowIcon': loadSource('src/components/ArrowIcon.tsx').default,
     'next/navigation': { usePathname: () => '/admin/tulis/abc', useRouter: () => ({replace: p => moves.push(p), refresh() {}}) },
     '@/lib/supabase/client': {klienBrowser: () => ({auth: {signOut: async () => { calls++; return calls === 1 ? pending.promise : {error: null}; }}})},
   }).default;
@@ -72,7 +73,8 @@ for (const file of ['src/app/admin/page.tsx', 'src/app/admin/kursus/page.tsx', '
     const query = { select() {return this;}, order() {return this;}, limit() {return this;}, then(resolve) {return Promise.resolve({data: null, error: {message:'private error'}}).then(resolve);} };
     const Page = loadSource(file, {
       'next/link': Link,
-      '@/lib/supabase/server': {supabaseTerpasang: () => true, klienServer: async () => ({from: () => query})},
+      '@/lib/supabase/server': {supabaseTerpasang: () => true},
+      '@/lib/admin-auth': {requireAdminPage: async () => ({ok:true, supabase:{from:()=>query},userId:'owner'})},
       '@/components/BelumTersambung': () => null,
       '@/lib/format': {}, '@/lib/kursus': {},
     }).default;
@@ -116,3 +118,24 @@ test('archive editor preserves data, labels publishing honestly, and recovers fr
   assert.ok(container.querySelector('.pratinjau'));
   assert.equal(container.querySelector('.pratinjau [onerror]'), null);
 });
+
+for (const route of ['/admin/login', '/admin']) {
+  test(`admin site link uses accessible SVG without a font arrow on ${route}`, () => {
+    const Nav = loadSource('src/components/NavRedaksi.tsx', {
+      'next/link': Link,
+      '@/components/ArrowIcon': loadSource('src/components/ArrowIcon.tsx').default,
+      'next/navigation': {usePathname: () => route, useRouter: () => ({})},
+      '@/lib/supabase/client': {klienBrowser: () => {throw new Error('Render must not call auth');}},
+    }).default;
+    const html = renderToStaticMarkup(React.createElement(Nav));
+    const container = document.createElement('div'); container.innerHTML = html;
+    const link = container.querySelector('a[href="/"]');
+    assert.equal(link.textContent.trim(), 'Lihat situs');
+    assert.equal(link.getAttribute('target'), '_blank');
+    assert.equal(link.getAttribute('rel'), 'noreferrer');
+    assert.equal(link.querySelector('svg').getAttribute('aria-hidden'), 'true');
+    assert.equal(link.querySelector('svg').getAttribute('focusable'), 'false');
+    assert.ok(link.querySelector('svg path'));
+    assert.doesNotMatch(link.textContent, /↗/);
+  });
+}

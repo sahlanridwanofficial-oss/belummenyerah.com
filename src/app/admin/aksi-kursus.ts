@@ -1,19 +1,11 @@
 'use server';
 
 import { revalidatePath } from 'next/cache';
-import { klienServer } from '@/lib/supabase/server';
+import { getAdminContext } from '@/lib/admin-auth';
 import { buatSlug } from '@/lib/format';
 import type { StatusTulisan, Tingkat } from '@/lib/types';
 
 export type Hasil = { ok: boolean; pesan: string; id?: string };
-
-async function redaksi() {
-  const supabase = await klienServer();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-  return { supabase, user };
-}
 
 function segarkan(slug?: string) {
   revalidatePath('/belajar');
@@ -37,8 +29,9 @@ export type DataKursus = {
 };
 
 export async function simpanKursus(form: DataKursus): Promise<Hasil> {
-  const { supabase, user } = await redaksi();
-  if (!user) return { ok: false, pesan: 'Sesi kamu sudah berakhir. Silakan masuk lagi.' };
+  const access = await getAdminContext();
+  if (!access.ok) return { ok: false, pesan: 'Akses redaksi tidak tersedia. Silakan masuk dengan akun pemilik.' };
+  const { supabase } = access;
 
   const judul = form.judul.trim();
   if (!judul) return { ok: false, pesan: 'Judul kursusnya belum diisi.' };
@@ -96,8 +89,9 @@ export async function simpanKursus(form: DataKursus): Promise<Hasil> {
 }
 
 export async function hapusKursus(id: string): Promise<Hasil> {
-  const { supabase, user } = await redaksi();
-  if (!user) return { ok: false, pesan: 'Sesi kamu sudah berakhir. Silakan masuk lagi.' };
+  const access = await getAdminContext();
+  if (!access.ok) return { ok: false, pesan: 'Akses redaksi tidak tersedia. Silakan masuk dengan akun pemilik.' };
+  const { supabase } = access;
 
   const { error } = await supabase.from('kursus').delete().eq('id', id);
   if (error) return { ok: false, pesan: `Gagal menghapus: ${error.message}` };
@@ -109,8 +103,9 @@ export async function hapusKursus(id: string): Promise<Hasil> {
 /* ---------- modul ---------- */
 
 export async function tambahModul(kursusId: string, judul: string, urutan: number): Promise<Hasil> {
-  const { supabase, user } = await redaksi();
-  if (!user) return { ok: false, pesan: 'Sesi kamu sudah berakhir. Silakan masuk lagi.' };
+  const access = await getAdminContext();
+  if (!access.ok) return { ok: false, pesan: 'Akses redaksi tidak tersedia. Silakan masuk dengan akun pemilik.' };
+  const { supabase } = access;
   if (!judul.trim()) return { ok: false, pesan: 'Judul modulnya belum diisi.' };
 
   const { data, error } = await supabase
@@ -131,8 +126,9 @@ export async function simpanModul(
   ringkas: string,
   urutan: number,
 ): Promise<Hasil> {
-  const { supabase, user } = await redaksi();
-  if (!user) return { ok: false, pesan: 'Sesi kamu sudah berakhir. Silakan masuk lagi.' };
+  const access = await getAdminContext();
+  if (!access.ok) return { ok: false, pesan: 'Akses redaksi tidak tersedia. Silakan masuk dengan akun pemilik.' };
+  const { supabase } = access;
 
   const { error } = await supabase
     .from('modul')
@@ -146,8 +142,9 @@ export async function simpanModul(
 }
 
 export async function hapusModul(id: string): Promise<Hasil> {
-  const { supabase, user } = await redaksi();
-  if (!user) return { ok: false, pesan: 'Sesi kamu sudah berakhir. Silakan masuk lagi.' };
+  const access = await getAdminContext();
+  if (!access.ok) return { ok: false, pesan: 'Akses redaksi tidak tersedia. Silakan masuk dengan akun pemilik.' };
+  const { supabase } = access;
 
   const { error } = await supabase.from('modul').delete().eq('id', id);
   if (error) return { ok: false, pesan: `Gagal menghapus modul: ${error.message}` };
@@ -176,8 +173,9 @@ export async function tambahPelajaran(
   judul: string,
   urutan: number,
 ): Promise<Hasil> {
-  const { supabase, user } = await redaksi();
-  if (!user) return { ok: false, pesan: 'Sesi kamu sudah berakhir. Silakan masuk lagi.' };
+  const access = await getAdminContext();
+  if (!access.ok) return { ok: false, pesan: 'Akses redaksi tidak tersedia. Silakan masuk dengan akun pemilik.' };
+  const { supabase } = access;
   if (!judul.trim()) return { ok: false, pesan: 'Judul pelajarannya belum diisi.' };
 
   const slug = buatSlug(judul) || `pelajaran-${Date.now()}`;
@@ -203,8 +201,9 @@ export async function tambahPelajaran(
 }
 
 export async function simpanPelajaran(form: DataPelajaran): Promise<Hasil> {
-  const { supabase, user } = await redaksi();
-  if (!user) return { ok: false, pesan: 'Sesi kamu sudah berakhir. Silakan masuk lagi.' };
+  const access = await getAdminContext();
+  if (!access.ok) return { ok: false, pesan: 'Akses redaksi tidak tersedia. Silakan masuk dengan akun pemilik.' };
+  const { supabase } = access;
 
   const judul = form.judul.trim();
   if (!judul) return { ok: false, pesan: 'Judulnya belum diisi.' };
@@ -246,8 +245,9 @@ export async function simpanPelajaran(form: DataPelajaran): Promise<Hasil> {
 }
 
 export async function hapusPelajaran(id: string): Promise<Hasil> {
-  const { supabase, user } = await redaksi();
-  if (!user) return { ok: false, pesan: 'Sesi kamu sudah berakhir. Silakan masuk lagi.' };
+  const access = await getAdminContext();
+  if (!access.ok) return { ok: false, pesan: 'Akses redaksi tidak tersedia. Silakan masuk dengan akun pemilik.' };
+  const { supabase } = access;
 
   const { error } = await supabase.from('pelajaran').delete().eq('id', id);
   if (error) return { ok: false, pesan: `Gagal menghapus: ${error.message}` };

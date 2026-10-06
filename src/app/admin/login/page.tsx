@@ -9,6 +9,7 @@ function FormMasuk() {
   const router = useRouter();
   const params = useSearchParams();
   const lanjut = adminReturnPath(params.get('lanjut'));
+  const akses = params.get('akses');
 
   const [email, setEmail] = useState('');
   const [sandi, setSandi] = useState('');
@@ -40,6 +41,8 @@ function FormMasuk() {
 
   return (
     <form className="susun susun-16" onSubmit={masuk} aria-busy={sibuk} style={{ maxWidth: 420 }}>
+      {akses === 'ditolak' && <p className="pesan-buruk" role="alert">Akun ini tidak memiliki akses redaksi. Gunakan akun pemilik situs.</p>}
+      {akses === 'tidak-tersedia' && <p className="pesan-buruk" role="alert">Pemeriksaan akses belum tersedia. Coba lagi nanti.</p>}
       <div className="form-isian">
         <label htmlFor="email">Email</label>
         <input

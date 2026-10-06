@@ -1,7 +1,7 @@
 'use server';
 
 import { revalidatePath } from 'next/cache';
-import { klienServer } from '@/lib/supabase/server';
+import { getAdminContext } from '@/lib/admin-auth';
 import { buatSlug, hitungMenitBaca } from '@/lib/format';
 import type { FormatTulisan, StatusTulisan } from '@/lib/types';
 
@@ -20,12 +20,9 @@ export type DataTulisan = {
 export type Hasil = { ok: boolean; pesan: string; id?: string; slug?: string };
 
 export async function simpanTulisan(form: DataTulisan): Promise<Hasil> {
-  const supabase = await klienServer();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
-  if (!user) return { ok: false, pesan: 'Sesi kamu sudah berakhir. Silakan masuk lagi.' };
+  const access = await getAdminContext();
+  if (!access.ok) return { ok: false, pesan: 'Akses redaksi tidak tersedia. Silakan masuk dengan akun pemilik.' };
+  const { supabase } = access;
 
   const judul = form.judul.trim();
   if (!judul) return { ok: false, pesan: 'Judulnya belum diisi.' };
@@ -92,12 +89,9 @@ export async function simpanTulisan(form: DataTulisan): Promise<Hasil> {
 }
 
 export async function hapusTulisan(id: string): Promise<Hasil> {
-  const supabase = await klienServer();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
-  if (!user) return { ok: false, pesan: 'Sesi kamu sudah berakhir. Silakan masuk lagi.' };
+  const access = await getAdminContext();
+  if (!access.ok) return { ok: false, pesan: 'Akses redaksi tidak tersedia. Silakan masuk dengan akun pemilik.' };
+  const { supabase } = access;
 
   const { error } = await supabase.from('tulisan').delete().eq('id', id);
   if (error) return { ok: false, pesan: `Gagal menghapus: ${error.message}` };

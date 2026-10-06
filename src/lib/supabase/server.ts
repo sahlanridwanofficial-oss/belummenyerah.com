@@ -12,7 +12,7 @@ export function supabaseTerpasang(): boolean {
 /**
  * Klien Supabase untuk server component / route handler.
  * Dipakai sebagai pembaca anonim kalau belum login, dan otomatis
- * jadi redaksi begitu cookie sesi ada.
+ * terautentikasi ketika sesi valid. Hak redaksi diperiksa terpisah oleh admin-auth.
  */
 export async function klienServer() {
   const jar = await cookies();

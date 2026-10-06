@@ -2,7 +2,8 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import EditorKursus from '@/components/EditorKursus';
 import SusunanKursus from '@/components/SusunanKursus';
-import { klienServer, supabaseTerpasang } from '@/lib/supabase/server';
+import { requireAdminPage } from '@/lib/admin-auth';
+import { supabaseTerpasang } from '@/lib/supabase/server';
 import type { Kursus, Modul, ModulLengkap, Pelajaran } from '@/lib/types';
 
 type Props = { params: Promise<{ id: string }> };
@@ -11,7 +12,7 @@ export default async function SuntingKursus({ params }: Props) {
   const { id } = await params;
   if (!supabaseTerpasang()) notFound();
 
-  const supabase = await klienServer();
+  const { supabase } = await requireAdminPage();
   const { data } = await supabase.from('kursus').select('*').eq('id', id).maybeSingle();
   const kursus = data as Kursus | null;
   if (!kursus) notFound();

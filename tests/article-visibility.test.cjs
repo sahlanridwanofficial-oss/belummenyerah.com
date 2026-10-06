@@ -169,6 +169,7 @@ for (const enabled of [false, true]) {
 test('the article email API rejects anonymous access before looking up any article or sending email', async () => {
   const calls = { data: 0, email: 0 };
   const { POST } = loadSource('src/app/api/kirim/route.ts', {
+    '@/lib/admin-auth': {getAdminContext:async()=>({ok:false,reason:'unauthenticated'})},
     'next/server': { NextResponse: { json: (body, options) => ({ body, status: options?.status ?? 200 }) } },
     '@/lib/supabase/server': {
       supabaseTerpasang: () => true,
@@ -206,6 +207,7 @@ test('the authenticated article list remains available with both draft and publi
       supabaseTerpasang: () => true,
       klienServer: async () => ({ from: (table) => { calls.push(['from', table]); return query; } }),
     },
+    '@/lib/admin-auth': {requireAdminPage:async()=>({ok:true,userId:'owner',supabase:{from:(table)=>{calls.push(['from',table]);return query;}}})},
   }).default;
   const dom = new JSDOM(renderToStaticMarkup(await AdminArticles()));
   try {
@@ -238,6 +240,7 @@ for (const enabled of [false, true]) {
         supabaseTerpasang: () => true,
         klienServer: async () => ({ from: (table) => { calls.push(['from', table]); return query; } }),
       },
+      '@/lib/admin-auth': {requireAdminPage:async()=>({ok:true,userId:'owner',supabase:{from:(table)=>{calls.push(['from',table]);return query;}}})},
     }).default;
     const dom = new JSDOM(renderToStaticMarkup(await Editor({ params: Promise.resolve({ id: record.id }) })));
     try {

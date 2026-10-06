@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { klienServer, supabaseTerpasang } from '@/lib/supabase/server';
+import { getAdminContext } from '@/lib/admin-auth';
 import { klienResend, resendTerpasang, emailTulisan } from '@/lib/email';
 import type { Tulisan } from '@/lib/types';
 
@@ -9,18 +9,12 @@ export const maxDuration = 60;
 const SEKALI_KIRIM = 100; // batas satu panggilan batch Resend
 
 export async function POST(request: Request) {
-  if (!supabaseTerpasang()) {
-    return NextResponse.json({ pesan: 'Database belum tersambung.' }, { status: 503 });
+  const access = await getAdminContext();
+  if (!access.ok) {
+    const status = access.reason === 'unauthenticated' ? 401 : access.reason === 'forbidden' ? 403 : 503;
+    return NextResponse.json({ pesan: 'Akses redaksi tidak tersedia.' }, { status });
   }
-
-  const supabase = await klienServer();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
-  if (!user) {
-    return NextResponse.json({ pesan: 'Harus login dulu.' }, { status: 401 });
-  }
+  const { supabase } = access;
 
   if (!resendTerpasang()) {
     return NextResponse.json(

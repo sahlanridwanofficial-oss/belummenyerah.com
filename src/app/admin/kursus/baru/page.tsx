@@ -1,6 +1,8 @@
+import { requireAdminPage } from '@/lib/admin-auth';
 import EditorKursus from '@/components/EditorKursus';
 
-export default function KursusBaru() {
+export default async function KursusBaru() {
+  await requireAdminPage();
   return (
     <div className="halaman" style={{ paddingBlock: 48 }}>
       <span className="kicker">Kursus baru</span>

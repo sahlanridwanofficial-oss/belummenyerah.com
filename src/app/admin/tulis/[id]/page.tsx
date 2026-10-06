@@ -1,7 +1,8 @@
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import EditorTulisan from '@/components/EditorTulisan';
-import { klienServer, supabaseTerpasang } from '@/lib/supabase/server';
+import { requireAdminPage } from '@/lib/admin-auth';
+import { supabaseTerpasang } from '@/lib/supabase/server';
 import { tanggalPanjang } from '@/lib/format';
 import type { Tulisan } from '@/lib/types';
 import { PUBLIC_ARTICLES_ENABLED } from '@/lib/article-visibility';
@@ -12,7 +13,7 @@ export default async function SuntingTulisan({ params }: Props) {
   const { id } = await params;
   if (!supabaseTerpasang()) notFound();
 
-  const supabase = await klienServer();
+  const { supabase } = await requireAdminPage();
   const { data, error } = await supabase.from('tulisan').select('*').eq('id', id).maybeSingle();
   if (error) return <div className="halaman" style={{ paddingBlock: 48 }}><p className="pesan-buruk" role="alert">Tulisan belum bisa dimuat. Coba muat ulang halaman.</p><Link href="/admin">Kembali ke arsip</Link></div>;
   const tulisan = data as Tulisan | null;

@@ -1,5 +1,6 @@
 import Link from 'next/link';
-import { klienServer, supabaseTerpasang } from '@/lib/supabase/server';
+import { requireAdminPage } from '@/lib/admin-auth';
+import { supabaseTerpasang } from '@/lib/supabase/server';
 import BelumTersambung from '@/components/BelumTersambung';
 import { tanggalPendek } from '@/lib/format';
 import { NAMA_TINGKAT } from '@/lib/kursus';
@@ -14,7 +15,7 @@ export default async function DaftarKursusRedaksi() {
     );
   }
 
-  const supabase = await klienServer();
+  const { supabase } = await requireAdminPage();
   const [{ data: dataKursus, error: galatKursus }, { data: dataPelajaran, error: galatPelajaran }] = await Promise.all([
     supabase.from('kursus').select('*').order('urutan').order('diubah_pada', { ascending: false }),
     supabase.from('pelajaran').select('id, kursus_id'),

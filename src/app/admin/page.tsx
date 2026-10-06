@@ -1,5 +1,6 @@
 import Link from 'next/link';
-import { klienServer, supabaseTerpasang } from '@/lib/supabase/server';
+import { requireAdminPage } from '@/lib/admin-auth';
+import { supabaseTerpasang } from '@/lib/supabase/server';
 import BelumTersambung from '@/components/BelumTersambung';
 import { NAMA_FORMAT, tanggalPendek } from '@/lib/format';
 import type { Tulisan } from '@/lib/types';
@@ -13,7 +14,7 @@ export default async function DaftarTulisan() {
     );
   }
 
-  const supabase = await klienServer();
+  const { supabase } = await requireAdminPage();
   const { data, error } = await supabase
     .from('tulisan')
     .select('id, slug, judul, format, nomor, status, menit_baca, terbit_pada, diubah_pada')

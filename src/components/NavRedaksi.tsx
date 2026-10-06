@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import ArrowIcon from '@/components/ArrowIcon';
 import { usePathname, useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { klienBrowser } from '@/lib/supabase/client';
@@ -42,7 +43,7 @@ export default function NavRedaksi() {
     return (
       <nav className="nav" aria-label="Menu redaksi">
         <Link href="/" target="_blank" rel="noreferrer">
-          Lihat situs ↗
+          Lihat situs <ArrowIcon />
         </Link>
       </nav>
     );
@@ -60,7 +61,7 @@ export default function NavRedaksi() {
         </Link>
       ))}
       <Link href="/" target="_blank" rel="noreferrer">
-        Lihat situs ↗
+        Lihat situs <ArrowIcon />
       </Link>
       <button type="button" className="tautan-keluar" onClick={keluarkan} disabled={keluar}>
         {keluar ? 'Keluar…' : 'Keluar'}

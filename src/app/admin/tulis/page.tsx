@@ -1,6 +1,8 @@
+import { requireAdminPage } from '@/lib/admin-auth';
 import EditorTulisan from '@/components/EditorTulisan';
 
-export default function TulisBaru() {
+export default async function TulisBaru() {
+  await requireAdminPage();
   return (
     <div className="halaman" style={{ paddingBlock: 48 }}>
       <span className="kicker">Catatan baru</span>

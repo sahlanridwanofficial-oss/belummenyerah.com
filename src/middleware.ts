@@ -1,11 +1,12 @@
 import { createServerClient, type CookieOptions } from '@supabase/ssr';
 import { NextResponse, type NextRequest } from 'next/server';
+import { checkAdminAccess } from '@/lib/admin-access';
 
 type CookieBaru = { name: string; value: string; options?: CookieOptions };
 
 /**
  * Menyegarkan cookie sesi Supabase di setiap permintaan, dan menutup
- * /admin untuk siapa pun yang belum login.
+ * /admin untuk siapa pun yang tidak terverifikasi sebagai pemilik.
  */
 export async function middleware(request: NextRequest) {
   let response = NextResponse.next({ request });
@@ -31,26 +32,40 @@ export async function middleware(request: NextRequest) {
     },
   });
 
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
   const jalan = request.nextUrl.pathname;
-  const keAdmin = jalan.startsWith('/admin');
+  const keAdmin = jalan === '/admin' || jalan.startsWith('/admin/');
   const keLogin = jalan === '/admin/login';
 
-  if (keAdmin && !keLogin && !user) {
-    const tujuan = request.nextUrl.clone();
-    tujuan.pathname = '/admin/login';
-    tujuan.searchParams.set('lanjut', jalan);
-    return NextResponse.redirect(tujuan);
+  // Public pages need session refresh, not an admin permission lookup.
+  if (!keAdmin) {
+    try { await supabase.auth.getUser(); } catch { /* Public reading remains available. */ }
+    return response;
   }
 
-  if (keLogin && user) {
+  const access = await checkAdminAccess(supabase);
+  const redirectTo = (tujuan: URL) => {
+    const redirect = NextResponse.redirect(tujuan);
+    for (const cookie of response.cookies.getAll()) redirect.cookies.set(cookie);
+    return redirect;
+  };
+
+  if (!keLogin && !access.ok) {
+    const tujuan = request.nextUrl.clone();
+    tujuan.pathname = '/admin/login';
+    tujuan.search = '';
+    tujuan.searchParams.set('lanjut', jalan);
+    if (access.reason !== 'unauthenticated') {
+      tujuan.searchParams.set('akses', access.reason === 'forbidden' ? 'ditolak' : 'tidak-tersedia');
+    }
+    return redirectTo(tujuan);
+  }
+
+  // A signed-in non-admin may stay on login to use the correct account.
+  if (keLogin && access.ok) {
     const tujuan = request.nextUrl.clone();
     tujuan.pathname = '/admin';
     tujuan.search = '';
-    return NextResponse.redirect(tujuan);
+    return redirectTo(tujuan);
   }
 
   return response;
