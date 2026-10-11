@@ -43,8 +43,9 @@ function newBlogRoute(file) {
 test('new public listing exposes exactly the curated articles without database reads', () => {
   const route = newBlogRoute('src/app/blog/page.tsx');
   const dom = new JSDOM(renderToStaticMarkup(React.createElement(route.default)));
-  assert.equal(blog.ARTIKEL_BLOG.length, 3);
-  assert.equal(new Set(blog.ARTIKEL_BLOG.map(a => a.slug)).size, 3);
+  assert.equal(blog.ARTIKEL_BLOG.length, 4);
+  assert.equal(new Set(blog.ARTIKEL_BLOG.map(a => a.slug)).size, 4);
+  assert.ok(blog.ARTIKEL_BLOG.some(a => a.slug === 'foto-produk-ai-visual-breakdown'));
   assert.deepEqual([...dom.window.document.querySelectorAll('main li a')].map(a => a.getAttribute('href')), blog.ARTIKEL_BLOG.map(a => `/blog/${a.slug}`));
   assert.equal(route.metadata.robots, undefined);
   dom.window.close();
